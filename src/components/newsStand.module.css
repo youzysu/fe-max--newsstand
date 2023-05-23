@@ -4,3 +4,9 @@
   height: 10vh;
   justify-content: space-between;
 }
+
+.trendNews {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
