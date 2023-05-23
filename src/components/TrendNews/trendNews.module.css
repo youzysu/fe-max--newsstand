@@ -1,4 +1,6 @@
 .newsBar {
+  display: flex;
+  gap: 16px;
   padding: 16px;
   width: 461px;
   height: 49px;

@@ -18,8 +18,8 @@ export default class Component {
     this.setup();
   }
 
-  setup() {
-    this.state = this.initState();
+  async setup() {
+    this.state = await this.initState();
     this.setEvent();
     this.render();
   }
