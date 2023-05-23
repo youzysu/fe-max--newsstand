@@ -1,0 +1,16 @@
+.title {
+  width: 136px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.todaysDate {
+  display: flex;
+  align-items: center;
+}
+
+.todaysDate > span {
+  width: 100%;
+}
