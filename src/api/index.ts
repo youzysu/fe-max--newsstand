@@ -1,4 +1,4 @@
-export const BASE_API_DOMAIN = new URL('http://localhost:3000');
+export const BASE_API_DOMAIN = new URL('http://localhost:8080');
 
 export const fetchJSON = async (url) => {
   const response = await fetch(url);

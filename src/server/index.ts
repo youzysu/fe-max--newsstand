@@ -4,7 +4,7 @@ import newsMedia from './data/newsMedia.json' assert { type: 'json' };
 import trendNews from './data/trendNews.json' assert { type: 'json' };
 
 const app = express();
-const port = 3000;
+const port = 8080;
 
 app.use(cors({ origin: 'http://localhost:5173' }));
 
