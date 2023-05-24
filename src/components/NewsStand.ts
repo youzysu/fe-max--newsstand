@@ -1,18 +1,21 @@
 import { createElement } from '../utils/createElement';
 import Header from './Header';
-import TrendNews from './TrendNews';
-import Component from './base';
-import styles from './newsstand.module.css';
 
-export default class NewsStand extends Component {
-  getTemplate(): HTMLElement[] {
-    const headerElement = createElement('HEADER', { class: styles.header });
-    const trendNewsElement = createElement('SECTION', { class: styles.trendNews });
-    const mainElement = createElement('SECTION', { class: 'main' });
+interface NewsStandProps {
+  systemDate: Date;
+}
 
-    new Header(headerElement);
-    new TrendNews(trendNewsElement);
+export default class NewsStand {
+  element;
+  header;
 
-    return [headerElement, trendNewsElement, mainElement];
+  constructor(private props: NewsStandProps) {
+    this.element = createElement('DIV', { class: 'newsStand' });
+    this.header = new Header({ currentTime: props.systemDate });
+    this.render();
+  }
+
+  render() {
+    this.element.append(this.header.element);
   }
 }

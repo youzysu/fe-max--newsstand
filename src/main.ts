@@ -1,9 +1,15 @@
 import NewsStand from './components/NewsStand';
+import store from './store';
 import './styles/style.css';
-import { createElement } from './utils/createElement';
 
-const app = document.querySelector<HTMLDivElement>('#app')!;
-const newsStandElement = createElement('DIV', { class: 'newsStand' });
-new NewsStand(newsStandElement);
+const main = () => {
+  const app = document.querySelector<HTMLDivElement>('#app');
+  if (!app) {
+    throw new Error('App element is not found.');
+  }
 
-app.append(newsStandElement);
+  const newsStand = new NewsStand(store);
+  app.append(newsStand.element);
+};
+
+main();
