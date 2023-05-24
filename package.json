@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "yarn dev:server & yarn dev:client",
     "dev:client": "vite",
-    "dev:server": "nodemon --watch './**/*.ts' --exec 'ts-node-esm' ./src/server/index.ts",
+    "dev:server": "nodemon --watch './src/server/**/*.ts' --exec 'ts-node-esm' ./src/server/index.ts",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
