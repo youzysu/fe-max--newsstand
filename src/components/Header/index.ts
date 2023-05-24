@@ -26,8 +26,12 @@ class Title extends Component {
   }
 }
 
+interface TodaysDateState {
+  [currentTime: string]: Date;
+}
+
 class TodaysDate extends Component {
-  initState() {
+  initState(): TodaysDateState {
     return { currentTime: new Date() };
   }
 

@@ -5,7 +5,7 @@ import NewsBar from './NewsBar';
 import styles from './trendNews.module.css';
 
 export default class TrendNews extends Component {
-  async initState(): State {
+  async initState() {
     const TREND_API_PATH = new URL('trend', BASE_API_DOMAIN);
     const trendNewsData = await fetchJSON(TREND_API_PATH);
 

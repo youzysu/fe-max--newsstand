@@ -3,14 +3,12 @@ interface Props {
   [key: string]: string;
 }
 
-interface State {
-  [key: string]: object;
-}
+type EventHandler = (event: Event) => void;
 
 export default class Component {
   element;
   props;
-  state = {};
+  state;
 
   constructor(htmlElement: HTMLElement, props?: Props) {
     this.element = htmlElement;
@@ -24,7 +22,7 @@ export default class Component {
     this.render();
   }
 
-  initState(): State {
+  initState() {
     return {};
   }
 
@@ -39,14 +37,14 @@ export default class Component {
     return [];
   }
 
-  setState(newState: State) {
+  setState(newState) {
     this.state = { ...this.state, ...newState };
     this.render();
   }
 
-  addEvent(eventType: string, selector: string, handler) {
+  addEvent(eventType: string, selector: string, handler: EventHandler) {
     this.element.addEventListener(eventType, (event) => {
-      if (!event.target?.closest(selector)) {
+      if (event.target instanceof HTMLElement && !event.target?.closest(selector)) {
         return;
       }
       handler(event);

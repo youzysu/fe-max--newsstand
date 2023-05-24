@@ -2,7 +2,7 @@ import { createElement } from '../../utils/createElement';
 import Component from '../base';
 
 export default class NewsBar extends Component {
-  initState(): State {
+  initState() {
     return { currentIndex: 0 };
   }
 
