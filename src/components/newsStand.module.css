@@ -1,12 +1,4 @@
-.header {
-  display: flex;
-  width: 100%;
-  height: 10vh;
-  justify-content: space-between;
-}
-
-.trendNews {
-  display: flex;
-  flex-direction: row;
-  gap: 16px;
+.newsStand {
+  width: 930px;
+  margin: auto;
 }

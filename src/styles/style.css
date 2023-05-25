@@ -2,8 +2,3 @@
 @import url('./reset.css');
 @import url('./theme.css');
 @import url('./common.css');
-
-.newsStand {
-  width: 930px;
-  margin: auto;
-}

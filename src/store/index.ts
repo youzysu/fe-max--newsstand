@@ -1,3 +1,3 @@
-import { store } from './NewsStandStore';
+import { initialState } from './NewsStandStore';
 
-export default store;
+export const newsStandState = Object.freeze(initialState);
