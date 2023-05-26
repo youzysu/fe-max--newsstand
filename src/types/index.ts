@@ -9,6 +9,15 @@ export interface TrendNews {
   link: string;
 }
 
+export interface PressProps {
+  src: string;
+  alt: string;
+}
+
+export interface GridViewerPress {
+  [key: number]: PressProps[];
+}
+
 export interface NewsStandState {
   systemDate: Date;
   trendNewsList: TrendNewsList;
@@ -16,4 +25,7 @@ export interface NewsStandState {
   rightNewsIndex: number;
   TabOption: 'all' | 'subscribe';
   ViewerOption: 'grid' | 'list';
+  allPressList: PressProps[];
+  gridViewerPress: GridViewerPress;
+  gridPageIndex: number;
 }

@@ -1,5 +1,6 @@
 import { NewsStandState } from '../types';
 import { createElement } from '../utils/createElement';
+import GridViewer from './GridViewer';
 import Header from './Header';
 import NewsBar from './NewsBar';
 import styles from './NewsStand.module.css';
@@ -10,6 +11,7 @@ export default class NewsStand {
   header;
   newsBar;
   tabViewer;
+  gridViewer;
 
   constructor(private props: NewsStandState) {
     this.props = props;
@@ -24,6 +26,9 @@ export default class NewsStand {
     this.tabViewer = new TabViewer({
       TabOption: this.props.TabOption,
       ViewerOption: this.props.ViewerOption,
+    });
+    this.gridViewer = new GridViewer({
+      pressList: this.props.gridViewerPress[this.props.gridPageIndex],
     });
     this.render();
   }
