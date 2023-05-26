@@ -3,7 +3,7 @@ import { createElement } from '../utils/createElement';
 import Header from './Header';
 import NewsBar from './NewsBar';
 import styles from './NewsStand.module.css';
-import TabViewer from './TabViewer/TabViewer';
+import TabViewer from './TabViewer';
 
 export default class NewsStand {
   element;

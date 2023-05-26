@@ -39,6 +39,10 @@
   --color-primary: #4362d0;
 
   /* filter */
+  --selected-viewer-filter: invert(39%) sepia(87%) saturate(438%) hue-rotate(188deg) brightness(89%)
+    contrast(106%);
+  --unselected-viewer-filter: invert(93%) sepia(11%) saturate(143%) hue-rotate(164deg)
+    brightness(96%) contrast(86%);
   /* shadow */
   /* component */
 }
