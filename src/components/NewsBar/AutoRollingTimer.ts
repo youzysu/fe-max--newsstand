@@ -1,18 +1,38 @@
 import { dispatch } from '../../store/newsStandReducer';
+import AutoRollingNews from './AutoRollingNews';
+import styles from './NewsBar.module.css';
 
+// TODO: AutoRollingNews에서 Rolling 로직 구현하기
 export default class AutoRollingTimer {
   startTime: number;
   leftRequestId: number | null;
   rightRequestId: number | null;
 
-  constructor(private leftAutoRollingNews: HTMLElement, private rightAutoRollingNews: HTMLElement) {
+  constructor(
+    private leftAutoRollingNews: AutoRollingNews,
+    private rightAutoRollingNews: AutoRollingNews
+  ) {
     this.startTime = 0;
     this.leftRequestId = null;
     this.rightRequestId = null;
     this.leftAutoRollingNews = leftAutoRollingNews;
     this.rightAutoRollingNews = rightAutoRollingNews;
-    requestAnimationFrame(this.autoLeftRolling.bind(this));
-    requestAnimationFrame(this.autoRightRolling.bind(this));
+    requestAnimationFrame((timeStamp) => this.autoLeftRolling(timeStamp));
+    requestAnimationFrame((timeStamp) => this.autoRightRolling(timeStamp));
+    this.setEvent();
+  }
+
+  // TODO: mouseenter 시 auto rolling을 멈추도록 구현 필요
+  // TODO: mouseleave 시 auto rolling을 재개하도록 구현 필요
+  setEvent() {
+    this.leftAutoRollingNews.element.addEventListener('transitionend', () => {
+      dispatch({ type: 'ROLLING_NEWS', payload: { direction: 'left' } });
+      this.leftAutoRollingNews.wrapper.classList.toggle(styles.rolling);
+    });
+    this.rightAutoRollingNews.element.addEventListener('transitionend', () => {
+      this.rightAutoRollingNews.wrapper.classList.toggle(styles.rolling);
+      dispatch({ type: 'ROLLING_NEWS', payload: { direction: 'right' } });
+    });
   }
 
   autoLeftRolling(timeStamp: number) {
@@ -22,24 +42,20 @@ export default class AutoRollingTimer {
 
     const currentTime = timeStamp - this.startTime;
     if (currentTime > 5000) {
-      dispatch({ type: 'ROLLING_LEFT_NEWS' });
+      this.leftAutoRollingNews.wrapper.classList.toggle(styles.rolling);
       this.startTime = 0;
     }
 
-    this.leftRequestId = requestAnimationFrame(this.autoLeftRolling.bind(this));
+    this.leftRequestId = requestAnimationFrame((timeStamp) => this.autoLeftRolling(timeStamp));
   }
 
   // TODO: LeftRolling 1초 후에 RightRolling이 시작되도록 구현 필요
   autoRightRolling(timeStamp: number) {
     const currentTime = timeStamp - this.startTime;
     if (currentTime > 5000) {
-      dispatch({ type: 'ROLLING_RIGHT_NEWS' });
+      this.rightAutoRollingNews.wrapper.classList.toggle(styles.rolling);
     }
 
-    this.rightRequestId = requestAnimationFrame(this.autoRightRolling.bind(this));
+    this.rightRequestId = requestAnimationFrame((timeStamp) => this.autoRightRolling(timeStamp));
   }
-
-  // TODO: mouseenter 시 auto rolling을 멈추도록 구현 필요
-  // TODO: mouseleave 시 auto rolling을 재개하도록 구현 필요
-  // TODO: animation 효과 추가 필요
 }

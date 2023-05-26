@@ -1,4 +1,5 @@
-const BASE_API_DOMAIN = new URL('http://localhost:3001');
+const port = 3000;
+const BASE_API_DOMAIN = new URL(`http://localhost:${port}`);
 
 const fetchJSON = async (url: URL) => {
   const response = await fetch(url);
@@ -18,7 +19,7 @@ export const fetchNewsList = async () => {
 };
 
 export const fetchPressList = async () => {
-  const PRESS_API_PATH = new URL('press', BASE_API_DOMAIN);
+  const PRESS_API_PATH = new URL('media', BASE_API_DOMAIN);
   const pressNewsData = await fetchJSON(PRESS_API_PATH);
 
   return pressNewsData;

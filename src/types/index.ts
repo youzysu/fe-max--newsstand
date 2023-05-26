@@ -4,7 +4,7 @@ export interface TrendNewsList {
 }
 
 export interface TrendNews {
-  press: string;
+  media: string;
   title: string;
   link: string;
 }

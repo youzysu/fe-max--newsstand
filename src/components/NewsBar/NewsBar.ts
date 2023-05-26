@@ -26,7 +26,7 @@ export default class NewsBar {
       trendNewsList: props.rightNews,
       index: props.rightIndex,
     });
-    new AutoRollingTimer(this.leftRollingNews.element, this.rightRollingNews.element);
+    new AutoRollingTimer(this.leftRollingNews, this.rightRollingNews);
     this.render();
   }
 
