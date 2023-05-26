@@ -24,8 +24,8 @@ export default class AutoRollingNews {
     this.rollingStartTime = null;
     this.element = createElement('SECTION', { class: styles.autoRollingNews });
     this.wrapper = createElement('DIV', { class: styles.wrapper });
-    this.currentHeadline = new Headline({ trendNews: props.trendNewsList[props.index] });
-    this.nextHeadline = new Headline({ trendNews: props.trendNewsList[props.index + 1] });
+    this.currentHeadline = new Headline({ trendNews: props.trendNewsList[props.index % 5] });
+    this.nextHeadline = new Headline({ trendNews: props.trendNewsList[(props.index + 1) % 5] });
     this.render();
   }
 
@@ -37,10 +37,10 @@ export default class AutoRollingNews {
   updateState(newState: AutoRollingNewsProps) {
     const { trendNewsList, index } = newState;
 
-    if (this.props.index !== index || this.props.trendNewsList !== trendNewsList) {
+    if (this.props.index !== index) {
       this.props = newState;
-      this.currentHeadline.updateState({ trendNews: trendNewsList[index] });
-      this.nextHeadline.updateState({ trendNews: trendNewsList[index + 1] });
+      this.currentHeadline.updateState({ trendNews: trendNewsList[index % 5] });
+      this.nextHeadline.updateState({ trendNews: trendNewsList[(index + 1) % 5] });
     }
   }
 }
@@ -48,26 +48,26 @@ export default class AutoRollingNews {
 class Headline {
   props;
   element;
-  media;
+  press;
   newsLink;
 
   constructor(props: HeadlineProps) {
     this.props = props;
     this.element = createElement('DIV', { class: styles.headline });
-    this.media = createElement('SPAN', { class: 'title-sm' });
+    this.press = createElement('SPAN', { class: 'title-sm' });
     this.newsLink = createElement('A', { class: `body-sm ${styles.link}` });
     this.render();
   }
 
   render() {
     this.setState();
-    this.element.append(this.media, this.newsLink);
+    this.element.append(this.press, this.newsLink);
   }
 
   setState() {
-    const { media, title, link } = this.props.trendNews;
+    const { press, title, link } = this.props.trendNews;
 
-    this.media.textContent = media;
+    this.press.textContent = press;
     this.newsLink.textContent = title;
     this.newsLink.setAttribute('href', link);
   }

@@ -1,6 +1,7 @@
 import { TrendNews } from '../../types';
 import { createElement } from '../../utils/createElement';
 import AutoRollingNews from './AutoRollingNews';
+import AutoRollingTimer from './AutoRollingTimer';
 import styles from './NewsBar.module.css';
 
 interface NewsBarProps {
@@ -25,6 +26,7 @@ export default class NewsBar {
       trendNewsList: props.rightNews,
       index: props.rightIndex,
     });
+    new AutoRollingTimer(this.leftRollingNews.element, this.rightRollingNews.element);
     this.render();
   }
 

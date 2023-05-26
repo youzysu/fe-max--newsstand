@@ -3,20 +3,27 @@ import { createElement } from '../utils/createElement';
 import Header from './Header';
 import NewsBar from './NewsBar';
 import styles from './NewsStand.module.css';
+import TabViewer from './TabViewer/TabViewer';
 
 export default class NewsStand {
   element;
   header;
   newsBar;
+  tabViewer;
 
   constructor(private props: NewsStandState) {
+    this.props = props;
     this.element = createElement('DIV', { class: styles.newsStand });
-    this.header = new Header({ currentTime: props.systemDate });
+    this.header = new Header({ currentTime: this.props.systemDate });
     this.newsBar = new NewsBar({
-      leftNews: props.trendNewsList.left,
-      rightNews: props.trendNewsList.right,
-      leftIndex: props.leftNewsIndex,
-      rightIndex: props.rightNewsIndex,
+      leftNews: this.props.trendNewsList.left,
+      rightNews: this.props.trendNewsList.right,
+      leftIndex: this.props.leftNewsIndex,
+      rightIndex: this.props.rightNewsIndex,
+    });
+    this.tabViewer = new TabViewer({
+      TabOption: this.props.TabOption,
+      ViewerOption: this.props.ViewerOption,
     });
     this.render();
   }
@@ -31,6 +38,6 @@ export default class NewsStand {
   }
 
   render() {
-    this.element.append(this.header.element, this.newsBar.element);
+    this.element.append(this.header.element, this.newsBar.element, this.tabViewer.element);
   }
 }

@@ -4,7 +4,7 @@ export interface TrendNewsList {
 }
 
 export interface TrendNews {
-  media: string;
+  press: string;
   title: string;
   link: string;
 }
@@ -14,4 +14,6 @@ export interface NewsStandState {
   trendNewsList: TrendNewsList;
   leftNewsIndex: number;
   rightNewsIndex: number;
+  TabOption: 'all' | 'subscribe';
+  ViewerOption: 'grid' | 'list';
 }
