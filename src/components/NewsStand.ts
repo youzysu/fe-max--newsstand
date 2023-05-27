@@ -28,7 +28,8 @@ export default class NewsStand {
       ViewerOption: this.props.ViewerOption,
     });
     this.gridViewer = new GridViewer({
-      pressList: this.props.gridViewerPress[this.props.gridPageIndex],
+      pressList: this.props.allPressList,
+      startIndex: this.props.gridPressStartIndex,
     });
     this.render();
   }
@@ -43,6 +44,11 @@ export default class NewsStand {
   }
 
   render() {
-    this.element.append(this.header.element, this.newsBar.element, this.tabViewer.element);
+    this.element.append(
+      this.header.element,
+      this.newsBar.element,
+      this.tabViewer.element,
+      this.gridViewer.element
+    );
   }
 }

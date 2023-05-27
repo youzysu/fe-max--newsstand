@@ -26,6 +26,5 @@ export interface NewsStandState {
   TabOption: 'all' | 'subscribe';
   ViewerOption: 'grid' | 'list';
   allPressList: PressProps[];
-  gridViewerPress: GridViewerPress;
-  gridPageIndex: number;
+  gridPressStartIndex: number;
 }
