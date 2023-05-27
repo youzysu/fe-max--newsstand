@@ -1,4 +1,4 @@
-import { dispatch } from '../../store/newsStandReducer';
+import { dispatch } from '../../store';
 import AutoRollingNews from './AutoRollingNews';
 import styles from './NewsBar.module.css';
 

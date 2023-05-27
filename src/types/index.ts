@@ -28,3 +28,10 @@ export interface NewsStandState {
   allPressList: PressProps[];
   gridPressStartIndex: number;
 }
+
+export interface Action {
+  type: string;
+  payload: object;
+}
+
+export type Subscriber = (state: NewsStandState) => void;

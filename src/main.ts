@@ -1,6 +1,5 @@
 import NewsStand from './components/NewsStand';
-import { newsStandState } from './store';
-import { register } from './store/newsStandReducer';
+import { getState, register } from './store';
 import './styles/style.css';
 import { NewsStandState } from './types';
 
@@ -9,14 +8,13 @@ const main = () => {
   if (!app) {
     throw new Error('App element is not found.');
   }
-
-  const newsStand = new NewsStand(newsStandState);
+  const initialState = getState();
+  const newsStand = new NewsStand(initialState);
   const updateNewsStand = (newState: NewsStandState) => {
     newsStand.updateState(newState);
   };
 
   register(updateNewsStand);
-
   app.append(newsStand.element);
 };
 
