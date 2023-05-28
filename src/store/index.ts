@@ -5,7 +5,6 @@ const initialState: NewsStandState = {
   systemDate: new Date(),
   trendNewsList: await fetchNewsList(),
   allPressList: await fetchPressList(),
-  newsRollerTick: 0,
   leftNewsIndex: 0,
   rightNewsIndex: 1,
   TabOption: 'all',
@@ -16,13 +15,13 @@ const initialState: NewsStandState = {
 const newsStandReducer = (state: NewsStandState, action: Action) => {
   switch (action.type) {
     case 'ROLLING_NEWS': {
-      const newsRollerTick = state.newsRollerTick + 1;
-      const isRightRolling = newsRollerTick % 2 === 0;
-      const leftNewsIndex = isRightRolling ? state.leftNewsIndex : state.leftNewsIndex + 2;
+      const { currentHeadlineIndex } = action.payload;
+      const isLeftRolling = currentHeadlineIndex % 2 === 0;
+      const isRightRolling = currentHeadlineIndex % 2 === 1;
+      const leftNewsIndex = isLeftRolling ? state.leftNewsIndex + 2 : state.leftNewsIndex;
       const rightNewsIndex = isRightRolling ? state.rightNewsIndex + 2 : state.rightNewsIndex;
       const newState = {
         ...state,
-        newsRollerTick: newsRollerTick,
         leftNewsIndex: leftNewsIndex,
         rightNewsIndex: rightNewsIndex,
       };

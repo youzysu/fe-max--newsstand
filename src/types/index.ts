@@ -16,7 +16,6 @@ export interface GridViewerPress {
 export interface NewsStandState {
   systemDate: Date;
   trendNewsList: TrendNews[];
-  newsRollerTick: number;
   leftNewsIndex: number;
   rightNewsIndex: number;
   TabOption: 'all' | 'subscribe';

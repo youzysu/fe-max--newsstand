@@ -15,8 +15,8 @@ export default class AutoRollingNews {
   wrapper;
   currentHeadline;
   nextHeadline;
-  requestId;
   rollingStartTime;
+  isRolling;
 
   constructor(props: AutoRollingNewsProps) {
     this.props = props;
@@ -28,17 +28,19 @@ export default class AutoRollingNews {
     this.nextHeadline = new Headline({
       trendNews: props.trendNewsList[(props.index + 2) % props.trendNewsList.length],
     });
-    this.requestId = 0;
     this.rollingStartTime = 0;
+    this.isRolling = true;
     this.render();
     this.setEvent();
   }
 
   setEvent() {
     this.element.addEventListener('transitionend', () => {
-      dispatch({ type: 'ROLLING_NEWS' });
+      dispatch({ type: 'ROLLING_NEWS', payload: { currentHeadlineIndex: this.props.index } });
       this.wrapper.classList.toggle(styles.rolling);
     });
+    this.element.addEventListener('mouseenter', () => (this.isRolling = false));
+    this.element.addEventListener('mouseleave', () => (this.isRolling = true));
   }
 
   render() {
@@ -64,11 +66,11 @@ export default class AutoRollingNews {
     }
 
     const currentTime = timeStamp - this.rollingStartTime;
-    if (currentTime > 5000) {
+    if (this.isRolling && currentTime > 5000) {
       this.wrapper.classList.toggle(styles.rolling);
       this.rollingStartTime = 0;
     }
 
-    this.requestId = requestAnimationFrame((timeStamp: number) => this.startRolling(timeStamp));
+    requestAnimationFrame((timeStamp: number) => this.startRolling(timeStamp));
   }
 }
