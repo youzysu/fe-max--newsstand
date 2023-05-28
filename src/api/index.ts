@@ -15,7 +15,7 @@ export const fetchNewsList = async () => {
   const TREND_API_PATH = new URL('trend', BASE_API_DOMAIN);
   const trendNewsData = await fetchJSON(TREND_API_PATH);
 
-  return { left: trendNewsData.slice(0, 5), right: trendNewsData.slice(5, 10) };
+  return trendNewsData;
 };
 
 export const fetchPressList = async () => {

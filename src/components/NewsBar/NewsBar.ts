@@ -1,12 +1,10 @@
 import { TrendNews } from '../../types';
 import { createElement } from '../../utils/createElement';
 import AutoRollingNews from './AutoRollingNews';
-import AutoRollingTimer from './AutoRollingTimer';
 import styles from './NewsBar.module.css';
 
 interface NewsBarProps {
-  leftNews: TrendNews[];
-  rightNews: TrendNews[];
+  newsList: TrendNews[];
   leftIndex: number;
   rightIndex: number;
 }
@@ -15,19 +13,35 @@ export default class NewsBar {
   element;
   leftRollingNews;
   rightRollingNews;
+  rollingStartTime;
 
   constructor(props: NewsBarProps) {
     this.element = createElement('DIV', { class: styles.newsBar });
     this.leftRollingNews = new AutoRollingNews({
-      trendNewsList: props.leftNews,
+      trendNewsList: props.newsList,
       index: props.leftIndex,
     });
     this.rightRollingNews = new AutoRollingNews({
-      trendNewsList: props.rightNews,
+      trendNewsList: props.newsList,
       index: props.rightIndex,
     });
-    new AutoRollingTimer(this.leftRollingNews, this.rightRollingNews);
+    requestAnimationFrame((timeStamp: number) => this.autoRolling(timeStamp));
+    this.rollingStartTime = 0;
     this.render();
+  }
+
+  autoRolling(timeStamp: number) {
+    if (!this.rollingStartTime) {
+      this.rollingStartTime = timeStamp;
+    }
+    this.leftRollingNews.startRolling(timeStamp);
+
+    if (timeStamp - this.rollingStartTime > 1000) {
+      this.rightRollingNews.startRolling(timeStamp);
+      this.rollingStartTime = 0;
+    }
+
+    requestAnimationFrame((timeStamp: number) => this.autoRolling(timeStamp));
   }
 
   render() {
@@ -36,11 +50,11 @@ export default class NewsBar {
 
   updateState(newState: NewsBarProps) {
     this.leftRollingNews.updateState({
-      trendNewsList: newState.leftNews,
+      trendNewsList: newState.newsList,
       index: newState.leftIndex,
     });
     this.rightRollingNews.updateState({
-      trendNewsList: newState.rightNews,
+      trendNewsList: newState.newsList,
       index: newState.rightIndex,
     });
   }

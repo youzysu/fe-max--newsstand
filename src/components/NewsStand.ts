@@ -18,8 +18,7 @@ export default class NewsStand {
     this.element = createElement('DIV', { class: styles.newsStand });
     this.header = new Header({ currentTime: this.props.systemDate });
     this.newsBar = new NewsBar({
-      leftNews: this.props.trendNewsList.left,
-      rightNews: this.props.trendNewsList.right,
+      newsList: this.props.trendNewsList,
       leftIndex: this.props.leftNewsIndex,
       rightIndex: this.props.rightNewsIndex,
     });
@@ -36,8 +35,7 @@ export default class NewsStand {
 
   updateState(newState: NewsStandState) {
     this.newsBar.updateState({
-      leftNews: newState.trendNewsList.left,
-      rightNews: newState.trendNewsList.right,
+      newsList: newState.trendNewsList,
       leftIndex: newState.leftNewsIndex,
       rightIndex: newState.rightNewsIndex,
     });

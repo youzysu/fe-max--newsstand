@@ -5,8 +5,9 @@ const initialState: NewsStandState = {
   systemDate: new Date(),
   trendNewsList: await fetchNewsList(),
   allPressList: await fetchPressList(),
+  newsRollerTick: 0,
   leftNewsIndex: 0,
-  rightNewsIndex: 0,
+  rightNewsIndex: 1,
   TabOption: 'all',
   ViewerOption: 'grid',
   gridPressStartIndex: 0,
@@ -15,10 +16,17 @@ const initialState: NewsStandState = {
 const newsStandReducer = (state: NewsStandState, action: Action) => {
   switch (action.type) {
     case 'ROLLING_NEWS': {
-      const isLeftRolling = action.payload.direction === 'left';
-      return isLeftRolling
-        ? { ...state, leftNewsIndex: state.leftNewsIndex + 1 }
-        : { ...state, rightNewsIndex: state.rightNewsIndex + 1 };
+      const newsRollerTick = state.newsRollerTick + 1;
+      const isRightRolling = newsRollerTick % 2 === 0;
+      const leftNewsIndex = isRightRolling ? state.leftNewsIndex : state.leftNewsIndex + 2;
+      const rightNewsIndex = isRightRolling ? state.rightNewsIndex + 2 : state.rightNewsIndex;
+      const newState = {
+        ...state,
+        newsRollerTick: newsRollerTick,
+        leftNewsIndex: leftNewsIndex,
+        rightNewsIndex: rightNewsIndex,
+      };
+      return newState;
     }
     case 'SELECT_ALL_TAB': {
       const newState = { ...state, TabOption: 'all' as const };
@@ -46,19 +54,19 @@ const createStore = (
   reducer: (state: NewsStandState, action: Action) => NewsStandState,
   initialState: NewsStandState
 ) => {
-  let state = initialState;
+  let _state = initialState;
   const subscribers: Subscriber[] = [];
 
   const dispatch = (action: Action) => {
-    state = reducer(state, action);
-    subscribers.forEach((subscriber) => subscriber(state));
+    _state = reducer(_state, action);
+    subscribers.forEach((subscriber) => subscriber(_state));
   };
 
   const register = (subscriber: Subscriber) => {
     subscribers.push(subscriber);
   };
 
-  const getState = () => state;
+  const getState = () => initialState;
 
   return { getState, dispatch, register };
 };

@@ -1,8 +1,3 @@
-export interface TrendNewsList {
-  left: TrendNews[];
-  right: TrendNews[];
-}
-
 export interface TrendNews {
   media: string;
   title: string;
@@ -20,7 +15,8 @@ export interface GridViewerPress {
 
 export interface NewsStandState {
   systemDate: Date;
-  trendNewsList: TrendNewsList;
+  trendNewsList: TrendNews[];
+  newsRollerTick: number;
   leftNewsIndex: number;
   rightNewsIndex: number;
   TabOption: 'all' | 'subscribe';
@@ -31,7 +27,7 @@ export interface NewsStandState {
 
 export interface Action {
   type: string;
-  payload: object;
+  payload?: object;
 }
 
 export type Subscriber = (state: NewsStandState) => void;
