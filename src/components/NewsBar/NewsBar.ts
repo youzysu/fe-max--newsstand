@@ -1,5 +1,5 @@
 import { TrendNews } from '../../types';
-import { createElement } from '../../utils/createElement';
+import { createElement } from '../../utils';
 import AutoRollingNews from './AutoRollingNews';
 import styles from './NewsBar.module.css';
 
@@ -10,10 +10,10 @@ interface NewsBarProps {
 }
 
 export default class NewsBar {
-  element;
-  leftRollingNews;
-  rightRollingNews;
-  rollingStartTime;
+  private element;
+  private leftRollingNews;
+  private rightRollingNews;
+  private rollingStartTime;
 
   constructor(props: NewsBarProps) {
     this.element = createElement('DIV', { class: styles.newsBar });
@@ -30,7 +30,7 @@ export default class NewsBar {
     this.render();
   }
 
-  autoRolling(timeStamp: number) {
+  private autoRolling(timeStamp: number) {
     if (!this.rollingStartTime) {
       this.rollingStartTime = timeStamp;
     }
@@ -44,18 +44,22 @@ export default class NewsBar {
     requestAnimationFrame((timeStamp: number) => this.autoRolling(timeStamp));
   }
 
-  render() {
-    this.element.append(this.leftRollingNews.element, this.rightRollingNews.element);
+  private render() {
+    this.element.append(this.leftRollingNews.getElement(), this.rightRollingNews.getElement());
   }
 
-  updateState(newState: NewsBarProps) {
-    this.leftRollingNews.updateState({
+  public updateProps(newState: NewsBarProps) {
+    this.leftRollingNews.updateProps({
       trendNewsList: newState.newsList,
       index: newState.leftIndex,
     });
-    this.rightRollingNews.updateState({
+    this.rightRollingNews.updateProps({
       trendNewsList: newState.newsList,
       index: newState.rightIndex,
     });
+  }
+
+  public getElement() {
+    return this.element;
   }
 }

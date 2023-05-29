@@ -1,5 +1,5 @@
 import { TrendNews } from '../../types';
-import { createElement } from '../../utils/createElement';
+import { createElement } from '../../utils';
 import styles from './NewsBar.module.css';
 
 interface HeadlineProps {
@@ -7,10 +7,10 @@ interface HeadlineProps {
 }
 
 export default class Headline {
-  props;
-  element;
-  press;
-  newsLink;
+  private props;
+  private element;
+  private press;
+  private newsLink;
 
   constructor(props: HeadlineProps) {
     this.props = props;
@@ -20,12 +20,12 @@ export default class Headline {
     this.render();
   }
 
-  render() {
-    this.setState();
+  private render() {
+    this.setProps();
     this.element.append(this.press, this.newsLink);
   }
 
-  setState() {
+  private setProps() {
     const { media, title, link } = this.props.trendNews;
 
     this.press.textContent = media;
@@ -33,12 +33,16 @@ export default class Headline {
     this.newsLink.setAttribute('href', link);
   }
 
-  updateState(newState: HeadlineProps) {
+  public updateProps(newState: HeadlineProps) {
     const { trendNews } = newState;
 
     if (this.props.trendNews !== trendNews) {
       this.props = newState;
-      this.setState();
+      this.setProps();
     }
+  }
+
+  public getElement() {
+    return this.element;
   }
 }

@@ -11,11 +11,11 @@ const main = () => {
   const initialState = getState();
   const newsStand = new NewsStand(initialState);
   const updateNewsStand = (newState: NewsStandState) => {
-    newsStand.updateState(newState);
+    newsStand.updateProps(newState);
   };
 
   register(updateNewsStand);
-  app.append(newsStand.element);
+  app.append(newsStand.getElement());
 };
 
 main();

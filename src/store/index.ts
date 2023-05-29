@@ -1,5 +1,6 @@
 import { fetchNewsList, fetchPressList } from '../api';
 import { Action, NewsStandState, Subscriber } from '../types';
+import { deepFreeze } from '../utils';
 
 const initialState: NewsStandState = {
   systemDate: new Date(),
@@ -72,5 +73,5 @@ const createStore = (
 
 export const { getState, dispatch, register } = createStore(
   newsStandReducer,
-  Object.freeze(initialState)
+  deepFreeze(initialState)
 );

@@ -1,4 +1,4 @@
-import { createElement } from '../../utils/createElement';
+import { createElement } from '../../utils';
 import Tab from './Tab';
 import styles from './TabViewer.module.css';
 import Viewer from './Viewer';
@@ -9,9 +9,9 @@ interface TabViewerProps {
 }
 
 export default class TabViewer {
-  element;
-  tab;
-  viewer;
+  private element;
+  private tab;
+  private viewer;
 
   constructor(private props: TabViewerProps) {
     this.props = props;
@@ -21,7 +21,11 @@ export default class TabViewer {
     this.render();
   }
 
-  render() {
-    this.element.append(this.tab.element, this.viewer.element);
+  private render() {
+    this.element.append(this.tab.getElement(), this.viewer.getElement());
+  }
+
+  public getElement() {
+    return this.element;
   }
 }

@@ -1,3 +1,5 @@
+import { NewsStandState } from '../types';
+
 interface attributes {
   [name: string]: string;
 }
@@ -9,4 +11,12 @@ export function createElement(tagName: string, attributes?: attributes): HTMLEle
   }
 
   return element;
+}
+
+export function deepFreeze(target: NewsStandState) {
+  if (target && typeof target === 'object' && !Object.isFrozen(target)) {
+    Object.freeze(target);
+    Object.getOwnPropertyNames(target).forEach((prop) => deepFreeze(target[prop]));
+  }
+  return target;
 }

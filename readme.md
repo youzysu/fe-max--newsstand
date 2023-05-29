@@ -4,6 +4,7 @@
 
 - 기간: 2023.05.22. ~
 - 개인 프로젝트
+- DEMO:
 
 ### 📌 사용 기술
 
@@ -102,7 +103,7 @@
 
 ### 📌 Flux Pattern
 
-> 참고: [#1 설계 및 구조 고민](https://github.com/youzysu/fe-max--newsstand/issues/1)
+> 참고: [#1 Flux 패턴 & 프로젝트 설계](https://github.com/youzysu/fe-max--newsstand/issues/1)
 
 - State(Model, Data)와 Component(View, UI)를 분리한다.
 - Component는 State를 인자로 전달받아 UI를 만든다.

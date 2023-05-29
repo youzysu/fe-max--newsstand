@@ -1,5 +1,5 @@
 import { NewsStandState } from '../types';
-import { createElement } from '../utils/createElement';
+import { createElement } from '../utils';
 import GridViewer from './GridViewer';
 import Header from './Header';
 import NewsBar from './NewsBar';
@@ -7,11 +7,11 @@ import styles from './NewsStand.module.css';
 import TabViewer from './TabViewer';
 
 export default class NewsStand {
-  element;
-  header;
-  newsBar;
-  tabViewer;
-  gridViewer;
+  private element;
+  private header;
+  private newsBar;
+  private tabViewer;
+  private gridViewer;
 
   constructor(private props: NewsStandState) {
     this.props = props;
@@ -33,20 +33,24 @@ export default class NewsStand {
     this.render();
   }
 
-  updateState(newState: NewsStandState) {
-    this.newsBar.updateState({
+  public updateProps(newState: NewsStandState) {
+    this.newsBar.updateProps({
       newsList: newState.trendNewsList,
       leftIndex: newState.leftNewsIndex,
       rightIndex: newState.rightNewsIndex,
     });
   }
 
-  render() {
+  private render() {
     this.element.append(
-      this.header.element,
-      this.newsBar.element,
-      this.tabViewer.element,
-      this.gridViewer.element
+      this.header.getElement(),
+      this.newsBar.getElement(),
+      this.tabViewer.getElement(),
+      this.gridViewer.getElement()
     );
+  }
+
+  public getElement() {
+    return this.element;
   }
 }

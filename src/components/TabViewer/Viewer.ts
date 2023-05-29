@@ -1,4 +1,4 @@
-import { createElement } from '../../utils/createElement';
+import { createElement } from '../../utils';
 import styles from './TabViewer.module.css';
 
 interface ViewerProps {
@@ -6,9 +6,9 @@ interface ViewerProps {
 }
 
 export default class Viewer {
-  element;
-  gridViewerButton;
-  listViewerButton;
+  private element;
+  private gridViewerButton;
+  private listViewerButton;
 
   constructor(private props: ViewerProps) {
     this.props = props;
@@ -18,21 +18,21 @@ export default class Viewer {
     this.render();
   }
 
-  updateState(newState: ViewerProps) {
+  public updateProps(newState: ViewerProps) {
     const { ViewerOption } = newState;
     if (ViewerOption === this.props.ViewerOption) {
       return;
     }
     this.props = newState;
-    this.setState();
+    this.setProps();
   }
 
-  setState() {
+  private setProps() {
     const { ViewerOption } = this.props;
     this.setViewerButton(ViewerOption);
   }
 
-  setViewerButton(ViewerOption: ViewerProps['ViewerOption']) {
+  private setViewerButton(ViewerOption: ViewerProps['ViewerOption']) {
     switch (ViewerOption) {
       case 'grid':
         this.gridViewerButton.classList.add(styles.active);
@@ -45,8 +45,12 @@ export default class Viewer {
     }
   }
 
-  render() {
-    this.setState();
+  private render() {
+    this.setProps();
     this.element.append(this.listViewerButton, this.gridViewerButton);
+  }
+
+  public getElement() {
+    return this.element;
   }
 }

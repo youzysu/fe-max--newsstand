@@ -1,6 +1,6 @@
 import { dispatch } from '../../store';
 import { TrendNews } from '../../types';
-import { createElement } from '../../utils/createElement';
+import { createElement } from '../../utils';
 import Headline from './Headline';
 import styles from './NewsBar.module.css';
 
@@ -10,13 +10,13 @@ interface AutoRollingNewsProps {
 }
 
 export default class AutoRollingNews {
-  props;
-  element;
-  wrapper;
-  currentHeadline;
-  nextHeadline;
-  rollingStartTime;
-  isRolling;
+  private props;
+  private element;
+  private wrapper;
+  private currentHeadline;
+  private nextHeadline;
+  private rollingStartTime;
+  private isRolling;
 
   constructor(props: AutoRollingNewsProps) {
     this.props = props;
@@ -34,7 +34,7 @@ export default class AutoRollingNews {
     this.setEvent();
   }
 
-  setEvent() {
+  private setEvent() {
     this.element.addEventListener('transitionend', () => {
       dispatch({ type: 'ROLLING_NEWS', payload: { currentHeadlineIndex: this.props.index } });
       this.wrapper.classList.toggle(styles.rolling);
@@ -43,24 +43,24 @@ export default class AutoRollingNews {
     this.element.addEventListener('mouseleave', () => (this.isRolling = true));
   }
 
-  render() {
-    this.wrapper.append(this.currentHeadline.element, this.nextHeadline.element);
+  private render() {
+    this.wrapper.append(this.currentHeadline.getElement(), this.nextHeadline.getElement());
     this.element.append(this.wrapper);
   }
 
-  updateState(newState: AutoRollingNewsProps) {
+  public updateProps(newState: AutoRollingNewsProps) {
     const { trendNewsList, index } = newState;
 
     if (this.props.index !== index) {
       this.props = newState;
-      this.currentHeadline.updateState({ trendNews: trendNewsList[index % trendNewsList.length] });
-      this.nextHeadline.updateState({
+      this.currentHeadline.updateProps({ trendNews: trendNewsList[index % trendNewsList.length] });
+      this.nextHeadline.updateProps({
         trendNews: trendNewsList[(index + 2) % trendNewsList.length],
       });
     }
   }
 
-  startRolling(timeStamp: number) {
+  public startRolling(timeStamp: number) {
     if (!this.rollingStartTime) {
       this.rollingStartTime = timeStamp;
     }
@@ -72,5 +72,9 @@ export default class AutoRollingNews {
     }
 
     requestAnimationFrame((timeStamp: number) => this.startRolling(timeStamp));
+  }
+
+  public getElement() {
+    return this.element;
   }
 }

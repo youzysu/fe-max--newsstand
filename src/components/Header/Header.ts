@@ -1,4 +1,4 @@
-import { createElement } from '../../utils/createElement';
+import { createElement } from '../../utils';
 import styles from './header.module.css';
 
 interface HeaderProps {
@@ -6,9 +6,9 @@ interface HeaderProps {
 }
 
 export default class Header {
-  element;
-  title;
-  date;
+  private element;
+  private title;
+  private date;
 
   constructor(private props: HeaderProps) {
     this.props = props;
@@ -18,13 +18,13 @@ export default class Header {
     this.render();
   }
 
-  render() {
+  private render() {
     this.setTitle();
     this.setDate();
     this.element.append(this.title, this.date);
   }
 
-  setTitle() {
+  private setTitle() {
     const logoIcon = createElement('IMG', {
       alt: '뉴스 스탠드 아이콘',
       src: '/newspaper.svg',
@@ -35,7 +35,7 @@ export default class Header {
     this.title.append(logoIcon, titleText);
   }
 
-  setDate() {
+  private setDate() {
     const { currentTime } = this.props;
     const koreanDateFormat = new Intl.DateTimeFormat('ko-KR', {
       year: 'numeric',
@@ -47,12 +47,22 @@ export default class Header {
     this.date.textContent = koreanDateFormat;
   }
 
-  updateState(newState: HeaderProps) {
+  public updateProps(newState: HeaderProps) {
     const { currentTime } = newState;
+    const newDate = new Intl.DateTimeFormat('ko-KR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      weekday: 'long',
+    }).format(currentTime);
 
-    if (this.props.currentTime !== currentTime) {
+    if (this.date.textContent !== newDate) {
       this.props = newState;
       this.setDate();
     }
+  }
+
+  public getElement() {
+    return this.element;
   }
 }

@@ -1,4 +1,4 @@
-import { createElement } from '../../utils/createElement';
+import { createElement } from '../../utils';
 import styles from './TabViewer.module.css';
 
 interface TabProps {
@@ -6,9 +6,9 @@ interface TabProps {
 }
 
 export default class Tab {
-  element;
-  allTabButton;
-  subscribeTabButton;
+  private element;
+  private allTabButton;
+  private subscribeTabButton;
 
   constructor(private props: TabProps) {
     this.props = props;
@@ -20,37 +20,41 @@ export default class Tab {
     this.render();
   }
 
-  updateState(newState: TabProps) {
+  public updateProps(newState: TabProps) {
     const { TabOption } = newState;
     if (TabOption === this.props.TabOption) {
       return;
     }
     this.props = newState;
-    this.setState();
+    this.setProps();
   }
 
-  setState() {
+  private setProps() {
     const { TabOption } = this.props;
     this.setAllTabButton(TabOption);
     this.setSubscribeTabButton(TabOption);
   }
 
-  setAllTabButton(TabOption: TabProps['TabOption']) {
+  private setAllTabButton(TabOption: TabProps['TabOption']) {
     this.allTabButton.textContent = '전체 언론사';
     if (TabOption === 'all') {
       this.allTabButton.className = `title-md ${styles.active}`;
     }
   }
 
-  setSubscribeTabButton(TabOption: TabProps['TabOption']) {
+  private setSubscribeTabButton(TabOption: TabProps['TabOption']) {
     this.subscribeTabButton.textContent = '내가 구독한 언론사';
     if (TabOption === 'subscribe') {
       this.subscribeTabButton.className = `title-md ${styles.active}`;
     }
   }
 
-  render() {
-    this.setState();
+  private render() {
+    this.setProps();
     this.element.append(this.allTabButton, this.subscribeTabButton);
+  }
+
+  public getElement() {
+    return this.element;
   }
 }

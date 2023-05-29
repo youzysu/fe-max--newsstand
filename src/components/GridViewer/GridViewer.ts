@@ -1,5 +1,5 @@
 import { PressProps } from '../../types';
-import { createElement } from '../../utils/createElement';
+import { createElement } from '../../utils';
 import styles from './GridViewer.module.css';
 
 interface GridViewerProps {
@@ -8,9 +8,9 @@ interface GridViewerProps {
 }
 
 export default class GridViewer {
-  element;
-  gridRows;
-  grids;
+  private element;
+  private gridRows;
+  private grids;
 
   constructor(private props: GridViewerProps) {
     this.props = props;
@@ -20,12 +20,12 @@ export default class GridViewer {
     this.render();
   }
 
-  render() {
-    this.setState();
+  private render() {
+    this.setProps();
     this.element.append(...this.gridRows);
   }
 
-  setState() {
+  private setProps() {
     const { pressList, startIndex } = this.props;
     const { gridRows, grids } = this;
     const endIndex = startIndex + 24;
@@ -42,8 +42,12 @@ export default class GridViewer {
     });
   }
 
-  updateState(newState: GridViewerProps) {
+  public updateProps(newState: GridViewerProps) {
     this.props = newState;
-    this.setState();
+    this.setProps();
+  }
+
+  public getElement() {
+    return this.element;
   }
 }
