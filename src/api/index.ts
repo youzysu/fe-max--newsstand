@@ -24,3 +24,10 @@ export const fetchPressList = async () => {
 
   return pressNewsData;
 };
+
+export const fetchSubscribePressList = async () => {
+  const SUBSCRIBE_API_PATH = new URL('subscribe', BASE_API_DOMAIN);
+  const subscribePressList = await fetchJSON(SUBSCRIBE_API_PATH);
+
+  return subscribePressList;
+};

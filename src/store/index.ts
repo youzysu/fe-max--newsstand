@@ -1,4 +1,4 @@
-import { fetchNewsList, fetchPressList } from '@api/index';
+import { fetchNewsList, fetchPressList, fetchSubscribePressList } from '@api/index';
 import { deepFreeze, shuffleArray } from '@utils/index';
 import { Action, NewsStandState, Subscriber } from 'types';
 
@@ -11,6 +11,7 @@ const initialState: NewsStandState = {
   tabOption: 'all',
   viewerOption: 'grid',
   gridPressStartIndex: 0,
+  subscribePressList: await fetchSubscribePressList(),
 };
 
 const newsStandReducer = (state: NewsStandState, action: Action): NewsStandState => {

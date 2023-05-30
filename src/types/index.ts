@@ -13,6 +13,10 @@ export interface GridViewerPress {
   [key: number]: PressProps[];
 }
 
+export interface SubscribePressList {
+  [key: string]: boolean;
+}
+
 export interface NewsStandState {
   systemDate: Date;
   trendNewsList: TrendNews[];
@@ -22,6 +26,7 @@ export interface NewsStandState {
   viewerOption: 'grid' | 'list';
   allPressList: PressProps[];
   gridPressStartIndex: number;
+  subscribePressList: SubscribePressList;
 }
 
 export interface Action {

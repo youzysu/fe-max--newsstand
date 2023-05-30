@@ -51,7 +51,7 @@ export default class GridViewer {
       const grid = grids[index];
       gridIcon.setAttribute('src', press.src);
       gridIcon.setAttribute('alt', press.alt);
-      grid.dataset.pressId = index.toString();
+      grid.dataset.pressId = (startIndex + index).toString();
       grid.dataset.pressName = press.alt;
     });
   }
