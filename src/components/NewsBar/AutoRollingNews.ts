@@ -1,6 +1,6 @@
-import { dispatch } from '../../store';
-import { TrendNews } from '../../types';
-import { createElement } from '../../utils';
+import { dispatch } from '@store/index';
+import { createElement } from '@utils/index';
+import { TrendNews } from 'types';
 import Headline from './Headline';
 import styles from './NewsBar.module.css';
 

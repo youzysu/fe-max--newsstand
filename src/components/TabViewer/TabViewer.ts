@@ -1,11 +1,11 @@
-import { createElement } from '../../utils';
+import { createElement } from '@utils/index';
 import Tab from './Tab';
 import styles from './TabViewer.module.css';
 import Viewer from './Viewer';
 
 interface TabViewerProps {
-  TabOption: 'all' | 'subscribe';
-  ViewerOption: 'grid' | 'list';
+  tabOption: 'all' | 'subscribe';
+  viewerOption: 'grid' | 'list';
 }
 
 export default class TabViewer {
@@ -16,8 +16,8 @@ export default class TabViewer {
   constructor(private props: TabViewerProps) {
     this.props = props;
     this.element = createElement('DIV', { class: styles.tabViewer });
-    this.tab = new Tab({ TabOption: this.props.TabOption });
-    this.viewer = new Viewer({ ViewerOption: this.props.ViewerOption });
+    this.tab = new Tab({ tabOption: this.props.tabOption });
+    this.viewer = new Viewer({ ViewerOption: this.props.viewerOption });
     this.render();
   }
 

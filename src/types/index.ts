@@ -18,8 +18,8 @@ export interface NewsStandState {
   trendNewsList: TrendNews[];
   leftNewsIndex: number;
   rightNewsIndex: number;
-  TabOption: 'all' | 'subscribe';
-  ViewerOption: 'grid' | 'list';
+  tabOption: 'all' | 'subscribe';
+  viewerOption: 'grid' | 'list';
   allPressList: PressProps[];
   gridPressStartIndex: number;
 }
@@ -30,3 +30,27 @@ export interface Action {
 }
 
 export type Subscriber = (state: NewsStandState) => void;
+
+export interface DefaultAttributeNames {
+  class?: string;
+  id?: string;
+}
+
+export interface HtmlAttributes {
+  IMG: DefaultAttributeNames & {
+    src?: string;
+    alt?: string;
+  };
+  DIV: DefaultAttributeNames;
+  SECTION: DefaultAttributeNames;
+  BUTTON: DefaultAttributeNames;
+  TABLE: DefaultAttributeNames;
+  TR: DefaultAttributeNames;
+  TD: DefaultAttributeNames;
+  A: DefaultAttributeNames & {
+    href?: string;
+  };
+  SPAN: DefaultAttributeNames;
+  HEADER: DefaultAttributeNames;
+  H1: DefaultAttributeNames;
+}

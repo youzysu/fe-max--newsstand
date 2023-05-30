@@ -1,6 +1,6 @@
-import { fetchNewsList, fetchPressList } from '../api';
-import { Action, NewsStandState, Subscriber } from '../types';
-import { deepFreeze } from '../utils';
+import { fetchNewsList, fetchPressList } from '@api/index';
+import { deepFreeze } from '@utils/index';
+import { Action, NewsStandState, Subscriber } from 'types';
 
 const initialState: NewsStandState = {
   systemDate: new Date(),
@@ -8,12 +8,12 @@ const initialState: NewsStandState = {
   allPressList: await fetchPressList(),
   leftNewsIndex: 0,
   rightNewsIndex: 1,
-  TabOption: 'all',
-  ViewerOption: 'grid',
+  tabOption: 'all',
+  viewerOption: 'grid',
   gridPressStartIndex: 0,
 };
 
-const newsStandReducer = (state: NewsStandState, action: Action) => {
+const newsStandReducer = (state: NewsStandState, action: Action): NewsStandState => {
   switch (action.type) {
     case 'ROLLING_NEWS': {
       const { currentHeadlineIndex } = action.payload;
@@ -29,19 +29,19 @@ const newsStandReducer = (state: NewsStandState, action: Action) => {
       return newState;
     }
     case 'SELECT_ALL_TAB': {
-      const newState = { ...state, TabOption: 'all' as const };
+      const newState = { ...state, tabOption: 'all' as const };
       return newState;
     }
     case 'SELECT_SUBSCRIBED_TAB': {
-      const newState = { ...state, TabOption: 'subscribe' as const };
+      const newState = { ...state, tabOption: 'subscribe' as const };
       return newState;
     }
     case 'SELECT_GRID_VIEW': {
-      const newState = { ...state, ViewerOption: 'grid' as const };
+      const newState = { ...state, viewerOption: 'grid' as const };
       return newState;
     }
     case 'SELECT_LIST_VIEW': {
-      const newState = { ...state, ViewerOption: 'list' as const };
+      const newState = { ...state, viewerOption: 'list' as const };
       return newState;
     }
     default: {
@@ -66,7 +66,7 @@ const createStore = (
     subscribers.push(subscriber);
   };
 
-  const getState = () => initialState;
+  const getState = () => _state;
 
   return { getState, dispatch, register };
 };

@@ -1,5 +1,5 @@
-import { NewsStandState } from '../types';
-import { createElement } from '../utils';
+import { createElement } from '@utils/index';
+import { NewsStandState } from 'types';
 import GridViewer from './GridViewer';
 import Header from './Header';
 import NewsBar from './NewsBar';
@@ -23,8 +23,8 @@ export default class NewsStand {
       rightIndex: this.props.rightNewsIndex,
     });
     this.tabViewer = new TabViewer({
-      TabOption: this.props.TabOption,
-      ViewerOption: this.props.ViewerOption,
+      tabOption: this.props.tabOption,
+      viewerOption: this.props.viewerOption,
     });
     this.gridViewer = new GridViewer({
       pressList: this.props.allPressList,

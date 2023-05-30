@@ -1,5 +1,5 @@
-import { PressProps } from '../../types';
-import { createElement } from '../../utils';
+import { createElement } from '@utils/index';
+import { PressProps } from 'types';
 import styles from './GridViewer.module.css';
 
 interface GridViewerProps {

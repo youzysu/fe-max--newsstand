@@ -19,7 +19,15 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    "esModuleInterop": true
+    "esModuleInterop": true,
+
+    "baseUrl": "./src",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@utils/*": ["utils/*"],
+      "@store/*": ["store/*"],
+      "@api/*": ["api/*"]
+    }
   },
-  "include": ["./src", "server"]
+  "include": ["src", "server"]
 }

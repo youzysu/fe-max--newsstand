@@ -1,4 +1,4 @@
-import { createElement } from '../../utils';
+import { createElement } from '@utils/index';
 import styles from './TabViewer.module.css';
 
 interface ViewerProps {

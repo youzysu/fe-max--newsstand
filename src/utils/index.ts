@@ -1,13 +1,12 @@
-import { NewsStandState } from '../types';
+import { HtmlAttributes, NewsStandState } from '../types';
 
-interface attributes {
-  [name: string]: string;
-}
-
-export function createElement(tagName: string, attributes?: attributes): HTMLElement {
+export function createElement<TTagName extends keyof HtmlAttributes>(
+  tagName: TTagName,
+  attributes?: HtmlAttributes[TTagName]
+): HTMLElement {
   const element = document.createElement(tagName);
   if (attributes) {
-    Object.keys(attributes).forEach((name) => element.setAttribute(name, attributes[name]));
+    Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value));
   }
 
   return element;

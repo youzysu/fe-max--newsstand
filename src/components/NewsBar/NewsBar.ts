@@ -1,5 +1,5 @@
-import { TrendNews } from '../../types';
-import { createElement } from '../../utils';
+import { createElement } from '@utils/index';
+import { TrendNews } from 'types';
 import AutoRollingNews from './AutoRollingNews';
 import styles from './NewsBar.module.css';
 
