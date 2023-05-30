@@ -15,6 +15,13 @@ const initialState: NewsStandState = {
 
 const newsStandReducer = (state: NewsStandState, action: Action): NewsStandState => {
   switch (action.type) {
+    case 'MOVE_GRID': {
+      const { direction } = action.payload;
+      const nextStartIndex =
+        direction === 'left' ? state.gridPressStartIndex - 24 : state.gridPressStartIndex + 24;
+      const newState = { ...state, gridPressStartIndex: nextStartIndex };
+      return newState;
+    }
     case 'ROLLING_NEWS': {
       const { currentHeadlineIndex } = action.payload;
       const isLeftRolling = currentHeadlineIndex % 2 === 0;

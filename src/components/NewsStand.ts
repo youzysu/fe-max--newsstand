@@ -1,7 +1,7 @@
 import { createElement } from '@utils/index';
 import { NewsStandState } from 'types';
-import GridViewer from './GridViewer';
 import Header from './Header';
+import MediaArea from './MediaArea/MediaArea';
 import NewsBar from './NewsBar';
 import styles from './NewsStand.module.css';
 import TabViewer from './TabViewer';
@@ -11,7 +11,7 @@ export default class NewsStand {
   private header;
   private newsBar;
   private tabViewer;
-  private gridViewer;
+  private mediaArea;
 
   constructor(private props: NewsStandState) {
     this.props = props;
@@ -26,7 +26,9 @@ export default class NewsStand {
       tabOption: this.props.tabOption,
       viewerOption: this.props.viewerOption,
     });
-    this.gridViewer = new GridViewer({
+    this.mediaArea = new MediaArea({
+      tabOption: this.props.tabOption,
+      viewerOption: this.props.viewerOption,
       pressList: this.props.allPressList,
       startIndex: this.props.gridPressStartIndex,
     });
@@ -39,6 +41,12 @@ export default class NewsStand {
       leftIndex: newState.leftNewsIndex,
       rightIndex: newState.rightNewsIndex,
     });
+    this.mediaArea.updateProps({
+      tabOption: newState.tabOption,
+      viewerOption: newState.viewerOption,
+      pressList: newState.allPressList,
+      startIndex: newState.gridPressStartIndex,
+    });
   }
 
   private render() {
@@ -46,7 +54,7 @@ export default class NewsStand {
       this.header.getElement(),
       this.newsBar.getElement(),
       this.tabViewer.getElement(),
-      this.gridViewer.getElement()
+      this.mediaArea.getElement()
     );
   }
 

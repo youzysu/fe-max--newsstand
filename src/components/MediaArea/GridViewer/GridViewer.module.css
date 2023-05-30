@@ -1,0 +1,47 @@
+.gridViewer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+}
+
+.gridTable {
+  width: 930px;
+  height: 388px;
+}
+.gridRow {
+  height: 25%;
+}
+
+.grid {
+  width: calc(100% / 6);
+  height: 100%;
+  border: 1px solid var(--color-gray-100);
+}
+
+.pressIcon {
+  height: 20px;
+  display: block;
+  margin: 25% auto;
+}
+
+.gridButton {
+  position: absolute;
+  width: 2rem;
+  height: 3rem;
+  background-image: url('/public/gridButton.svg');
+  background-repeat: no-repeat;
+}
+
+.gridButton.left {
+  left: -10%;
+  rotate: 180deg;
+}
+
+.gridButton.right {
+  right: -10%;
+}
+
+.gridButton.disabled {
+  visibility: hidden;
+}
