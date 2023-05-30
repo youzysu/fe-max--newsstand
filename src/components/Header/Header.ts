@@ -16,6 +16,11 @@ export default class Header {
     this.title = createElement('A', { class: styles.title, href: '#' });
     this.date = createElement('SPAN', { class: `${styles.todaysDate} body-md` });
     this.render();
+    this.setEvent();
+  }
+
+  private setEvent() {
+    this.title.addEventListener('click', () => window.location.reload());
   }
 
   private render() {

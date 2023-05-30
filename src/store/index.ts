@@ -1,11 +1,11 @@
 import { fetchNewsList, fetchPressList } from '@api/index';
-import { deepFreeze } from '@utils/index';
+import { deepFreeze, shuffleArray } from '@utils/index';
 import { Action, NewsStandState, Subscriber } from 'types';
 
 const initialState: NewsStandState = {
   systemDate: new Date(),
   trendNewsList: await fetchNewsList(),
-  allPressList: await fetchPressList(),
+  allPressList: shuffleArray(await fetchPressList()),
   leftNewsIndex: 0,
   rightNewsIndex: 1,
   tabOption: 'all',
@@ -20,6 +20,7 @@ const newsStandReducer = (state: NewsStandState, action: Action): NewsStandState
       const nextStartIndex =
         direction === 'left' ? state.gridPressStartIndex - 24 : state.gridPressStartIndex + 24;
       const newState = { ...state, gridPressStartIndex: nextStartIndex };
+
       return newState;
     }
     case 'ROLLING_NEWS': {
@@ -33,6 +34,7 @@ const newsStandReducer = (state: NewsStandState, action: Action): NewsStandState
         leftNewsIndex: leftNewsIndex,
         rightNewsIndex: rightNewsIndex,
       };
+
       return newState;
     }
     case 'SELECT_ALL_TAB': {
