@@ -1,6 +1,7 @@
 import { fetchNewsList, fetchPressList, fetchSubscribePressList } from '@api/index';
 import { deepFreeze, shuffleArray } from '@utils/index';
-import { Action, NewsStandState, Subscriber } from 'types';
+import { NewsStandState, Subscriber } from 'types';
+import { Action } from 'types/Action';
 
 const initialState: NewsStandState = {
   systemDate: new Date(),
@@ -17,9 +18,9 @@ const initialState: NewsStandState = {
 const newsStandReducer = (state: NewsStandState, action: Action): NewsStandState => {
   switch (action.type) {
     case 'MOVE_GRID': {
-      const { direction } = action.payload;
+      const { type } = action.payload;
       const nextStartIndex =
-        direction === 'left' ? state.gridPressStartIndex - 24 : state.gridPressStartIndex + 24;
+        type === 'left' ? state.gridPressStartIndex - 24 : state.gridPressStartIndex + 24;
       const newState = { ...state, gridPressStartIndex: nextStartIndex };
 
       return newState;
@@ -53,9 +54,6 @@ const newsStandReducer = (state: NewsStandState, action: Action): NewsStandState
     case 'SELECT_LIST_VIEW': {
       const newState = { ...state, viewerOption: 'list' as const };
       return newState;
-    }
-    default: {
-      throw Error(`Unknown action: ${action.type}`);
     }
   }
 };

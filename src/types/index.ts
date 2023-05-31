@@ -29,11 +29,6 @@ export interface NewsStandState {
   subscribePressList: SubscribePressList;
 }
 
-export interface Action {
-  type: string;
-  payload?: object;
-}
-
 export type Subscriber = (state: NewsStandState) => void;
 
 export interface DefaultAttributeNames {
