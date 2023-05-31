@@ -1,14 +1,15 @@
-.gridViewer {
+/* .gridViewer {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 3rem;
-}
+} */
 
 .gridTable {
   width: 930px;
   height: 388px;
 }
+
 .gridRow {
   height: 25%;
 }

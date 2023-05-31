@@ -1,7 +1,7 @@
 import { createElement } from '@utils/index';
 import { NewsStandState } from 'types';
 import Header from './Header';
-import MediaArea from './MediaArea/MediaArea';
+import MediaArea from './MediaArea';
 import NewsBar from './NewsBar';
 import styles from './NewsStand.module.css';
 import TabViewer from './TabViewer';

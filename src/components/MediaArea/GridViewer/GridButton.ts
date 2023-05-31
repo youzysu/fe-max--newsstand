@@ -18,7 +18,7 @@ export default class GridButton {
 
   private setEvent() {
     this.element.addEventListener('click', () =>
-      dispatch({ type: 'MOVE_GRID', payload: { direction: this.props.type } })
+      dispatch({ type: 'MOVE_GRID', payload: { type: this.props.type } })
     );
   }
 
@@ -31,6 +31,8 @@ export default class GridButton {
     const { startIndex, type } = this.props;
     const isLeft = type === 'left';
     const isRight = type === 'right';
+    const isFirstPage = startIndex === 0;
+    const isLastPage = startIndex === 72;
 
     if (isLeft) {
       this.element.classList.add(styles.left);
@@ -38,7 +40,7 @@ export default class GridButton {
       this.element.classList.add(styles.right);
     }
 
-    if ((isLeft && startIndex === 0) || (isRight && startIndex === 72)) {
+    if ((isLeft && isFirstPage) || (isRight && isLastPage)) {
       this.element.classList.add(styles.disabled);
     } else {
       this.element.classList.remove(styles.disabled);
