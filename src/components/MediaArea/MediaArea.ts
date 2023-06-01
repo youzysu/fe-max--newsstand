@@ -1,5 +1,6 @@
 import { createElement } from '@utils/index';
 import { PressProps } from 'types';
+import { SubscribePressList } from './../../types/index';
 import GridViewer from './GridViewer';
 import GridButton from './GridViewer/GridButton';
 import styles from './MediaArea.module.css';
@@ -9,6 +10,7 @@ interface MediaAreaProps {
   viewerOption: 'grid' | 'list';
   pressList: PressProps[];
   startIndex: number;
+  subscribePressList: SubscribePressList;
 }
 
 export default class MediaArea {
@@ -22,6 +24,7 @@ export default class MediaArea {
     this.gridViewer = new GridViewer({
       pressList: this.props.pressList,
       startIndex: this.props.startIndex,
+      subscribePressList: this.props.subscribePressList,
     });
     this.leftButton = new GridButton({ startIndex: this.props.startIndex, type: 'left' });
     this.rightButton = new GridButton({ startIndex: this.props.startIndex, type: 'right' });
@@ -32,17 +35,14 @@ export default class MediaArea {
     this.gridViewer.updateProps({
       pressList: newState.pressList,
       startIndex: newState.startIndex,
+      subscribePressList: newState.subscribePressList,
     });
     this.leftButton.updateProps({ startIndex: newState.startIndex, type: 'left' });
     this.rightButton.updateProps({ startIndex: newState.startIndex, type: 'right' });
   }
 
   private render() {
-    this.element.append(
-      this.leftButton.getElement(),
-      this.gridViewer.getElement(),
-      this.rightButton.getElement()
-    );
+    this.element.append(this.leftButton.getElement(), this.gridViewer.getElement(), this.rightButton.getElement());
   }
 
   public getElement() {

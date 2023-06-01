@@ -31,6 +31,7 @@ export default class NewsStand {
       viewerOption: this.props.viewerOption,
       pressList: this.props.allPressList,
       startIndex: this.props.gridPressStartIndex,
+      subscribePressList: this.props.subscribePressList,
     });
     this.render();
   }
@@ -46,6 +47,7 @@ export default class NewsStand {
       viewerOption: newState.viewerOption,
       pressList: newState.allPressList,
       startIndex: newState.gridPressStartIndex,
+      subscribePressList: newState.subscribePressList,
     });
   }
 

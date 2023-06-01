@@ -1,80 +1,81 @@
 import { PRESS_COUNT_OF_GRID_TABLE } from '@constant/index';
 import { createElement } from '@utils/index';
 import { PressProps } from 'types';
+import { SubscribePressList } from './../../../types/index';
+import Grid from './Grid';
 import styles from './GridViewer.module.css';
 
 interface GridViewerProps {
   pressList: PressProps[];
   startIndex: number;
+  subscribePressList: SubscribePressList;
 }
 
 export default class GridViewer {
   private element;
   private gridRows;
   private grids;
-  private gridIcons;
   private GRID_ROW_COUNT = 4;
 
   constructor(private props: GridViewerProps) {
     this.props = props;
     this.element = createElement('TABLE', { class: styles.gridTable });
-    this.gridRows = Array.from({ length: this.GRID_ROW_COUNT }, () =>
-      createElement('TR', { class: styles.gridRow })
-    );
-    this.grids = Array.from({ length: PRESS_COUNT_OF_GRID_TABLE }, () =>
-      createElement('TD', { class: styles.grid })
-    );
-    this.gridIcons = Array.from({ length: PRESS_COUNT_OF_GRID_TABLE }, () =>
-      createElement('IMG', { class: styles.pressIcon })
+    this.gridRows = Array.from({ length: this.GRID_ROW_COUNT }, () => createElement('TR', { class: styles.gridRow }));
+    this.grids = this.props.pressList.map(
+      (press: PressProps) => new Grid({ press, isSubscribed: this.props.subscribePressList[press.name] })
     );
     this.render();
+    this.setEvent();
   }
 
   private render() {
     this.setProps();
-    this.appendChildren();
+    this.element.append(...this.gridRows);
   }
 
   private setProps() {
-    const { pressList, startIndex } = this.props;
-    const { grids, gridIcons } = this;
+    const { startIndex } = this.props;
     const endIndex = startIndex + PRESS_COUNT_OF_GRID_TABLE;
-    const currentPressList = pressList.slice(startIndex, endIndex);
+    const PRESS_COUNT_PER_ROW = PRESS_COUNT_OF_GRID_TABLE / this.GRID_ROW_COUNT;
+    const currentGridElements = this.grids.slice(startIndex, endIndex).map((grid) => grid.getElement());
 
-    currentPressList.forEach((press, index) => {
-      const gridIcon = gridIcons[index];
-      const grid = grids[index];
-      gridIcon.setAttribute('src', press.src);
-      gridIcon.setAttribute('alt', press.alt);
-      grid.dataset.pressId = index.toString();
-      grid.dataset.pressName = press.alt;
+    this.gridRows.forEach((gridRow, index) => {
+      const curRowStartIndex = index * PRESS_COUNT_PER_ROW;
+      const curRowEndIndex = index * PRESS_COUNT_PER_ROW + PRESS_COUNT_PER_ROW;
+      gridRow.append(...currentGridElements.slice(curRowStartIndex, curRowEndIndex));
     });
   }
 
-  private appendChildren() {
-    const { element, gridRows, grids, gridIcons, GRID_ROW_COUNT } = this;
-    const PRESS_COUNT_PER_ROW = PRESS_COUNT_OF_GRID_TABLE / GRID_ROW_COUNT;
+  private setEvent() {
+    const gridSelector = `.${styles.grid}`;
+    this.addEvent('mouseover', gridSelector, (eventTarget) => this.showSubscribeButton(eventTarget));
+    this.addEvent('mouseout', gridSelector, (eventTarget) => this.showSubscribeButton(eventTarget));
+  }
 
-    grids.forEach((grid, index) => {
-      grid.append(gridIcons[index]);
+  private showSubscribeButton(eventTarget: Element) {
+    eventTarget.classList.toggle(styles.active);
+  }
+
+  private addEvent(eventType: keyof HTMLElementEventMap, selector: string, handlerCallback: (e: Element) => void) {
+    this.element.addEventListener(eventType, (e) => {
+      const target = e.target;
+      if (!(target instanceof HTMLElement)) return;
+
+      const closestElement = target.closest(selector);
+      if (!closestElement) return;
+      handlerCallback(closestElement);
     });
-
-    gridRows.forEach((gridRow, index) => {
-      const curRowStartIndex = index * PRESS_COUNT_PER_ROW;
-      const curRowEndIndex = index * PRESS_COUNT_PER_ROW + PRESS_COUNT_PER_ROW;
-      gridRow.append(...grids.slice(curRowStartIndex, curRowEndIndex));
-    });
-
-    element.append(...gridRows);
   }
 
   public updateProps(newState: GridViewerProps) {
-    const { gridIcons } = this;
-    gridIcons.forEach((gridIcon) => {
-      gridIcon.setAttribute('src', '');
-      gridIcon.setAttribute('alt', '');
-    });
+    if (
+      this.props.startIndex === newState.startIndex &&
+      this.props.subscribePressList === newState.subscribePressList
+    ) {
+      return;
+    }
 
+    this.gridRows.forEach((gridRow) => (gridRow.innerHTML = ''));
     this.props = newState;
     this.setProps();
   }

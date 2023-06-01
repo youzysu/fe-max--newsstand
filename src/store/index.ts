@@ -4,6 +4,7 @@ import { deepFreeze, shuffleArray } from '@utils/index';
 import { NewsStandState, Subscriber } from 'types';
 import { Action } from 'types/Action';
 
+// TODO: fetch 로직 분리하기, 구독 리스트 로컬스토리지랑 동기화하기
 const initialState: NewsStandState = {
   systemDate: new Date(),
   trendNewsList: await fetchNewsList(),
@@ -82,7 +83,4 @@ const createStore = (
   return { getState, dispatch, register };
 };
 
-export const { getState, dispatch, register } = createStore(
-  newsStandReducer,
-  deepFreeze(initialState)
-);
+export const { getState, dispatch, register } = createStore(newsStandReducer, deepFreeze(initialState));
