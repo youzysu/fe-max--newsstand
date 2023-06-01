@@ -1,3 +1,4 @@
+import { PRESS_COUNT_OF_GRID_TABLE } from '@constant/index';
 import { createElement } from '@utils/index';
 import { PressProps } from 'types';
 import styles from './GridViewer.module.css';
@@ -12,13 +13,18 @@ export default class GridViewer {
   private gridRows;
   private grids;
   private gridIcons;
+  private GRID_ROW_COUNT = 4;
 
   constructor(private props: GridViewerProps) {
     this.props = props;
     this.element = createElement('TABLE', { class: styles.gridTable });
-    this.gridRows = Array.from({ length: 4 }, () => createElement('TR', { class: styles.gridRow }));
-    this.grids = Array.from({ length: 24 }, () => createElement('TD', { class: styles.grid }));
-    this.gridIcons = Array.from({ length: 24 }, () =>
+    this.gridRows = Array.from({ length: this.GRID_ROW_COUNT }, () =>
+      createElement('TR', { class: styles.gridRow })
+    );
+    this.grids = Array.from({ length: PRESS_COUNT_OF_GRID_TABLE }, () =>
+      createElement('TD', { class: styles.grid })
+    );
+    this.gridIcons = Array.from({ length: PRESS_COUNT_OF_GRID_TABLE }, () =>
       createElement('IMG', { class: styles.pressIcon })
     );
     this.render();
@@ -32,7 +38,7 @@ export default class GridViewer {
   private setProps() {
     const { pressList, startIndex } = this.props;
     const { grids, gridIcons } = this;
-    const endIndex = startIndex + 24;
+    const endIndex = startIndex + PRESS_COUNT_OF_GRID_TABLE;
     const currentPressList = pressList.slice(startIndex, endIndex);
 
     currentPressList.forEach((press, index) => {
@@ -46,14 +52,19 @@ export default class GridViewer {
   }
 
   private appendChildren() {
-    const { element, gridRows, grids, gridIcons } = this;
+    const { element, gridRows, grids, gridIcons, GRID_ROW_COUNT } = this;
+    const PRESS_COUNT_PER_ROW = PRESS_COUNT_OF_GRID_TABLE / GRID_ROW_COUNT;
 
     grids.forEach((grid, index) => {
       grid.append(gridIcons[index]);
     });
+
     gridRows.forEach((gridRow, index) => {
-      gridRow.append(...grids.slice(index * 6, index * 6 + 6));
+      const curRowStartIndex = index * PRESS_COUNT_PER_ROW;
+      const curRowEndIndex = index * PRESS_COUNT_PER_ROW + PRESS_COUNT_PER_ROW;
+      gridRow.append(...grids.slice(curRowStartIndex, curRowEndIndex));
     });
+
     element.append(...gridRows);
   }
 

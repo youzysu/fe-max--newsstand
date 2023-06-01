@@ -1,4 +1,5 @@
 import { fetchNewsList, fetchPressList, fetchSubscribePressList } from '@api/index';
+import { PRESS_COUNT_OF_GRID_TABLE } from '@constant/index';
 import { deepFreeze, shuffleArray } from '@utils/index';
 import { NewsStandState, Subscriber } from 'types';
 import { Action } from 'types/Action';
@@ -20,7 +21,9 @@ const newsStandReducer = (state: NewsStandState, action: Action): NewsStandState
     case 'MOVE_GRID': {
       const { type } = action.payload;
       const nextStartIndex =
-        type === 'left' ? state.gridPressStartIndex - 24 : state.gridPressStartIndex + 24;
+        type === 'left'
+          ? state.gridPressStartIndex - PRESS_COUNT_OF_GRID_TABLE
+          : state.gridPressStartIndex + PRESS_COUNT_OF_GRID_TABLE;
       const newState = { ...state, gridPressStartIndex: nextStartIndex };
 
       return newState;
