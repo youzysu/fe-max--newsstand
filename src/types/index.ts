@@ -43,7 +43,9 @@ export interface HtmlAttributes {
   };
   DIV: DefaultAttributeNames;
   SECTION: DefaultAttributeNames;
-  BUTTON: DefaultAttributeNames;
+  BUTTON: DefaultAttributeNames & {
+    'data-press-name'?: string;
+  };
   TABLE: DefaultAttributeNames;
   TR: DefaultAttributeNames;
   TD: DefaultAttributeNames;

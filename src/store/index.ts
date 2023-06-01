@@ -19,6 +19,15 @@ const initialState: NewsStandState = {
 
 const newsStandReducer = (state: NewsStandState, action: Action): NewsStandState => {
   switch (action.type) {
+    case 'CHANGE_PRESS_SUBSCRIBING': {
+      const { pressName } = action.payload;
+      const prevSubscribeState = state.subscribePressList[pressName];
+      const newState = {
+        ...state,
+        subscribePressList: { ...state.subscribePressList, [pressName]: !prevSubscribeState },
+      };
+      return newState;
+    }
     case 'MOVE_GRID': {
       const { type } = action.payload;
       const nextStartIndex =

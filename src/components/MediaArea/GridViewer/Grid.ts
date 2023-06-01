@@ -46,6 +46,18 @@ export default class Grid {
     this.subscribeInfo.appendChild(this.subscribeButton.getElement());
   }
 
+  public updateProps(newState: GridProps) {
+    if (this.props.isSubscribed === newState.isSubscribed) {
+      return;
+    }
+
+    this.props = newState;
+    this.subscribeButton.updateProps({
+      pressName: this.props.press['name'],
+      isSubscribed: this.props.isSubscribed,
+    });
+  }
+
   public getElement() {
     return this.element;
   }

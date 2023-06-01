@@ -29,15 +29,15 @@ export default class GridViewer {
   }
 
   private render() {
-    this.setProps();
+    this.appendGrids();
     this.element.append(...this.gridRows);
   }
 
-  private setProps() {
+  private appendGrids() {
     const { startIndex } = this.props;
     const endIndex = startIndex + PRESS_COUNT_OF_GRID_TABLE;
-    const PRESS_COUNT_PER_ROW = PRESS_COUNT_OF_GRID_TABLE / this.GRID_ROW_COUNT;
     const currentGridElements = this.grids.slice(startIndex, endIndex).map((grid) => grid.getElement());
+    const PRESS_COUNT_PER_ROW = PRESS_COUNT_OF_GRID_TABLE / this.GRID_ROW_COUNT;
 
     this.gridRows.forEach((gridRow, index) => {
       const curRowStartIndex = index * PRESS_COUNT_PER_ROW;
@@ -68,16 +68,22 @@ export default class GridViewer {
   }
 
   public updateProps(newState: GridViewerProps) {
-    if (
-      this.props.startIndex === newState.startIndex &&
-      this.props.subscribePressList === newState.subscribePressList
-    ) {
-      return;
+    const { startIndex, subscribePressList } = newState;
+
+    if (this.props.startIndex !== startIndex) {
+      this.gridRows.forEach((gridRow) => (gridRow.innerHTML = ''));
+      this.props = newState;
+      this.appendGrids();
     }
 
-    this.gridRows.forEach((gridRow) => (gridRow.innerHTML = ''));
-    this.props = newState;
-    this.setProps();
+    if (this.props.subscribePressList !== subscribePressList) {
+      this.props = newState;
+
+      this.grids.forEach((grid, idx) => {
+        const press = this.props.pressList[idx];
+        grid.updateProps({ press: press, isSubscribed: subscribePressList[press.name] });
+      });
+    }
   }
 
   public getElement() {

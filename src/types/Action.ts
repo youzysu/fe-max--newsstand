@@ -1,3 +1,9 @@
+// TODO: PressName type 만들기
+interface SubscribePressAction {
+  type: 'CHANGE_PRESS_SUBSCRIBING';
+  payload: { pressName: string };
+}
+
 interface MoveGridAction {
   type: 'MOVE_GRID';
   payload: { type: 'left' | 'right' };
@@ -25,6 +31,7 @@ interface SelectListViewAction {
 }
 
 export type Action =
+  | SubscribePressAction
   | MoveGridAction
   | RollingNewsAction
   | SelectAllTabAction
