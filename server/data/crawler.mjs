@@ -45,7 +45,7 @@ const getMediaBrandIcon = async () => {
   while (allNewsMedia.length < 4) {
     const newsMedia = await page.$$eval(newsMediaSelector, (elements) =>
       elements.map((el) => {
-        return { src: el.src, alt: el.alt };
+        return { icon: el.src, name: el.alt };
       })
     );
     allNewsMedia.push(newsMedia);
@@ -53,9 +53,11 @@ const getMediaBrandIcon = async () => {
   }
 
   const jsonData = JSON.stringify(allNewsMedia.flat());
-  writeFile('./src/data/newsMedia.json', jsonData, (err) => {
+  writeFile('./newsMedia.json', jsonData, (err) => {
     if (err) throw err;
   });
 
   await browser.close();
 };
+
+getMediaBrandIcon();

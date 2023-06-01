@@ -5,8 +5,8 @@ export interface TrendNews {
 }
 
 export interface PressProps {
-  src: string;
-  alt: string;
+  icon: string;
+  name: string;
 }
 
 export interface GridViewerPress {

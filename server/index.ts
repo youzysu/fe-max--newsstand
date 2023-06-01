@@ -5,7 +5,7 @@ import subscribePressList from './data/subscribePressList.json' assert { type: '
 import trendNews from './data/trendNews.json' assert { type: 'json' };
 
 const app = express();
-const port = 3000;
+const port = 3001;
 
 app.use(cors({ origin: 'http://localhost:5173' }));
 

@@ -1,4 +1,4 @@
-const port = 3000;
+const port = 3001;
 const BASE_API_DOMAIN = new URL(`http://localhost:${port}`);
 
 const fetchJSON = async (url: URL) => {
