@@ -1,5 +1,5 @@
 import { createElement } from '@utils/index';
-import { PressProps } from 'types';
+import { PressInfo } from 'types';
 import { SubscribePressList } from './../../types/index';
 import GridViewer from './GridViewer';
 import GridButton from './GridViewer/GridButton';
@@ -8,7 +8,7 @@ import styles from './MediaArea.module.css';
 interface MediaAreaProps {
   tabOption: 'all' | 'subscribe';
   viewerOption: 'grid' | 'list';
-  pressList: PressProps[];
+  pressList: PressInfo[];
   startIndex: number;
   subscribePressList: SubscribePressList;
 }

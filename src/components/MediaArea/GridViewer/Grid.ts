@@ -1,10 +1,10 @@
 import { createElement } from '@utils/index';
-import { PressProps } from 'types';
+import { PressInfo } from 'types';
 import SubscribeButton from '../SubscribeButton/SubscribeButton';
 import styles from './GridViewer.module.css';
 
 interface GridProps {
-  press: PressProps;
+  press: PressInfo;
   isSubscribed: boolean;
 }
 

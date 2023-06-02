@@ -1,12 +1,12 @@
 import { PRESS_COUNT_OF_GRID_TABLE } from '@constant/index';
 import { createElement } from '@utils/index';
-import { PressProps } from 'types';
+import { PressInfo } from 'types';
 import { SubscribePressList } from './../../../types/index';
 import Grid from './Grid';
 import styles from './GridViewer.module.css';
 
 interface GridViewerProps {
-  pressList: PressProps[];
+  pressList: PressInfo[];
   startIndex: number;
   subscribePressList: SubscribePressList;
 }
@@ -22,7 +22,7 @@ export default class GridViewer {
     this.element = createElement('TABLE', { class: styles.gridTable });
     this.gridRows = Array.from({ length: this.GRID_ROW_COUNT }, () => createElement('TR', { class: styles.gridRow }));
     this.grids = this.props.pressList.map(
-      (press: PressProps) => new Grid({ press, isSubscribed: this.props.subscribePressList[press.name] })
+      (press: PressInfo) => new Grid({ press, isSubscribed: this.props.subscribePressList[press.name] })
     );
     this.render();
     this.setEvent();

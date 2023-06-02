@@ -1,3 +1,5 @@
+import { PressInfo, TrendNews } from 'types';
+
 // TODO: PressName type 만들기
 interface SubscribePressAction {
   type: 'CHANGE_PRESS_SUBSCRIBING';
@@ -30,7 +32,25 @@ interface SelectListViewAction {
   type: 'SELECT_LIST_VIEW';
 }
 
+interface FetchNewsListAction {
+  type: 'FETCH_NEWS_LIST_SUCCESS';
+  payload: { trendNewsList: TrendNews[] };
+}
+
+interface FetchPressListAction {
+  type: 'FETCH_PRESS_LIST';
+  payload: { allPressList: PressInfo[] };
+}
+
+interface FetchSubscribePressListAction {
+  type: 'FETCH_SUBSCRIBE_PRESS_LIST';
+  payload: { subscribePressList: { [key: string]: boolean } };
+}
+
 export type Action =
+  | FetchSubscribePressListAction
+  | FetchPressListAction
+  | FetchNewsListAction
   | SubscribePressAction
   | MoveGridAction
   | RollingNewsAction

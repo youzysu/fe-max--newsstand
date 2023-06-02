@@ -4,13 +4,13 @@ export interface TrendNews {
   link: string;
 }
 
-export interface PressProps {
+export interface PressInfo {
   icon: string;
   name: string;
 }
 
 export interface GridViewerPress {
-  [key: number]: PressProps[];
+  [key: number]: PressInfo[];
 }
 
 export interface SubscribePressList {
@@ -24,7 +24,7 @@ export interface NewsStandState {
   rightNewsIndex: number;
   tabOption: 'all' | 'subscribe';
   viewerOption: 'grid' | 'list';
-  allPressList: PressProps[];
+  allPressList: PressInfo[];
   gridPressStartIndex: number;
   subscribePressList: SubscribePressList;
 }
