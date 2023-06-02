@@ -4,7 +4,7 @@ import { deepFreeze, shuffleArray } from '@utils/index';
 import { NewsStandState, Subscriber } from 'types';
 import { Action } from 'types/Action';
 
-// TODO: fetch 로직 분리하기, 구독 리스트 로컬스토리지랑 동기화하기
+// TODO: fetch 로직 분리하기, 구독 리스트 로컬 스토리지랑 동기화하기
 const initialState: NewsStandState = {
   systemDate: new Date(),
   trendNewsList: await fetchNewsList(),
@@ -19,6 +19,21 @@ const initialState: NewsStandState = {
 
 const newsStandReducer = (state: NewsStandState, action: Action): NewsStandState => {
   switch (action.type) {
+    case 'FETCH_NEWS_LIST_SUCCESS': {
+      const { trendNewsList } = action.payload;
+      const newState = { ...state, trendNewsList: trendNewsList };
+      return newState;
+    }
+    case 'FETCH_PRESS_LIST': {
+      const { allPressList } = action.payload;
+      const newState = { ...state, allPressList: allPressList };
+      return newState;
+    }
+    case 'FETCH_SUBSCRIBE_PRESS_LIST': {
+      const { subscribePressList } = action.payload;
+      const newState = { ...state, subscribePressList: subscribePressList };
+      return newState;
+    }
     case 'CHANGE_PRESS_SUBSCRIBING': {
       const { pressName } = action.payload;
       const prevSubscribeState = state.subscribePressList[pressName];
@@ -46,8 +61,8 @@ const newsStandReducer = (state: NewsStandState, action: Action): NewsStandState
       const rightNewsIndex = isRightRolling ? state.rightNewsIndex + 2 : state.rightNewsIndex;
       const newState = {
         ...state,
-        leftNewsIndex: leftNewsIndex,
-        rightNewsIndex: rightNewsIndex,
+        leftNewsIndex: leftNewsIndex % state.trendNewsList.length,
+        rightNewsIndex: rightNewsIndex % state.trendNewsList.length,
       };
 
       return newState;

@@ -23,10 +23,10 @@ export default class AutoRollingNews {
     this.element = createElement('SECTION', { class: styles.autoRollingNews });
     this.wrapper = createElement('DIV', { class: styles.wrapper });
     this.currentHeadline = new Headline({
-      trendNews: props.trendNewsList[props.index % props.trendNewsList.length],
+      trendNews: this.props.trendNewsList[this.props.index],
     });
     this.nextHeadline = new Headline({
-      trendNews: props.trendNewsList[(props.index + 2) % props.trendNewsList.length],
+      trendNews: this.props.trendNewsList[(this.props.index + 2) % this.props.trendNewsList.length],
     });
     this.rollingStartTime = 0;
     this.isRolling = true;
@@ -53,7 +53,7 @@ export default class AutoRollingNews {
 
     if (this.props.index !== index) {
       this.props = newState;
-      this.currentHeadline.updateProps({ trendNews: trendNewsList[index % trendNewsList.length] });
+      this.currentHeadline.updateProps({ trendNews: trendNewsList[index] });
       this.nextHeadline.updateProps({
         trendNews: trendNewsList[(index + 2) % trendNewsList.length],
       });
