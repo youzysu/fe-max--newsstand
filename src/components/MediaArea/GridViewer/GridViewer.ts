@@ -25,15 +25,14 @@ export default class GridViewer {
       (press: PressInfo) => new Grid({ press, isSubscribed: this.props.subscribePressList[press.name] })
     );
     this.render();
-    this.setEvent();
   }
 
   private render() {
-    this.appendGrids();
+    this.setProps();
     this.element.append(...this.gridRows);
   }
 
-  private appendGrids() {
+  private setProps() {
     const { startIndex } = this.props;
     const endIndex = startIndex + PRESS_COUNT_OF_GRID_TABLE;
     const currentGridElements = this.grids.slice(startIndex, endIndex).map((grid) => grid.getElement());
@@ -46,34 +45,13 @@ export default class GridViewer {
     });
   }
 
-  private setEvent() {
-    const gridSelector = `.${styles.grid}`;
-    this.addEvent('mouseover', gridSelector, (eventTarget) => this.showSubscribeButton(eventTarget));
-    this.addEvent('mouseout', gridSelector, (eventTarget) => this.showSubscribeButton(eventTarget));
-  }
-
-  private showSubscribeButton(eventTarget: Element) {
-    eventTarget.classList.toggle(styles.active);
-  }
-
-  private addEvent(eventType: keyof HTMLElementEventMap, selector: string, handlerCallback: (e: Element) => void) {
-    this.element.addEventListener(eventType, (e) => {
-      const target = e.target;
-      if (!(target instanceof HTMLElement)) return;
-
-      const closestElement = target.closest(selector);
-      if (!closestElement) return;
-      handlerCallback(closestElement);
-    });
-  }
-
   public updateProps(newState: GridViewerProps) {
     const { startIndex, subscribePressList } = newState;
 
     if (this.props.startIndex !== startIndex) {
       this.gridRows.forEach((gridRow) => (gridRow.innerHTML = ''));
       this.props = newState;
-      this.appendGrids();
+      this.setProps();
     }
 
     if (this.props.subscribePressList !== subscribePressList) {

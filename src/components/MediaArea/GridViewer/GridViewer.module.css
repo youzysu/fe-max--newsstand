@@ -14,8 +14,10 @@
   position: relative;
 }
 
-.subscribeInfo {
-  display: none;
+.overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   top: 0;
   left: 0;
@@ -24,13 +26,7 @@
   background: var(--color-off-white);
 }
 
-.grid.active > .subscribeInfo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.grid.active > .pressIcon {
+.grid:hover > .pressIcon {
   display: none;
 }
 
