@@ -1,6 +1,5 @@
 import { PressInfo, TrendNews } from 'types';
 
-// TODO: PressName type 만들기
 interface SubscribePressAction {
   type: 'CHANGE_PRESS_SUBSCRIBING';
   payload: { pressName: string };
@@ -13,15 +12,12 @@ interface MoveGridAction {
 
 interface RollingNewsAction {
   type: 'ROLLING_NEWS';
-  payload: { currentHeadlineIndex: number };
+  payload: { type: 'left' | 'right' };
 }
 
-interface SelectAllTabAction {
-  type: 'SELECT_ALL_TAB';
-}
-
-interface SelectListTabAction {
-  type: 'SELECT_SUBSCRIBED_TAB';
+interface ChangeTabAction {
+  type: 'CHANGE_TAB';
+  payload: { tabOption: 'all' | 'subscribe' };
 }
 
 interface SelectGridViewAction {
@@ -38,23 +34,31 @@ interface FetchNewsListAction {
 }
 
 interface FetchPressListAction {
-  type: 'FETCH_PRESS_LIST';
+  type: 'FETCH_PRESS_LIST_SUCCESS';
   payload: { allPressList: PressInfo[] };
 }
 
-interface FetchSubscribePressListAction {
-  type: 'FETCH_SUBSCRIBE_PRESS_LIST';
+interface GetSubscribePressListAction {
+  type: 'GET_SUBSCRIBE_PRESS_LIST';
   payload: { subscribePressList: { [key: string]: boolean } };
 }
 
+interface SaveSubscribePressListAction {
+  type: 'SAVE_SUBSCRIBE_PRESS_LIST';
+}
+
+export type Dispatch = (action: Action) => void;
+
+export type ThunkAction = (dispatch: Dispatch) => void;
+
 export type Action =
-  | FetchSubscribePressListAction
+  | SaveSubscribePressListAction
+  | GetSubscribePressListAction
   | FetchPressListAction
   | FetchNewsListAction
   | SubscribePressAction
   | MoveGridAction
   | RollingNewsAction
-  | SelectAllTabAction
-  | SelectListTabAction
+  | ChangeTabAction
   | SelectGridViewAction
   | SelectListViewAction;

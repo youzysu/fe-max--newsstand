@@ -1,3 +1,4 @@
+import { getState } from '@store/index';
 import { createElement } from '@utils/index';
 import { PressInfo } from 'types';
 import { SubscribePressList } from './../../types/index';
@@ -16,33 +17,35 @@ interface MediaAreaProps {
 export default class MediaArea {
   private element;
   private gridViewer;
-  private leftButton;
-  private rightButton;
+  private leftButton: GridButton;
+  private rightButton: GridButton;
 
-  constructor(private props: MediaAreaProps) {
+  constructor() {
     this.element = createElement('DIV', { class: styles.mediaArea });
-    this.gridViewer = new GridViewer({
-      pressList: this.props.pressList,
-      startIndex: this.props.startIndex,
-      subscribePressList: this.props.subscribePressList,
-    });
-    this.leftButton = new GridButton({ startIndex: this.props.startIndex, type: 'left' });
-    this.rightButton = new GridButton({ startIndex: this.props.startIndex, type: 'right' });
-    this.render();
-  }
-
-  public updateProps(newState: MediaAreaProps) {
-    this.gridViewer.updateProps({
-      pressList: newState.pressList,
-      startIndex: newState.startIndex,
-      subscribePressList: newState.subscribePressList,
-    });
-    this.leftButton.updateProps({ startIndex: newState.startIndex, type: 'left' });
-    this.rightButton.updateProps({ startIndex: newState.startIndex, type: 'right' });
-  }
-
-  private render() {
+    this.gridViewer = new GridViewer();
+    this.leftButton = new GridButton({ type: 'left' });
+    this.rightButton = new GridButton({ type: 'right' });
     this.element.append(this.leftButton.getElement(), this.gridViewer.getElement(), this.rightButton.getElement());
+    this.setEvent();
+  }
+
+  private setEvent() {
+    window.addEventListener('beforeunload', () => {
+      const subscribePressList = getState().subscribePressList;
+      localStorage.setItem('subscribePressList', JSON.stringify(subscribePressList));
+    });
+  }
+
+  public render(newState: MediaAreaProps) {
+    const { tabOption, viewerOption, pressList, startIndex, subscribePressList } = newState;
+
+    this.gridViewer.render({
+      pressList: pressList,
+      startIndex: startIndex,
+      subscribePressList: subscribePressList,
+    });
+    this.leftButton.render({ startIndex: startIndex });
+    this.rightButton.render({ startIndex: startIndex });
   }
 
   public getElement() {

@@ -14,31 +14,14 @@ export default class Grid {
   private subscribeButton;
   private overlay;
 
-  constructor(private props: GridProps) {
-    this.props = props;
+  constructor() {
     this.element = createElement('TD', { class: styles.grid });
-    this.pressIcon = createElement('IMG', {
-      class: styles.pressIcon,
-      src: this.props.press.icon,
-      alt: this.props.press.name,
-    });
+    this.pressIcon = createElement('IMG', { class: styles.pressIcon });
+    this.element.appendChild(this.pressIcon);
     this.overlay = createElement('DIV', { class: styles.overlay });
-    this.subscribeButton = new SubscribeButton({
-      pressName: this.props.press.name,
-      isSubscribed: this.props.isSubscribed,
-    });
-    this.render();
+    this.subscribeButton = new SubscribeButton();
+    this.overlay.appendChild(this.subscribeButton.getElement());
     this.setEvent();
-  }
-
-  private render() {
-    this.setProps();
-    this.appendChildren();
-  }
-
-  private setProps() {
-    const { press } = this.props;
-    this.element.dataset.pressName = press.name;
   }
 
   private setEvent() {
@@ -47,25 +30,23 @@ export default class Grid {
   }
 
   private hideSubscribeButton() {
-    this.element.removeChild(this.element.lastChild!);
+    this.element.removeChild(this.overlay);
   }
 
   private showSubscribeButton() {
     this.element.appendChild(this.overlay);
   }
 
-  private appendChildren() {
-    this.overlay.appendChild(this.subscribeButton.getElement());
-    this.element.appendChild(this.pressIcon);
+  private setPressIcon(press: PressInfo) {
+    this.pressIcon.setAttribute('src', press.icon);
+    this.pressIcon.setAttribute('alt', press.name);
   }
 
-  public updateProps(newState: GridProps) {
-    if (this.props.isSubscribed === newState.isSubscribed) {
-      return;
+  public render({ press, isSubscribed }: GridProps) {
+    if (this.pressIcon.getAttribute('alt') !== press.name) {
+      this.setPressIcon(press);
     }
-
-    this.props = newState;
-    this.subscribeButton.updateProps({ pressName: this.props.press.name, isSubscribed: this.props.isSubscribed });
+    this.subscribeButton.render({ pressName: press.name, isSubscribed: isSubscribed });
   }
 
   public getElement() {

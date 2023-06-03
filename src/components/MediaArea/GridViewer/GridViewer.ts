@@ -1,4 +1,6 @@
+import { fetchPressList } from '@api/index';
 import { PRESS_COUNT_OF_GRID_TABLE } from '@constant/index';
+import { dispatch, thunkDispatch } from '@store/index';
 import { createElement } from '@utils/index';
 import { PressInfo } from 'types';
 import { SubscribePressList } from './../../../types/index';
@@ -11,57 +13,72 @@ interface GridViewerProps {
   subscribePressList: SubscribePressList;
 }
 
+interface GridViewerState {
+  startIndex: number | null;
+  subscribePressList: SubscribePressList;
+}
+
 export default class GridViewer {
   private element;
   private gridRows;
   private grids;
+  private state: GridViewerState;
   private GRID_ROW_COUNT = 4;
+  private PRESS_COUNT_PER_ROW = PRESS_COUNT_OF_GRID_TABLE / this.GRID_ROW_COUNT;
 
-  constructor(private props: GridViewerProps) {
-    this.props = props;
+  constructor() {
     this.element = createElement('TABLE', { class: styles.gridTable });
     this.gridRows = Array.from({ length: this.GRID_ROW_COUNT }, () => createElement('TR', { class: styles.gridRow }));
-    this.grids = this.props.pressList.map(
-      (press: PressInfo) => new Grid({ press, isSubscribed: this.props.subscribePressList[press.name] })
-    );
-    this.render();
-  }
-
-  private render() {
-    this.setProps();
+    this.grids = Array.from({ length: PRESS_COUNT_OF_GRID_TABLE }, () => new Grid());
+    this.state = { startIndex: null, subscribePressList: {} };
     this.element.append(...this.gridRows);
+    this.componentDidMount();
   }
 
-  private setProps() {
-    const { startIndex } = this.props;
+  componentDidMount() {
+    thunkDispatch(fetchPressList());
+    dispatch({
+      type: 'GET_SUBSCRIBE_PRESS_LIST',
+      payload: { subscribePressList: JSON.parse(localStorage.getItem('subscribePressList') || '{}') },
+    });
+  }
+
+  public render({ pressList, startIndex, subscribePressList }: GridViewerProps) {
     const endIndex = startIndex + PRESS_COUNT_OF_GRID_TABLE;
-    const currentGridElements = this.grids.slice(startIndex, endIndex).map((grid) => grid.getElement());
-    const PRESS_COUNT_PER_ROW = PRESS_COUNT_OF_GRID_TABLE / this.GRID_ROW_COUNT;
+    const currentPressList = pressList.slice(startIndex, endIndex);
+
+    if (this.state.startIndex !== startIndex) {
+      this.renderGrids(currentPressList, subscribePressList);
+      this.dropPrevGrids();
+      this.renderGridRows();
+      this.state.startIndex = startIndex;
+    }
+
+    if (this.state.subscribePressList !== subscribePressList) {
+      this.renderGrids(currentPressList, subscribePressList);
+      this.state.subscribePressList = subscribePressList;
+    }
+  }
+
+  private renderGridRows() {
+    const currentGridElements = this.grids.map((grid) => grid.getElement());
 
     this.gridRows.forEach((gridRow, index) => {
-      const curRowStartIndex = index * PRESS_COUNT_PER_ROW;
-      const curRowEndIndex = index * PRESS_COUNT_PER_ROW + PRESS_COUNT_PER_ROW;
+      const curRowStartIndex = index * this.PRESS_COUNT_PER_ROW;
+      const curRowEndIndex = index * this.PRESS_COUNT_PER_ROW + this.PRESS_COUNT_PER_ROW;
       gridRow.append(...currentGridElements.slice(curRowStartIndex, curRowEndIndex));
     });
   }
 
-  public updateProps(newState: GridViewerProps) {
-    const { startIndex, subscribePressList } = newState;
+  private renderGrids(currentPressList: PressInfo[], subscribePressList: SubscribePressList) {
+    this.grids.forEach((grid, index) => {
+      const currentPress = currentPressList[index];
+      grid.render({ press: currentPress, isSubscribed: subscribePressList[currentPress.name] });
+    });
+  }
 
-    if (this.props.startIndex !== startIndex) {
-      this.gridRows.forEach((gridRow) => (gridRow.innerHTML = ''));
-      this.props = newState;
-      this.setProps();
-    }
-
-    if (this.props.subscribePressList !== subscribePressList) {
-      this.props = newState;
-
-      this.grids.forEach((grid, idx) => {
-        const press = this.props.pressList[idx];
-        grid.updateProps({ press: press, isSubscribed: subscribePressList[press.name] });
-      });
-    }
+  private dropPrevGrids() {
+    this.gridRows.forEach((gridRow) => (gridRow.innerHTML = ''));
   }
 
   public getElement() {

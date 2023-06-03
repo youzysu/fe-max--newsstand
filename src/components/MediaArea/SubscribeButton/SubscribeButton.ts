@@ -1,5 +1,6 @@
 import { dispatch } from '@store/index';
 import { createElement } from '@utils/index';
+import { PressInfo } from 'types';
 import styles from './SubscribeButton.module.css';
 
 interface SubscribeButtonProps {
@@ -10,31 +11,32 @@ interface SubscribeButtonProps {
 export default class SubscribeButton {
   private element;
 
-  constructor(private props: SubscribeButtonProps) {
-    this.props = props;
-    this.element = createElement('BUTTON', { class: styles.subscribeButton, 'data-press-name': this.props.pressName });
-    this.setProps();
+  constructor() {
+    this.element = createElement('BUTTON', { class: styles.subscribeButton });
     this.setEvent();
   }
 
   private setEvent() {
-    this.element.addEventListener('click', () =>
-      dispatch({ type: 'CHANGE_PRESS_SUBSCRIBING', payload: { pressName: this.props.pressName } })
-    );
+    this.element.addEventListener('click', () => {
+      const pressName = this.element.getAttribute('data-press-name');
+      dispatch({ type: 'CHANGE_PRESS_SUBSCRIBING', payload: { pressName: pressName! } });
+    });
   }
 
-  private setProps() {
-    const { isSubscribed } = this.props;
+  private setSubscribeType(isSubscribed: boolean) {
     isSubscribed ? this.element.classList.add(styles.subscribed) : this.element.classList.remove(styles.subscribed);
   }
 
-  public updateProps(newState: SubscribeButtonProps) {
-    if (this.props.isSubscribed === newState.isSubscribed) {
-      return;
-    }
+  private setPressName(pressName: PressInfo['name']) {
+    this.element.setAttribute('data-press-name', pressName);
+  }
 
-    this.props = newState;
-    this.setProps();
+  public render({ pressName, isSubscribed }: SubscribeButtonProps) {
+    this.setSubscribeType(isSubscribed);
+
+    if (this.element.getAttribute('data-press-name') !== pressName) {
+      this.setPressName(pressName);
+    }
   }
 
   public getElement() {

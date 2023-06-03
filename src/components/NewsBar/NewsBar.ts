@@ -1,3 +1,5 @@
+import { fetchTrendNewsList } from '@api/index';
+import { thunkDispatch } from '@store/index';
 import { createElement } from '@utils/index';
 import { TrendNews } from 'types';
 import AutoRollingNews from './AutoRollingNews';
@@ -9,53 +11,51 @@ interface NewsBarProps {
   rightIndex: number;
 }
 
+interface NewsBarState {
+  rollingStartTime: number;
+}
+
 export default class NewsBar {
   private element;
   private leftRollingNews;
   private rightRollingNews;
-  private rollingStartTime;
+  private state: NewsBarState = { rollingStartTime: 0 };
 
-  constructor(props: NewsBarProps) {
+  constructor() {
     this.element = createElement('DIV', { class: styles.newsBar });
-    this.leftRollingNews = new AutoRollingNews({
-      trendNewsList: props.newsList,
-      index: props.leftIndex,
-    });
-    this.rightRollingNews = new AutoRollingNews({
-      trendNewsList: props.newsList,
-      index: props.rightIndex,
-    });
+    this.leftRollingNews = new AutoRollingNews({ type: 'left' });
+    this.rightRollingNews = new AutoRollingNews({ type: 'right' });
+    this.element.append(this.leftRollingNews.getElement(), this.rightRollingNews.getElement());
+    this.componentDidMount();
+  }
+
+  private componentDidMount() {
     requestAnimationFrame((timeStamp: number) => this.autoRolling(timeStamp));
-    this.rollingStartTime = 0;
-    this.render();
+    thunkDispatch(fetchTrendNewsList());
   }
 
   private autoRolling(timeStamp: number) {
-    if (!this.rollingStartTime) {
-      this.rollingStartTime = timeStamp;
+    if (!this.state.rollingStartTime) {
+      this.state.rollingStartTime = timeStamp;
     }
     this.leftRollingNews.startRolling(timeStamp);
 
-    if (timeStamp - this.rollingStartTime > 1000) {
+    if (timeStamp - this.state.rollingStartTime > 1000) {
       this.rightRollingNews.startRolling(timeStamp);
-      this.rollingStartTime = 0;
+      this.state.rollingStartTime = 0;
     }
 
     requestAnimationFrame((timeStamp: number) => this.autoRolling(timeStamp));
   }
 
-  private render() {
-    this.element.append(this.leftRollingNews.getElement(), this.rightRollingNews.getElement());
-  }
-
-  public updateProps(newState: NewsBarProps) {
-    this.leftRollingNews.updateProps({
-      trendNewsList: newState.newsList,
-      index: newState.leftIndex,
+  public render({ newsList, leftIndex, rightIndex }: NewsBarProps) {
+    this.leftRollingNews.render({
+      trendNewsList: newsList,
+      index: leftIndex,
     });
-    this.rightRollingNews.updateProps({
-      trendNewsList: newState.newsList,
-      index: newState.rightIndex,
+    this.rightRollingNews.render({
+      trendNewsList: newsList,
+      index: rightIndex,
     });
   }
 

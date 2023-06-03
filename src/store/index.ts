@@ -1,89 +1,17 @@
-import { fetchNewsList, fetchPressList, fetchSubscribePressList } from '@api/index';
-import { PRESS_COUNT_OF_GRID_TABLE } from '@constant/index';
-import { deepFreeze, shuffleArray } from '@utils/index';
 import { NewsStandState, Subscriber } from 'types';
-import { Action } from 'types/Action';
+import { Action, Dispatch, ThunkAction } from 'types/Action';
+import { newsStandReducer } from './newsStandReducer';
 
-// TODO: fetch 로직 분리하기, 구독 리스트 로컬 스토리지랑 동기화하기
 const initialState: NewsStandState = {
   systemDate: new Date(),
-  trendNewsList: await fetchNewsList(),
-  allPressList: shuffleArray(await fetchPressList()),
+  trendNewsList: [],
+  allPressList: [],
   leftNewsIndex: 0,
   rightNewsIndex: 1,
   tabOption: 'all',
   viewerOption: 'grid',
   gridPressStartIndex: 0,
-  subscribePressList: await fetchSubscribePressList(),
-};
-
-const newsStandReducer = (state: NewsStandState, action: Action): NewsStandState => {
-  switch (action.type) {
-    case 'FETCH_NEWS_LIST_SUCCESS': {
-      const { trendNewsList } = action.payload;
-      const newState = { ...state, trendNewsList: trendNewsList };
-      return newState;
-    }
-    case 'FETCH_PRESS_LIST': {
-      const { allPressList } = action.payload;
-      const newState = { ...state, allPressList: allPressList };
-      return newState;
-    }
-    case 'FETCH_SUBSCRIBE_PRESS_LIST': {
-      const { subscribePressList } = action.payload;
-      const newState = { ...state, subscribePressList: subscribePressList };
-      return newState;
-    }
-    case 'CHANGE_PRESS_SUBSCRIBING': {
-      const { pressName } = action.payload;
-      const prevSubscribeState = state.subscribePressList[pressName];
-      const newState = {
-        ...state,
-        subscribePressList: { ...state.subscribePressList, [pressName]: !prevSubscribeState },
-      };
-      return newState;
-    }
-    case 'MOVE_GRID': {
-      const { type } = action.payload;
-      const nextStartIndex =
-        type === 'left'
-          ? state.gridPressStartIndex - PRESS_COUNT_OF_GRID_TABLE
-          : state.gridPressStartIndex + PRESS_COUNT_OF_GRID_TABLE;
-      const newState = { ...state, gridPressStartIndex: nextStartIndex };
-
-      return newState;
-    }
-    case 'ROLLING_NEWS': {
-      const { currentHeadlineIndex } = action.payload;
-      const isLeftRolling = currentHeadlineIndex % 2 === 0;
-      const isRightRolling = currentHeadlineIndex % 2 === 1;
-      const leftNewsIndex = isLeftRolling ? state.leftNewsIndex + 2 : state.leftNewsIndex;
-      const rightNewsIndex = isRightRolling ? state.rightNewsIndex + 2 : state.rightNewsIndex;
-      const newState = {
-        ...state,
-        leftNewsIndex: leftNewsIndex % state.trendNewsList.length,
-        rightNewsIndex: rightNewsIndex % state.trendNewsList.length,
-      };
-
-      return newState;
-    }
-    case 'SELECT_ALL_TAB': {
-      const newState = { ...state, tabOption: 'all' as const };
-      return newState;
-    }
-    case 'SELECT_SUBSCRIBED_TAB': {
-      const newState = { ...state, tabOption: 'subscribe' as const };
-      return newState;
-    }
-    case 'SELECT_GRID_VIEW': {
-      const newState = { ...state, viewerOption: 'grid' as const };
-      return newState;
-    }
-    case 'SELECT_LIST_VIEW': {
-      const newState = { ...state, viewerOption: 'list' as const };
-      return newState;
-    }
-  }
+  subscribePressList: {},
 };
 
 const createStore = (
@@ -104,7 +32,19 @@ const createStore = (
 
   const getState = () => _state;
 
-  return { getState, dispatch, register };
+  const thunk = (next: Dispatch) => (action: Action | ThunkAction) => {
+    if (typeof action === 'function') {
+      return action(dispatch);
+    }
+    return next(action);
+  };
+
+  const thunkDispatch = thunk(dispatch);
+
+  return { getState, dispatch, register, thunkDispatch };
 };
 
-export const { getState, dispatch, register } = createStore(newsStandReducer, deepFreeze(initialState));
+export const { getState, dispatch, register, thunkDispatch } = createStore(
+  newsStandReducer,
+  Object.freeze(initialState)
+);

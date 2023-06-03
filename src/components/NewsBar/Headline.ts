@@ -7,38 +7,30 @@ interface HeadlineProps {
 }
 
 export default class Headline {
-  private props;
   private element;
   private press;
   private newsLink;
 
-  constructor(props: HeadlineProps) {
-    this.props = props;
+  constructor() {
     this.element = createElement('DIV', { class: styles.headline });
     this.press = createElement('SPAN', { class: 'title-sm' });
     this.newsLink = createElement('A', { class: `body-sm ${styles.link}` });
-    this.render();
-  }
-
-  private render() {
-    this.setProps();
     this.element.append(this.press, this.newsLink);
   }
 
-  private setProps() {
-    const { media, title, link } = this.props.trendNews;
+  public render({ trendNews }: HeadlineProps) {
+    const { media, title, link } = trendNews;
 
-    this.press.textContent = media;
-    this.newsLink.textContent = title;
-    this.newsLink.setAttribute('href', link);
-  }
+    if (this.press.textContent !== media) {
+      this.press.textContent = media;
+    }
 
-  public updateProps(newState: HeadlineProps) {
-    const { trendNews } = newState;
+    if (this.newsLink.textContent !== title) {
+      this.newsLink.textContent = title;
+    }
 
-    if (this.props.trendNews !== trendNews) {
-      this.props = newState;
-      this.setProps();
+    if (this.newsLink.getAttribute('href') !== link) {
+      this.newsLink.setAttribute('href', link);
     }
   }
 

@@ -1,4 +1,6 @@
-const port = 3001;
+import { Dispatch } from 'types/Action';
+
+const port = 3000;
 const BASE_API_DOMAIN = new URL(`http://localhost:${port}`);
 
 const fetchJSON = async (url: URL) => {
@@ -11,23 +13,28 @@ const fetchJSON = async (url: URL) => {
   return response.json();
 };
 
-export const fetchNewsList = async () => {
-  const TREND_API_PATH = new URL('trend', BASE_API_DOMAIN);
-  const trendNewsData = await fetchJSON(TREND_API_PATH);
+export const fetchTrendNewsList = () => {
+  return async (dispatch: Dispatch) => {
+    try {
+      const TREND_API_PATH = new URL('trend', BASE_API_DOMAIN);
+      const trendNewsList = await fetchJSON(TREND_API_PATH);
 
-  return trendNewsData;
+      dispatch({ type: 'FETCH_NEWS_LIST_SUCCESS', payload: { trendNewsList: trendNewsList } });
+    } catch (err) {
+      // dispatch({ type: 'FETCH_NEWS_LIST_ERROR', error: err });
+    }
+  };
 };
 
-export const fetchPressList = async () => {
-  const PRESS_API_PATH = new URL('media', BASE_API_DOMAIN);
-  const pressNewsData = await fetchJSON(PRESS_API_PATH);
+export const fetchPressList = () => {
+  return async (dispatch: Dispatch) => {
+    try {
+      const PRESS_API_PATH = new URL('media', BASE_API_DOMAIN);
+      const pressNewsData = await fetchJSON(PRESS_API_PATH);
 
-  return pressNewsData;
-};
-
-export const fetchSubscribePressList = async () => {
-  const SUBSCRIBE_API_PATH = new URL('subscribe', BASE_API_DOMAIN);
-  const subscribePressList = await fetchJSON(SUBSCRIBE_API_PATH);
-
-  return subscribePressList;
+      dispatch({ type: 'FETCH_PRESS_LIST_SUCCESS', payload: { allPressList: pressNewsData } });
+    } catch (err) {
+      // dispatch({ type: 'FETCH_PRESS_LIST_ERROR', error: err });
+    }
+  };
 };

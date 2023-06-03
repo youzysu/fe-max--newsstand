@@ -13,16 +13,16 @@ export default class TabViewer {
   private tab;
   private viewer;
 
-  constructor(private props: TabViewerProps) {
-    this.props = props;
+  constructor() {
     this.element = createElement('DIV', { class: styles.tabViewer });
-    this.tab = new Tab({ tabOption: this.props.tabOption });
-    this.viewer = new Viewer({ ViewerOption: this.props.viewerOption });
-    this.render();
+    this.tab = new Tab();
+    this.viewer = new Viewer();
+    this.element.append(this.tab.getElement(), this.viewer.getElement());
   }
 
-  private render() {
-    this.element.append(this.tab.getElement(), this.viewer.getElement());
+  public render({ tabOption, viewerOption }: TabViewerProps) {
+    this.tab.render({ tabOption });
+    this.viewer.render({ viewerOption });
   }
 
   public getElement() {

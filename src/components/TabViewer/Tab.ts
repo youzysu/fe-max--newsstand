@@ -1,3 +1,4 @@
+import { dispatch } from '@store/index';
 import { createElement } from '@utils/index';
 import styles from './TabViewer.module.css';
 
@@ -10,48 +11,37 @@ export default class Tab {
   private allTabButton;
   private subscribeTabButton;
 
-  constructor(private props: TabProps) {
-    this.props = props;
+  constructor() {
     this.element = createElement('DIV', { class: styles.tab });
     this.allTabButton = createElement('BUTTON', { class: `body-md ${styles.allPressButton}` });
     this.subscribeTabButton = createElement('BUTTON', {
       class: `body-md ${styles.subscribedPressButton}`,
     });
-    this.render();
+    this.element.append(this.allTabButton, this.subscribeTabButton);
+    this.setButtons();
+    this.setEvent();
   }
 
-  public updateProps(newState: TabProps) {
-    const { tabOption } = newState;
-    if (tabOption === this.props.tabOption) {
-      return;
-    }
-    this.props = newState;
-    this.setProps();
+  private setEvent() {
+    this.allTabButton.addEventListener('click', () => dispatch({ type: 'CHANGE_TAB', payload: { tabOption: 'all' } }));
+    this.subscribeTabButton.addEventListener('click', () =>
+      dispatch({ type: 'CHANGE_TAB', payload: { tabOption: 'subscribe' } })
+    );
   }
 
-  private setProps() {
-    const { tabOption } = this.props;
-    this.setAllTabButton(tabOption);
-    this.setSubscribeTabButton(tabOption);
-  }
-
-  private setAllTabButton(tabOption: TabProps['tabOption']) {
+  private setButtons() {
     this.allTabButton.textContent = '전체 언론사';
+    this.subscribeTabButton.textContent = '내가 구독한 언론사';
+  }
+
+  public render({ tabOption }: TabProps) {
     if (tabOption === 'all') {
       this.allTabButton.className = `title-md ${styles.active}`;
+      return;
     }
-  }
-
-  private setSubscribeTabButton(tabOption: TabProps['tabOption']) {
-    this.subscribeTabButton.textContent = '내가 구독한 언론사';
     if (tabOption === 'subscribe') {
       this.subscribeTabButton.className = `title-md ${styles.active}`;
     }
-  }
-
-  private render() {
-    this.setProps();
-    this.element.append(this.allTabButton, this.subscribeTabButton);
   }
 
   public getElement() {

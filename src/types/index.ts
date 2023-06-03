@@ -26,7 +26,7 @@ export interface NewsStandState {
   viewerOption: 'grid' | 'list';
   allPressList: PressInfo[];
   gridPressStartIndex: number;
-  subscribePressList: SubscribePressList;
+  subscribePressList: SubscribePressList | [];
 }
 
 export type Subscriber = (state: NewsStandState) => void;
