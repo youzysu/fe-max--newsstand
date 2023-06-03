@@ -10,7 +10,7 @@
 
 - 프론트엔드 개발: TypeScript, module.css
 - 빌드 도구: Vite
-- 백엔드: cors, express
+- 백엔드: express
 - 데이터 크롤링: puppeteer
 - Dependencies & version
 
@@ -60,13 +60,22 @@
 │  ├─ api
 │  │  └─ index.ts
 │  ├─ components
-│  │  ├─ GridViewer
-│  │  │  ├─ GridViewer.module.css
-│  │  │  ├─ GridViewer.ts
-│  │  │  └─ index.ts
 │  │  ├─ Header
 │  │  │  ├─ Header.ts
 │  │  │  ├─ header.module.css
+│  │  │  └─ index.ts
+│  │  ├─ MediaArea
+│  │  │  ├─ GridViewer
+│  │  │  │  ├─ Grid.ts
+│  │  │  │  ├─ GridButton.ts
+│  │  │  │  ├─ GridViewer.module.css
+│  │  │  │  ├─ GridViewer.ts
+│  │  │  │  └─ index.ts
+│  │  │  ├─ MediaArea.module.css
+│  │  │  ├─ MediaArea.ts
+│  │  │  ├─ SubscribeButton
+│  │  │  │  ├─ SubscribeButton.module.css
+│  │  │  │  └─ SubscribeButton.ts
 │  │  │  └─ index.ts
 │  │  ├─ NewsBar
 │  │  │  ├─ AutoRollingNews.ts
@@ -74,28 +83,33 @@
 │  │  │  ├─ NewsBar.module.css
 │  │  │  ├─ NewsBar.ts
 │  │  │  └─ index.ts
-│  │  ├─ NewsStand.ts
 │  │  ├─ TabViewer
 │  │  │  ├─ Tab.ts
 │  │  │  ├─ TabViewer.module.css
 │  │  │  ├─ TabViewer.ts
 │  │  │  ├─ Viewer.ts
 │  │  │  └─ index.ts
+│  │  ├─ NewsStand.ts
 │  │  └─ newsStand.module.css
+│  ├─ constant
+│  │  └─ index.ts
 │  ├─ main.ts
 │  ├─ store
-│  │  └─ index.ts
+│  │  ├─ index.ts
+│  │  └─ newsStandReducer.ts
 │  ├─ styles
 │  │  ├─ common.css
 │  │  ├─ reset.css
 │  │  ├─ style.css
 │  │  └─ theme.css
 │  ├─ types
+│  │  ├─ Action.ts
 │  │  └─ index.ts
 │  ├─ utils
-│  │  └─ createElement.ts
+│  │  └─ index.ts
 │  └─ vite-env.d.ts
 ├─ tsconfig.json
+├─ vite.config.js
 └─ yarn.lock
 ```
 
@@ -117,6 +131,7 @@
 ### 📌 [#2 기본 상단 영역 UI](https://github.com/youzysu/fe-max--newsstand/issues/2)
 
 - 기본 상단 영역의 왼쪽에는 뉴스스탠드 로고를, 오른쪽에는 시스템 날짜를 표시한다.
+- [뉴스 스탠드 로고를 클릭하면 화면을 새로고침 한다.](https://github.com/youzysu/fe-max--newsstand/issues/20)
 
 ### 📌 데이터 크롤링
 
@@ -143,6 +158,14 @@
 ### 📌 전체 언론사: 그리드 보기
 
 - [#5 width 930px height 388px의 영역에 6 \* 4 테이블로 구성된다.](https://github.com/youzysu/fe-max--newsstand/issues/5)
+- [언론사 브랜드 마크의 순서는 페이지가 새로고침 될 때마다 랜덤으로 배치된다.](https://github.com/youzysu/fe-max--newsstand/blob/caa03a8968545e77818543740701c429474fd2f6/src/store/newsStandReducer.ts#LL15C32-L15C32)
+- [좌우에 화살표로 언론사 페이지를 넘길 수 있다.](https://github.com/youzysu/fe-max--newsstand/blob/caa03a8968545e77818543740701c429474fd2f6/src/components/MediaArea/GridViewer/GridButton.ts#L22)
+- [가장 첫 페이지의 왼쪽 화살표와 끝 페이지 오른쪽 화살표는 표시되지 않는다.](https://github.com/youzysu/fe-max--newsstand/issues/13)
+
+### 📌 언론사 구독/해지 기능
+
+- [[구독하기] 버튼을 클릭하면 해당 언론사를 구독한다.](https://github.com/youzysu/fe-max--newsstand/blob/caa03a8968545e77818543740701c429474fd2f6/src/components/MediaArea/SubscribeButton/SubscribeButton.ts)
+- [각 언론사 브랜드마크가 있는 셀에 마우스를 올리면, 구독 상태에 따라 버튼을 표시한다.](https://github.com/youzysu/fe-max--newsstand/blob/caa03a8968545e77818543740701c429474fd2f6/src/components/MediaArea/GridViewer/Grid.ts)
 
 ## 구현 과정 고민
 
@@ -156,9 +179,30 @@
 - 모든 상태를 전역으로 두고, 모든 컴포넌트가 모든 상태를 구독할 필요 없다.
 - 상태 변화에 반응해야 하는 컴포넌트 단위로 Store를 구성한다.
 
+### 초기 상태에서 데이터 fetch 로직을 어떻게 분리할까?
+
+> [자세히보기](https://github.com/youzysu/fe-max--newsstand/issues/21)
+
+- 컴포넌트 생성 시 비어있는 상태로 Element를 먼저 만들고 DOM을 생성한다.
+- 데이터 fetch 작업을 DOM 생성 이후로 미루기 위해 함수 형태로 감싸는 thunk 함수를 만든다.
+- 컴포넌트 클래스의 `componentDidMount` 메서드를 만들고, DOM 생성 이후 초기화에 필요한 로직을 진행한다.
+
+```ts
+const thunk = (next: Dispatch) => (action: Action | ThunkAction) => {
+  if (typeof action === 'function') {
+    return action(dispatch);
+  }
+  return next(action);
+};
+
+const thunkDispatch = thunk(dispatch);
+```
+
 ## 학습 내용
 
-### 🔎 requestAnimationFrame
+### 🔎 CORS
+
+- [구글 슬라이드 자료](https://docs.google.com/presentation/d/1nW8UdBO8p7t0Bkv9hbTCcy5GYc8gfkv2n4EHp15uji8/edit)
 
 ## Getting Started
 
