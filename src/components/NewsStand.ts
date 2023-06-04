@@ -1,7 +1,7 @@
 import { createElement } from '@utils/index';
 import { NewsStandState } from 'types';
-import GridViewer from './GridViewer';
 import Header from './Header';
+import MediaArea from './MediaArea';
 import NewsBar from './NewsBar';
 import styles from './NewsStand.module.css';
 import TabViewer from './TabViewer';
@@ -11,43 +11,40 @@ export default class NewsStand {
   private header;
   private newsBar;
   private tabViewer;
-  private gridViewer;
+  private mediaArea;
 
-  constructor(private props: NewsStandState) {
-    this.props = props;
+  constructor() {
     this.element = createElement('DIV', { class: styles.newsStand });
-    this.header = new Header({ currentTime: this.props.systemDate });
-    this.newsBar = new NewsBar({
-      newsList: this.props.trendNewsList,
-      leftIndex: this.props.leftNewsIndex,
-      rightIndex: this.props.rightNewsIndex,
-    });
-    this.tabViewer = new TabViewer({
-      tabOption: this.props.tabOption,
-      viewerOption: this.props.viewerOption,
-    });
-    this.gridViewer = new GridViewer({
-      pressList: this.props.allPressList,
-      startIndex: this.props.gridPressStartIndex,
-    });
-    this.render();
-  }
-
-  public updateProps(newState: NewsStandState) {
-    this.newsBar.updateProps({
-      newsList: newState.trendNewsList,
-      leftIndex: newState.leftNewsIndex,
-      rightIndex: newState.rightNewsIndex,
-    });
-  }
-
-  private render() {
+    this.header = new Header();
+    this.newsBar = new NewsBar();
+    this.tabViewer = new TabViewer();
+    this.mediaArea = new MediaArea();
     this.element.append(
       this.header.getElement(),
       this.newsBar.getElement(),
       this.tabViewer.getElement(),
-      this.gridViewer.getElement()
+      this.mediaArea.getElement()
     );
+  }
+
+  public render(state: NewsStandState) {
+    this.header.render({ currentTime: state.systemDate });
+    this.newsBar.render({
+      newsList: state.trendNewsList,
+      leftIndex: state.leftNewsIndex,
+      rightIndex: state.rightNewsIndex,
+    });
+    this.tabViewer.render({
+      tabOption: state.tabOption,
+      viewerOption: state.viewerOption,
+    });
+    this.mediaArea.render({
+      tabOption: state.tabOption,
+      viewerOption: state.viewerOption,
+      pressList: state.allPressList,
+      startIndex: state.gridPressStartIndex,
+      subscribePressList: state.subscribePressList,
+    });
   }
 
   public getElement() {

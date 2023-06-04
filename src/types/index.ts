@@ -4,13 +4,17 @@ export interface TrendNews {
   link: string;
 }
 
-export interface PressProps {
-  src: string;
-  alt: string;
+export interface PressInfo {
+  icon: string;
+  name: string;
 }
 
 export interface GridViewerPress {
-  [key: number]: PressProps[];
+  [key: number]: PressInfo[];
+}
+
+export interface SubscribePressList {
+  [key: string]: boolean;
 }
 
 export interface NewsStandState {
@@ -20,13 +24,9 @@ export interface NewsStandState {
   rightNewsIndex: number;
   tabOption: 'all' | 'subscribe';
   viewerOption: 'grid' | 'list';
-  allPressList: PressProps[];
+  allPressList: PressInfo[];
   gridPressStartIndex: number;
-}
-
-export interface Action {
-  type: string;
-  payload?: object;
+  subscribePressList: SubscribePressList | [];
 }
 
 export type Subscriber = (state: NewsStandState) => void;
@@ -43,7 +43,9 @@ export interface HtmlAttributes {
   };
   DIV: DefaultAttributeNames;
   SECTION: DefaultAttributeNames;
-  BUTTON: DefaultAttributeNames;
+  BUTTON: DefaultAttributeNames & {
+    'data-press-name'?: string;
+  };
   TABLE: DefaultAttributeNames;
   TR: DefaultAttributeNames;
   TD: DefaultAttributeNames;

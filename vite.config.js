@@ -8,6 +8,7 @@ export default defineConfig({
       '@utils': path.resolve(import.meta.url, '/src/utils'),
       '@api': path.resolve(import.meta.url, '/src/api'),
       '@store': path.resolve(import.meta.url, '/src/store'),
+      '@constant': path.resolve(import.meta.url, '/src/constant'),
     },
   },
 });

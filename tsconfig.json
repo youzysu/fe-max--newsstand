@@ -26,7 +26,8 @@
       "@components/*": ["components/*"],
       "@utils/*": ["utils/*"],
       "@store/*": ["store/*"],
-      "@api/*": ["api/*"]
+      "@api/*": ["api/*"],
+      "@constant/*": ["constant/*"]
     }
   },
   "include": ["src", "server"]
