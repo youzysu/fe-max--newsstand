@@ -1,3 +1,7 @@
+export interface PositionType {
+  type: 'left' | 'right';
+}
+
 export interface TrendNews {
   media: string;
   title: string;

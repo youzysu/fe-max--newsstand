@@ -58,6 +58,11 @@ export const newsStandReducer = (state: NewsStandState, action: Action): NewsSta
       const newState = { ...state, tabOption: tabOption };
       return newState;
     }
+    case 'CHANGE_VIEWER': {
+      const { viewerOption } = action.payload;
+      const newState = { ...state, viewerOption: viewerOption };
+      return newState;
+    }
     case 'SELECT_GRID_VIEW': {
       const newState = { ...state, viewerOption: 'grid' as const };
       return newState;

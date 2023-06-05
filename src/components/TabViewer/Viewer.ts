@@ -1,3 +1,4 @@
+import { dispatch } from '@store/index';
 import { createElement } from '@utils/index';
 import styles from './TabViewer.module.css';
 
@@ -15,6 +16,16 @@ export default class Viewer {
     this.listViewerButton = createElement('BUTTON', { class: styles.listViewerButton });
     this.gridViewerButton = createElement('BUTTON', { class: styles.gridViewerButton });
     this.element.append(this.listViewerButton, this.gridViewerButton);
+    this.setEvent();
+  }
+
+  private setEvent() {
+    this.listViewerButton.addEventListener('click', () =>
+      dispatch({ type: 'CHANGE_VIEWER', payload: { viewerOption: 'list' } })
+    );
+    this.gridViewerButton.addEventListener('click', () =>
+      dispatch({ type: 'CHANGE_VIEWER', payload: { viewerOption: 'grid' } })
+    );
   }
 
   public render({ viewerOption }: ViewerProps) {

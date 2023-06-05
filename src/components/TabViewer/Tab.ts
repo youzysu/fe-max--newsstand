@@ -10,13 +10,13 @@ export default class Tab {
   private element;
   private allTabButton;
   private subscribeTabButton;
+  private basicClassName = 'body-md';
+  private activeClassName = `title-md ${styles.active}`;
 
   constructor() {
     this.element = createElement('DIV', { class: styles.tab });
-    this.allTabButton = createElement('BUTTON', { class: `body-md ${styles.allPressButton}` });
-    this.subscribeTabButton = createElement('BUTTON', {
-      class: `body-md ${styles.subscribedPressButton}`,
-    });
+    this.allTabButton = createElement('BUTTON', { class: this.basicClassName });
+    this.subscribeTabButton = createElement('BUTTON', { class: this.basicClassName });
     this.element.append(this.allTabButton, this.subscribeTabButton);
     this.setButtons();
     this.setEvent();
@@ -36,11 +36,13 @@ export default class Tab {
 
   public render({ tabOption }: TabProps) {
     if (tabOption === 'all') {
-      this.allTabButton.className = `title-md ${styles.active}`;
+      this.subscribeTabButton.className = this.basicClassName;
+      this.allTabButton.className = this.activeClassName;
       return;
     }
     if (tabOption === 'subscribe') {
-      this.subscribeTabButton.className = `title-md ${styles.active}`;
+      this.allTabButton.className = this.basicClassName;
+      this.subscribeTabButton.className = this.activeClassName;
     }
   }
 

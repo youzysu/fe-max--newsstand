@@ -1,4 +1,9 @@
-import { PressInfo, TrendNews } from 'types';
+import { PositionType, PressInfo, TrendNews } from 'types';
+
+interface ChangeViewerAction {
+  type: 'CHANGE_VIEWER';
+  payload: { viewerOption: 'grid' | 'list' };
+}
 
 interface SubscribePressAction {
   type: 'CHANGE_PRESS_SUBSCRIBING';
@@ -7,12 +12,12 @@ interface SubscribePressAction {
 
 interface MoveGridAction {
   type: 'MOVE_GRID';
-  payload: { type: 'left' | 'right' };
+  payload: PositionType;
 }
 
 interface RollingNewsAction {
   type: 'ROLLING_NEWS';
-  payload: { type: 'left' | 'right' };
+  payload: PositionType;
 }
 
 interface ChangeTabAction {
@@ -52,6 +57,7 @@ export type Dispatch = (action: Action) => void;
 export type ThunkAction = (dispatch: Dispatch) => void;
 
 export type Action =
+  | ChangeViewerAction
   | SaveSubscribePressListAction
   | GetSubscribePressListAction
   | FetchPressListAction

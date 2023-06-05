@@ -13,24 +13,11 @@
   justify-content: space-between;
 }
 
-.viewer {
-  width: 4rem;
-  height: 100%;
-}
-
-.allPressButton {
+.tab button {
   color: var(--color-gray-200);
 }
 
-.allPressButton .active {
-  color: var(--color-black);
-}
-
-.subscribedPressButton {
-  color: var(--color-gray-200);
-}
-
-.subscribedPressButton .active {
+.tab button.active {
   color: var(--color-black);
 }
 
