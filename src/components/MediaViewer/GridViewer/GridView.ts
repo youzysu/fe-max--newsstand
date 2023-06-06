@@ -1,9 +1,9 @@
 import { fetchPressList } from '@api/index';
 import { PRESS_COUNT_OF_GRID_TABLE } from '@constant/index';
-import { dispatch, thunkDispatch } from '@store/index';
+import { thunkDispatch } from '@store/index';
 import { createElement } from '@utils/index';
 import { PressInfo } from 'types';
-import { SubscribePressList } from './../../../types/index';
+import { SubscribePressList } from '../../../types/index';
 import Grid from './Grid';
 import styles from './GridViewer.module.css';
 
@@ -18,29 +18,21 @@ interface GridViewerState {
   subscribePressList: SubscribePressList;
 }
 
-export default class GridViewer {
-  private element;
-  private gridRows;
-  private grids;
-  private state: GridViewerState;
+export default class GridView {
   private GRID_ROW_COUNT = 4;
   private PRESS_COUNT_PER_ROW = PRESS_COUNT_OF_GRID_TABLE / this.GRID_ROW_COUNT;
+  private element = createElement('TABLE', { class: styles.gridTable });
+  private gridRows = Array.from({ length: this.GRID_ROW_COUNT }, () => createElement('TR', { class: styles.gridRow }));
+  private grids = Array.from({ length: PRESS_COUNT_OF_GRID_TABLE }, () => new Grid());
+  private state: GridViewerState = { startIndex: null, subscribePressList: {} };
 
   constructor() {
-    this.element = createElement('TABLE', { class: styles.gridTable });
-    this.gridRows = Array.from({ length: this.GRID_ROW_COUNT }, () => createElement('TR', { class: styles.gridRow }));
-    this.grids = Array.from({ length: PRESS_COUNT_OF_GRID_TABLE }, () => new Grid());
-    this.state = { startIndex: null, subscribePressList: {} };
     this.element.append(...this.gridRows);
     this.componentDidMount();
   }
 
   componentDidMount() {
     thunkDispatch(fetchPressList());
-    dispatch({
-      type: 'GET_SUBSCRIBE_PRESS_LIST',
-      payload: { subscribePressList: JSON.parse(localStorage.getItem('subscribePressList') || '{}') },
-    });
   }
 
   public render({ pressList, startIndex, subscribePressList }: GridViewerProps) {

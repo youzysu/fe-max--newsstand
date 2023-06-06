@@ -1,16 +1,18 @@
+import { GRID_PAGE_COUNT, PRESS_COUNT_OF_GRID_TABLE } from '@constant/index';
 import { dispatch } from '@store/index';
 import { createElement } from '@utils/index';
+import { PositionType } from 'types';
 import styles from './GridViewer.module.css';
 
 interface GridButtonProps {
   startIndex: number;
 }
 
-export default class GridButton {
+export default class GridViewerButton {
   private element;
-  private type: 'left' | 'right';
+  private type;
 
-  constructor({ type: type }: { type: 'left' | 'right' }) {
+  constructor({ type }: PositionType) {
     this.type = type;
     const isLeftType = this.type === 'left';
     const styleType = isLeftType ? styles.left : styles.right;
@@ -24,7 +26,7 @@ export default class GridButton {
 
   public render({ startIndex }: GridButtonProps) {
     const isFirstPage = startIndex === 0;
-    const isLastPage = startIndex === 72;
+    const isLastPage = startIndex === PRESS_COUNT_OF_GRID_TABLE * (GRID_PAGE_COUNT - 1);
     const isLeft = this.type === 'left';
     const isRight = this.type === 'right';
 

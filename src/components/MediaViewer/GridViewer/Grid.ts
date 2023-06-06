@@ -9,17 +9,13 @@ interface GridProps {
 }
 
 export default class Grid {
-  private element;
-  private pressIcon;
-  private subscribeButton;
-  private overlay;
+  private element = createElement('TD', { class: styles.grid });
+  private pressIcon = createElement('IMG', { class: styles.pressIcon });
+  private subscribeButton = new SubscribeButton();
+  private overlay = createElement('DIV', { class: styles.overlay });
 
   constructor() {
-    this.element = createElement('TD', { class: styles.grid });
-    this.pressIcon = createElement('IMG', { class: styles.pressIcon });
     this.element.appendChild(this.pressIcon);
-    this.overlay = createElement('DIV', { class: styles.overlay });
-    this.subscribeButton = new SubscribeButton();
     this.overlay.appendChild(this.subscribeButton.getElement());
     this.setEvent();
   }

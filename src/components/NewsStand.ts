@@ -1,29 +1,24 @@
 import { createElement } from '@utils/index';
 import { NewsStandState } from 'types';
 import Header from './Header';
-import MediaArea from './MediaArea';
+import MediaViewer from './MediaViewer';
 import NewsBar from './NewsBar';
 import styles from './NewsStand.module.css';
 import TabViewer from './TabViewer';
 
 export default class NewsStand {
-  private element;
-  private header;
-  private newsBar;
-  private tabViewer;
-  private mediaArea;
+  private element = createElement('DIV', { class: styles.newsStand });
+  private header = new Header();
+  private newsBar = new NewsBar();
+  private tabViewer = new TabViewer();
+  private mediaViewer = new MediaViewer();
 
   constructor() {
-    this.element = createElement('DIV', { class: styles.newsStand });
-    this.header = new Header();
-    this.newsBar = new NewsBar();
-    this.tabViewer = new TabViewer();
-    this.mediaArea = new MediaArea();
     this.element.append(
       this.header.getElement(),
       this.newsBar.getElement(),
       this.tabViewer.getElement(),
-      this.mediaArea.getElement()
+      this.mediaViewer.getElement()
     );
   }
 
@@ -38,7 +33,7 @@ export default class NewsStand {
       tabOption: state.tabOption,
       viewerOption: state.viewerOption,
     });
-    this.mediaArea.render({
+    this.mediaViewer.render({
       tabOption: state.tabOption,
       viewerOption: state.viewerOption,
       pressList: state.allPressList,
