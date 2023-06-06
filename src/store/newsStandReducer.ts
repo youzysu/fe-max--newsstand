@@ -5,14 +5,19 @@ import { Action } from 'types/Action';
 
 export const newsStandReducer = (state: NewsStandState, action: Action): NewsStandState => {
   switch (action.type) {
+    case 'FETCH_ARTICLE_LIST_SUCCESS': {
+      const { categoryPressList } = action.payload;
+      const newState = { ...state, categoryPressList: categoryPressList };
+      return newState;
+    }
     case 'FETCH_NEWS_LIST_SUCCESS': {
       const { trendNewsList } = action.payload;
       const newState = { ...state, trendNewsList: trendNewsList };
       return newState;
     }
     case 'FETCH_PRESS_LIST_SUCCESS': {
-      const { allPressList } = action.payload;
-      const newState = { ...state, allPressList: shuffleArray(allPressList) };
+      const { pressIconList } = action.payload;
+      const newState = { ...state, pressIconList: shuffleArray(pressIconList) };
       return newState;
     }
     case 'GET_SUBSCRIBE_PRESS_LIST': {

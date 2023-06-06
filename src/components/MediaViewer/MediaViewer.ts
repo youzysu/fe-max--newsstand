@@ -1,8 +1,9 @@
 import { dispatch, getState } from '@store/index';
 import { createElement } from '@utils/index';
-import { PressInfo } from 'types';
+import { CategoryPress, PressInfo } from 'types';
 import { SubscribePressList } from '../../types/index';
 import GridViewer from './GridViewer';
+import ListViewer from './ListViewer/ListViewer';
 
 interface MediaViewerProps {
   tabOption: 'all' | 'subscribe';
@@ -10,6 +11,8 @@ interface MediaViewerProps {
   pressList: PressInfo[];
   startIndex: number;
   subscribePressList: SubscribePressList;
+  categoryPressList: CategoryPress[];
+  listViewerCategoryIndex: number;
 }
 
 interface MediaViewerState {
@@ -18,17 +21,22 @@ interface MediaViewerState {
   pressList: PressInfo[];
   startIndex: number | null;
   subscribePressList: SubscribePressList;
+  categoryPressList: CategoryPress[];
+  listViewerCategoryIndex: number | null;
 }
 
 export default class MediaViewer {
   private element = createElement('DIV');
   private gridViewer = new GridViewer();
+  private listViewer = new ListViewer();
   private state: MediaViewerState = {
     tabOption: null,
     viewerOption: null,
     startIndex: null,
     pressList: [],
     subscribePressList: {},
+    categoryPressList: [],
+    listViewerCategoryIndex: null,
   };
 
   constructor() {
@@ -49,16 +57,20 @@ export default class MediaViewer {
     }
   }
 
-  private renderViewer({ viewerOption, pressList, startIndex, subscribePressList }: MediaViewerProps) {
+  private renderViewer(mediaViewerProps: MediaViewerProps) {
+    const { viewerOption, pressList, startIndex, subscribePressList, categoryPressList, listViewerCategoryIndex } =
+      mediaViewerProps;
     switch (viewerOption) {
       case 'grid': {
-        this.dropPrevMediaViewer();
         this.gridViewer.render({ pressList, startIndex, subscribePressList });
+        this.dropPrevMediaViewer();
         this.element.appendChild(this.gridViewer.getElement());
         break;
       }
       case 'list': {
+        this.listViewer.render({ categoryPressList, listViewerCategoryIndex });
         this.dropPrevMediaViewer();
+        this.element.appendChild(this.listViewer.getElement());
         break;
       }
     }

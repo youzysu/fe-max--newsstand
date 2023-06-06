@@ -21,6 +21,19 @@ export interface SubscribePressList {
   [key: string]: boolean;
 }
 
+export interface CategoryPress {
+  categoryName: string;
+  pressList: PressList[];
+}
+
+interface PressList {
+  pressInfo: { icon: string; name: string };
+  lastEdited: string;
+  thumbnail: { img: string; title: string };
+  mainArticle: { title: string; link: string };
+  subArticleList: { title: string; link: string }[];
+}
+
 export interface NewsStandState {
   systemDate: Date;
   trendNewsList: TrendNews[];
@@ -28,9 +41,11 @@ export interface NewsStandState {
   rightNewsIndex: number;
   tabOption: 'all' | 'subscribe';
   viewerOption: 'grid' | 'list';
-  allPressList: PressInfo[];
+  pressIconList: PressInfo[];
   gridPressStartIndex: number;
   subscribePressList: SubscribePressList | [];
+  categoryPressList: CategoryPress[];
+  listViewerCategoryIndex: number;
 }
 
 export type Subscriber = (state: NewsStandState) => void;

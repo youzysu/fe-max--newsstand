@@ -1,4 +1,4 @@
-import { PositionType, PressInfo, TrendNews } from 'types';
+import { CategoryPress, PositionType, PressInfo, TrendNews } from 'types';
 
 interface ChangeViewerAction {
   type: 'CHANGE_VIEWER';
@@ -33,6 +33,11 @@ interface SelectListViewAction {
   type: 'SELECT_LIST_VIEW';
 }
 
+interface FetchArticleListAction {
+  type: 'FETCH_ARTICLE_LIST_SUCCESS';
+  payload: { categoryPressList: CategoryPress[] };
+}
+
 interface FetchNewsListAction {
   type: 'FETCH_NEWS_LIST_SUCCESS';
   payload: { trendNewsList: TrendNews[] };
@@ -40,7 +45,7 @@ interface FetchNewsListAction {
 
 interface FetchPressListAction {
   type: 'FETCH_PRESS_LIST_SUCCESS';
-  payload: { allPressList: PressInfo[] };
+  payload: { pressIconList: PressInfo[] };
 }
 
 interface GetSubscribePressListAction {
@@ -57,6 +62,7 @@ export type Dispatch = (action: Action) => void;
 export type ThunkAction = (dispatch: Dispatch) => void;
 
 export type Action =
+  | FetchArticleListAction
   | ChangeViewerAction
   | SaveSubscribePressListAction
   | GetSubscribePressListAction

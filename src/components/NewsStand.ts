@@ -36,9 +36,11 @@ export default class NewsStand {
     this.mediaViewer.render({
       tabOption: state.tabOption,
       viewerOption: state.viewerOption,
-      pressList: state.allPressList,
+      pressList: state.pressIconList,
       startIndex: state.gridPressStartIndex,
       subscribePressList: state.subscribePressList,
+      categoryPressList: state.categoryPressList,
+      listViewerCategoryIndex: state.listViewerCategoryIndex,
     });
   }
 

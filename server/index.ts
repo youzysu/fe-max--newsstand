@@ -1,5 +1,6 @@
 import cors from 'cors';
 import express from 'express';
+import listViewData from './data/listViewData.json' assert { type: 'json' };
 import newsMedia from './data/newsMedia.json' assert { type: 'json' };
 import trendNews from './data/trendNews.json' assert { type: 'json' };
 
@@ -11,5 +12,6 @@ app.use(cors());
 app.get('/', (_, res) => res.status(200).send('Hello from express!'));
 app.get('/trend', (_, res) => res.status(200).json(trendNews));
 app.get('/media', (_, res) => res.status(200).json(newsMedia));
+app.get('/article', (_, res) => res.status(200).json(listViewData));
 
 app.listen(port, () => console.log(`Server is listening on Port ${port}`));
