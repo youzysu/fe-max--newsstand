@@ -1,3 +1,4 @@
+import { getState } from '@store/index';
 import { createElement } from '@utils/index';
 import { NewsStandState } from 'types';
 import Header from './Header';
@@ -20,6 +21,7 @@ export default class NewsStand {
       this.tabViewer.getElement(),
       this.mediaViewer.getElement()
     );
+    this.setEvent();
   }
 
   public render(state: NewsStandState) {
@@ -40,8 +42,17 @@ export default class NewsStand {
       startIndex: state.gridPressStartIndex,
       subscribePressList: state.subscribePressList,
       categoryPressList: state.categoryPressList,
-      listViewerCategoryIndex: state.listViewerCategoryIndex,
+      currentCategoryPress: state.currentCategoryPress,
     });
+  }
+
+  private setEvent() {
+    window.addEventListener('beforeunload', this.saveSubscribePressList);
+  }
+
+  private saveSubscribePressList() {
+    const subscribePressList = getState().subscribePressList;
+    localStorage.setItem('subscribePressList', JSON.stringify(subscribePressList));
   }
 
   public getElement() {

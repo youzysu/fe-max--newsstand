@@ -34,18 +34,31 @@ interface PressList {
   subArticleList: { title: string; link: string }[];
 }
 
+export type AllTab = 'all';
+export type SubscribeTab = 'subscribe';
+export type gridViewer = 'grid';
+export type listViewer = 'list';
+
+export type TabOption = AllTab | SubscribeTab;
+export type ViewerOption = gridViewer | listViewer;
+
 export interface NewsStandState {
   systemDate: Date;
   trendNewsList: TrendNews[];
   leftNewsIndex: number;
   rightNewsIndex: number;
-  tabOption: 'all' | 'subscribe';
-  viewerOption: 'grid' | 'list';
+  tabOption: TabOption;
+  viewerOption: ViewerOption;
   pressIconList: PressInfo[];
   gridPressStartIndex: number;
-  subscribePressList: SubscribePressList | [];
+  subscribePressList: SubscribePressList;
   categoryPressList: CategoryPress[];
-  listViewerCategoryIndex: number;
+  currentCategoryPress: currentCategoryPressInfo;
+}
+
+export interface currentCategoryPressInfo {
+  categoryIndex: number;
+  pressIndex: number;
 }
 
 export type Subscriber = (state: NewsStandState) => void;

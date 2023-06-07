@@ -1,10 +1,15 @@
 import { fetchArticleList } from '@api/index';
 import { thunkDispatch } from '@store/index';
 import { createElement } from '@utils/index';
-import { ListViewerProps } from 'types';
+import { CategoryPress, currentCategoryPressInfo } from 'types';
 import ViewerButton from '../ViewerButton/ViewerButton';
 import ListView from './ListView';
 import styles from './ListViewer.module.css';
+
+export interface ListViewerProps {
+  categoryPressList: CategoryPress[];
+  currentCategoryPress: currentCategoryPressInfo;
+}
 
 export default class ListViewer {
   private element = createElement('DIV', { class: styles.listViewer });
@@ -21,8 +26,8 @@ export default class ListViewer {
     thunkDispatch(fetchArticleList());
   }
 
-  public render({ categoryPressList }: ListViewerProps) {
-    this.listView.render({ categoryPressList });
+  public render({ categoryPressList, currentCategoryPress }: ListViewerProps) {
+    this.listView.render({ categoryPressList, currentCategoryPress });
   }
 
   public getElement() {

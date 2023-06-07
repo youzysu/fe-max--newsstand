@@ -13,6 +13,10 @@ const initialState: NewsStandState = {
   gridPressStartIndex: 0,
   subscribePressList: {},
   categoryPressList: [],
+  currentCategoryPress: {
+    categoryIndex: 0,
+    pressIndex: 0,
+  },
 };
 
 const createStore = (

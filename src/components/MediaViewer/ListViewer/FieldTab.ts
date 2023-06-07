@@ -1,6 +1,7 @@
 import { createElement } from '@utils/index';
-import { ListViewerProps } from 'types';
+import { currentCategoryPressInfo } from 'types';
 import CategoryTab from './CategoryTab';
+import { ListViewerProps } from './ListViewer';
 import styles from './ListViewer.module.css';
 
 export default class FieldTab {
@@ -12,9 +13,17 @@ export default class FieldTab {
     this.element.append(...this.categoryTabs.map((categoryTab) => categoryTab.getElement()));
   }
 
-  public render({ categoryPressList }: ListViewerProps) {
+  public render({ categoryPressList, currentCategoryPress }: ListViewerProps) {
     this.categoryTabs.forEach((categoryTab, index) => {
-      categoryTab.render({ categoryPress: categoryPressList[index] });
+      categoryTab.render({ categoryId: index, categoryPress: categoryPressList[index] });
+    });
+    this.setCategoryTabActivation(currentCategoryPress);
+  }
+
+  private setCategoryTabActivation({ categoryIndex, pressIndex }: currentCategoryPressInfo) {
+    this.categoryTabs.forEach((categoryTab, index) => {
+      index !== categoryIndex && categoryTab.inActivate();
+      index === categoryIndex && categoryTab.activate(pressIndex);
     });
   }
 

@@ -28,6 +28,15 @@
   padding: 0px 1rem;
 }
 
+.pressIndex {
+  color: var(--color-white);
+}
+
+.categoryCount {
+  color: var(--color-white-70);
+  text-align: center;
+}
+
 .categoryTab.active {
   width: 10rem;
   color: var(--color-white);
