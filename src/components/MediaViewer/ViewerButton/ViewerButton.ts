@@ -14,7 +14,7 @@ interface ViewerButtonType {
 }
 
 export default class ViewerButton {
-  private element;
+  public readonly element;
   private position;
 
   constructor({ position, viewerType }: ViewerButtonType) {
@@ -45,9 +45,5 @@ export default class ViewerButton {
     } else {
       this.element.classList.remove(styles.disabled);
     }
-  }
-
-  public getElement() {
-    return this.element;
   }
 }

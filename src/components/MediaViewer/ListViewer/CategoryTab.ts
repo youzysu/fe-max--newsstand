@@ -8,7 +8,7 @@ interface CategoryPressProps {
 }
 
 export default class CategoryTab {
-  private element = createElement('BUTTON', { class: styles.categoryTab });
+  public readonly element = createElement('BUTTON', { class: styles.categoryTab });
   private categoryName = createElement('SPAN');
   private categoryCount = createElement('SPAN', { class: `${styles.hidden} ${styles.categoryCount}` });
 
@@ -44,9 +44,5 @@ export default class CategoryTab {
     this.element.classList.remove(styles.active);
     this.element.classList.remove('title-sm');
     this.categoryCount.classList.add(styles.hidden);
-  }
-
-  public getElement() {
-    return this.element;
   }
 }

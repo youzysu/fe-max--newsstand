@@ -16,13 +16,13 @@ interface NewsBarState {
 }
 
 export default class NewsBar {
-  private element = createElement('DIV', { class: styles.newsBar });
+  public readonly element = createElement('DIV', { class: styles.newsBar });
   private leftRollingNews = new AutoRollingNews({ type: 'left' });
   private rightRollingNews = new AutoRollingNews({ type: 'right' });
   private state: NewsBarState = { rollingStartTime: 0 };
 
   constructor() {
-    this.element.append(this.leftRollingNews.getElement(), this.rightRollingNews.getElement());
+    this.element.append(this.leftRollingNews.element, this.rightRollingNews.element);
     this.componentDidMount();
   }
 
@@ -54,9 +54,5 @@ export default class NewsBar {
       trendNewsList: newsList,
       index: rightIndex,
     });
-  }
-
-  public getElement() {
-    return this.element;
   }
 }

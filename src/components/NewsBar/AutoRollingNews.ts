@@ -15,7 +15,7 @@ interface AutoRollingNewsState {
 }
 
 export default class AutoRollingNews {
-  private element = createElement('SECTION', { class: styles.autoRollingNews });
+  public readonly element = createElement('SECTION', { class: styles.autoRollingNews });
   private wrapper = createElement('DIV', { class: styles.wrapper });
   private currentHeadline = new Headline();
   private nextHeadline = new Headline();
@@ -24,7 +24,7 @@ export default class AutoRollingNews {
 
   constructor({ type }: PositionType) {
     this.type = type;
-    this.wrapper.append(this.currentHeadline.getElement(), this.nextHeadline.getElement());
+    this.wrapper.append(this.currentHeadline.element, this.nextHeadline.element);
     this.element.append(this.wrapper);
     this.setEvent();
   }
@@ -59,9 +59,5 @@ export default class AutoRollingNews {
     }
 
     requestAnimationFrame((timeStamp: number) => this.startRolling(timeStamp));
-  }
-
-  public getElement() {
-    return this.element;
   }
 }

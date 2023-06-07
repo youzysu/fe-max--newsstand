@@ -23,7 +23,7 @@ interface MediaViewerState {
 }
 
 export default class MediaViewer {
-  private element = createElement('DIV');
+  public readonly element = createElement('DIV');
   private gridViewer = new GridViewer();
   private listViewer = new ListViewer();
   private state: MediaViewerState = {
@@ -57,13 +57,13 @@ export default class MediaViewer {
       case 'grid': {
         this.gridViewer.render({ pressList, startIndex, subscribePressList });
         this.dropPrevMediaViewer();
-        this.element.appendChild(this.gridViewer.getElement());
+        this.element.appendChild(this.gridViewer.element);
         break;
       }
       case 'list': {
         this.listViewer.render({ categoryPressList, currentCategoryPress });
         this.dropPrevMediaViewer();
-        this.element.appendChild(this.listViewer.getElement());
+        this.element.appendChild(this.listViewer.element);
         break;
       }
     }
@@ -78,9 +78,5 @@ export default class MediaViewer {
 
   private dropPrevMediaViewer() {
     this.element.innerHTML = '';
-  }
-
-  public getElement() {
-    return this.element;
   }
 }

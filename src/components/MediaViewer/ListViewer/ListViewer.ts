@@ -12,13 +12,13 @@ export interface ListViewerProps {
 }
 
 export default class ListViewer {
-  private element = createElement('DIV', { class: styles.listViewer });
+  public readonly element = createElement('DIV', { class: styles.listViewer });
   private listView = new ListView();
   private leftButton = new ViewerButton({ position: 'left', viewerType: 'list' });
   private rightButton = new ViewerButton({ position: 'right', viewerType: 'list' });
 
   constructor() {
-    this.element.append(this.leftButton.getElement(), this.listView.getElement(), this.rightButton.getElement());
+    this.element.append(this.leftButton.element, this.listView.element, this.rightButton.element);
     this.componentDidMount();
   }
 
@@ -28,9 +28,5 @@ export default class ListViewer {
 
   public render({ categoryPressList, currentCategoryPress }: ListViewerProps) {
     this.listView.render({ categoryPressList, currentCategoryPress });
-  }
-
-  public getElement() {
-    return this.element;
   }
 }
