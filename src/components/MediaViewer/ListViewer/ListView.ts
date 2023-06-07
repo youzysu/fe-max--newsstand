@@ -13,7 +13,11 @@ export default class ListView {
     this.element.append(this.fieldTab.element, this.pressArticle.element);
   }
 
-  public render({ categoryPressList, currentCategoryPress }: ListViewerProps) {
+  public render({ categoryPressList, currentCategoryPress, subscribePressList }: ListViewerProps) {
+    const currentCategory = categoryPressList[currentCategoryPress.categoryIndex];
+    const currentPress = currentCategory.pressList[currentCategoryPress.pressIndex];
+
     this.fieldTab.render({ categoryPressList, currentCategoryPress });
+    this.pressArticle.render({ currentPress, subscribePressList });
   }
 }

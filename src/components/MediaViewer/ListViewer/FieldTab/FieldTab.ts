@@ -1,8 +1,13 @@
 import { createElement } from '@utils/index';
 import { currentCategoryPressInfo } from 'types';
+import { ListViewerProps } from '../ListViewer';
 import CategoryTab from './CategoryTab';
-import { ListViewerProps } from './ListViewer';
-import styles from './ListViewer.module.css';
+import styles from './FieldTab.module.css';
+
+interface FieldTabProps {
+  categoryPressList: ListViewerProps['categoryPressList'];
+  currentCategoryPress: currentCategoryPressInfo;
+}
 
 export default class FieldTab {
   private CATEGORY_COUNT = 7;
@@ -13,7 +18,7 @@ export default class FieldTab {
     this.element.append(...this.categoryTabs.map((categoryTab) => categoryTab.element));
   }
 
-  public render({ categoryPressList, currentCategoryPress }: ListViewerProps) {
+  public render({ categoryPressList, currentCategoryPress }: FieldTabProps) {
     this.categoryTabs.forEach((categoryTab, index) => {
       categoryTab.render({ categoryId: index, categoryPress: categoryPressList[index] });
     });

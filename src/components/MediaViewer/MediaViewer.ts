@@ -3,7 +3,7 @@ import { createElement } from '@utils/index';
 import { CategoryPress, PressInfo, TabOption, ViewerOption, currentCategoryPressInfo } from 'types';
 import { SubscribePressList } from '../../types/index';
 import GridViewer from './GridViewer';
-import ListViewer from './ListViewer/ListViewer';
+import ListViewer from './ListViewer';
 
 interface MediaViewerProps {
   tabOption: TabOption;
@@ -61,7 +61,7 @@ export default class MediaViewer {
         break;
       }
       case 'list': {
-        this.listViewer.render({ categoryPressList, currentCategoryPress });
+        this.listViewer.render({ categoryPressList, currentCategoryPress, subscribePressList });
         this.dropPrevMediaViewer();
         this.element.appendChild(this.listViewer.element);
         break;

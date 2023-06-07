@@ -1,0 +1,23 @@
+.pressArticle {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  gap: 1rem;
+  width: 100%;
+  outline: 1px solid var(--color-gray-100);
+}
+
+.pressInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pressIcon {
+  width: 53px;
+  height: 20px;
+}
+
+.lastEditedTime {
+  color: var(--color-gray-400);
+}

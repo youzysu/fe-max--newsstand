@@ -26,10 +26,10 @@ export interface SubscribePressList {
 
 export interface CategoryPress {
   categoryName: string;
-  pressList: PressList[];
+  pressList: PressArticleInfo[];
 }
 
-interface PressList {
+export interface PressArticleInfo {
   pressInfo: { icon: string; name: string };
   lastEdited: string;
   thumbnail: { img: string; title: string };

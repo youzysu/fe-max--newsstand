@@ -10,39 +10,3 @@
 .listView {
   width: 100%;
 }
-
-.fieldTab {
-  display: flex;
-  width: 100%;
-  height: 40px;
-  background: var(--color-off-white);
-  border: 1px solid var(--color-gray-100);
-  color: var(--color-gray-300);
-}
-
-.categoryTab {
-  display: flex;
-  height: 100%;
-  align-items: center;
-  justify-content: space-around;
-  padding: 0px 1rem;
-}
-
-.pressIndex {
-  color: var(--color-white);
-}
-
-.categoryCount {
-  color: var(--color-white-70);
-  text-align: center;
-}
-
-.categoryTab.active {
-  width: 10rem;
-  color: var(--color-white);
-  background: linear-gradient(90deg, #4362d0 0%, #4362d0 16.67%, #7890e7 16.68%, #7890e7 100%);
-}
-
-.hidden {
-  display: none;
-}
