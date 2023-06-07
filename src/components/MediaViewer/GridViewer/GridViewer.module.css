@@ -1,3 +1,11 @@
+.gridViewer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
 .gridTable {
   width: 930px;
   height: 388px;
@@ -34,25 +42,4 @@
   height: 20px;
   margin: 25% auto;
   display: block;
-}
-
-.gridButton {
-  position: absolute;
-  width: 2rem;
-  height: 3rem;
-  background-image: url('/public/gridButton.svg');
-  background-repeat: no-repeat;
-}
-
-.gridButton.left {
-  left: -10%;
-  rotate: 180deg;
-}
-
-.gridButton.right {
-  right: -10%;
-}
-
-.gridButton.disabled {
-  visibility: hidden;
 }

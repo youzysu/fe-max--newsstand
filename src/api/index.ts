@@ -32,9 +32,22 @@ export const fetchPressList = () => {
       const PRESS_API_PATH = new URL('media', BASE_API_DOMAIN);
       const pressNewsData = await fetchJSON(PRESS_API_PATH);
 
-      dispatch({ type: 'FETCH_PRESS_LIST_SUCCESS', payload: { allPressList: pressNewsData } });
+      dispatch({ type: 'FETCH_PRESS_LIST_SUCCESS', payload: { pressIconList: pressNewsData } });
     } catch (err) {
       // dispatch({ type: 'FETCH_PRESS_LIST_ERROR', error: err });
+    }
+  };
+};
+
+export const fetchArticleList = () => {
+  return async (dispatch: Dispatch) => {
+    try {
+      const PRESS_API_PATH = new URL('article', BASE_API_DOMAIN);
+      const pressArticleData = await fetchJSON(PRESS_API_PATH);
+
+      dispatch({ type: 'FETCH_ARTICLE_LIST_SUCCESS', payload: { categoryPressList: pressArticleData } });
+    } catch (err) {
+      // dispatch({ type: 'FETCH_ARTICLE_LIST_ERROR', error: err });
     }
   };
 };

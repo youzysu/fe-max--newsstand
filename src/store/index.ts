@@ -5,13 +5,18 @@ import { newsStandReducer } from './newsStandReducer';
 const initialState: NewsStandState = {
   systemDate: new Date(),
   trendNewsList: [],
-  allPressList: [],
+  pressIconList: [],
   leftNewsIndex: 0,
   rightNewsIndex: 1,
   tabOption: 'all',
   viewerOption: 'grid',
   gridPressStartIndex: 0,
   subscribePressList: {},
+  categoryPressList: [],
+  currentCategoryPress: {
+    categoryIndex: 0,
+    pressIndex: 0,
+  },
 };
 
 const createStore = (

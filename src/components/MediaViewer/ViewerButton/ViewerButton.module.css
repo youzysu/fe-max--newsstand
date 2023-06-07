@@ -1,0 +1,20 @@
+.viewerButton {
+  position: absolute;
+  width: 2rem;
+  height: 3rem;
+  background-image: url('/public/viewerButton.svg');
+  background-repeat: no-repeat;
+}
+
+.viewerButton.left {
+  left: -10%;
+  rotate: 180deg;
+}
+
+.viewerButton.right {
+  right: -10%;
+}
+
+.viewerButton.disabled {
+  visibility: hidden;
+}

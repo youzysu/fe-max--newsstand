@@ -1,4 +1,9 @@
-import { PressInfo, TrendNews } from 'types';
+import { CategoryPress, PositionType, PressInfo, TabOption, TrendNews, ViewerOption } from 'types';
+
+interface ChangeViewerAction {
+  type: 'CHANGE_VIEWER';
+  payload: { viewerOption: ViewerOption };
+}
 
 interface SubscribePressAction {
   type: 'CHANGE_PRESS_SUBSCRIBING';
@@ -7,17 +12,17 @@ interface SubscribePressAction {
 
 interface MoveGridAction {
   type: 'MOVE_GRID';
-  payload: { type: 'left' | 'right' };
+  payload: PositionType;
 }
 
 interface RollingNewsAction {
   type: 'ROLLING_NEWS';
-  payload: { type: 'left' | 'right' };
+  payload: PositionType;
 }
 
 interface ChangeTabAction {
   type: 'CHANGE_TAB';
-  payload: { tabOption: 'all' | 'subscribe' };
+  payload: { tabOption: TabOption };
 }
 
 interface SelectGridViewAction {
@@ -28,6 +33,11 @@ interface SelectListViewAction {
   type: 'SELECT_LIST_VIEW';
 }
 
+interface FetchArticleListAction {
+  type: 'FETCH_ARTICLE_LIST_SUCCESS';
+  payload: { categoryPressList: CategoryPress[] };
+}
+
 interface FetchNewsListAction {
   type: 'FETCH_NEWS_LIST_SUCCESS';
   payload: { trendNewsList: TrendNews[] };
@@ -35,7 +45,7 @@ interface FetchNewsListAction {
 
 interface FetchPressListAction {
   type: 'FETCH_PRESS_LIST_SUCCESS';
-  payload: { allPressList: PressInfo[] };
+  payload: { pressIconList: PressInfo[] };
 }
 
 interface GetSubscribePressListAction {
@@ -52,6 +62,8 @@ export type Dispatch = (action: Action) => void;
 export type ThunkAction = (dispatch: Dispatch) => void;
 
 export type Action =
+  | FetchArticleListAction
+  | ChangeViewerAction
   | SaveSubscribePressListAction
   | GetSubscribePressListAction
   | FetchPressListAction

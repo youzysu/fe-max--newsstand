@@ -1,11 +1,12 @@
 import { createElement } from '@utils/index';
+import { TabOption, ViewerOption } from 'types';
 import Tab from './Tab';
 import styles from './TabViewer.module.css';
 import Viewer from './Viewer';
 
 interface TabViewerProps {
-  tabOption: 'all' | 'subscribe';
-  viewerOption: 'grid' | 'list';
+  tabOption: TabOption;
+  viewerOption: ViewerOption;
 }
 
 export default class TabViewer {

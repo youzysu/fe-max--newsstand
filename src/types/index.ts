@@ -1,3 +1,10 @@
+export type LeftType = 'left';
+export type RightType = 'right';
+
+export interface PositionType {
+  type: LeftType | RightType;
+}
+
 export interface TrendNews {
   media: string;
   title: string;
@@ -17,16 +24,44 @@ export interface SubscribePressList {
   [key: string]: boolean;
 }
 
+export interface CategoryPress {
+  categoryName: string;
+  pressList: PressList[];
+}
+
+interface PressList {
+  pressInfo: { icon: string; name: string };
+  lastEdited: string;
+  thumbnail: { img: string; title: string };
+  mainArticle: { title: string; link: string };
+  subArticleList: { title: string; link: string }[];
+}
+
+export type AllTab = 'all';
+export type SubscribeTab = 'subscribe';
+export type gridViewer = 'grid';
+export type listViewer = 'list';
+
+export type TabOption = AllTab | SubscribeTab;
+export type ViewerOption = gridViewer | listViewer;
+
 export interface NewsStandState {
   systemDate: Date;
   trendNewsList: TrendNews[];
   leftNewsIndex: number;
   rightNewsIndex: number;
-  tabOption: 'all' | 'subscribe';
-  viewerOption: 'grid' | 'list';
-  allPressList: PressInfo[];
+  tabOption: TabOption;
+  viewerOption: ViewerOption;
+  pressIconList: PressInfo[];
   gridPressStartIndex: number;
-  subscribePressList: SubscribePressList | [];
+  subscribePressList: SubscribePressList;
+  categoryPressList: CategoryPress[];
+  currentCategoryPress: currentCategoryPressInfo;
+}
+
+export interface currentCategoryPressInfo {
+  categoryIndex: number;
+  pressIndex: number;
 }
 
 export type Subscriber = (state: NewsStandState) => void;
