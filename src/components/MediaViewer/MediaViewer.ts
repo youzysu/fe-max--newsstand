@@ -12,7 +12,6 @@ interface MediaViewerProps {
   startIndex: number;
   subscribePressList: SubscribePressList;
   categoryPressList: CategoryPress[];
-  listViewerCategoryIndex: number;
 }
 
 interface MediaViewerState {
@@ -22,7 +21,6 @@ interface MediaViewerState {
   startIndex: number | null;
   subscribePressList: SubscribePressList;
   categoryPressList: CategoryPress[];
-  listViewerCategoryIndex: number | null;
 }
 
 export default class MediaViewer {
@@ -36,7 +34,6 @@ export default class MediaViewer {
     pressList: [],
     subscribePressList: {},
     categoryPressList: [],
-    listViewerCategoryIndex: null,
   };
 
   constructor() {
@@ -58,8 +55,7 @@ export default class MediaViewer {
   }
 
   private renderViewer(mediaViewerProps: MediaViewerProps) {
-    const { viewerOption, pressList, startIndex, subscribePressList, categoryPressList, listViewerCategoryIndex } =
-      mediaViewerProps;
+    const { viewerOption, pressList, startIndex, subscribePressList, categoryPressList } = mediaViewerProps;
     switch (viewerOption) {
       case 'grid': {
         this.gridViewer.render({ pressList, startIndex, subscribePressList });
@@ -68,7 +64,7 @@ export default class MediaViewer {
         break;
       }
       case 'list': {
-        this.listViewer.render({ categoryPressList, listViewerCategoryIndex });
+        this.listViewer.render({ categoryPressList });
         this.dropPrevMediaViewer();
         this.element.appendChild(this.listViewer.getElement());
         break;
