@@ -1,9 +1,10 @@
 import { dispatch } from '@store/index';
 import { createElement } from '@utils/index';
+import { TabOption } from 'types';
 import styles from './TabViewer.module.css';
 
 interface TabProps {
-  tabOption: 'all' | 'subscribe';
+  tabOption: TabOption;
 }
 
 export default class Tab {

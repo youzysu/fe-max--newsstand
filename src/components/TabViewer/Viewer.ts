@@ -1,9 +1,10 @@
 import { dispatch } from '@store/index';
 import { createElement } from '@utils/index';
+import { ViewerOption } from 'types';
 import styles from './TabViewer.module.css';
 
 interface ViewerProps {
-  viewerOption: 'grid' | 'list';
+  viewerOption: ViewerOption;
 }
 
 export default class Viewer {

@@ -1,6 +1,6 @@
 import { dispatch } from '@store/index';
 import { createElement } from '@utils/index';
-import { TrendNews } from 'types';
+import { PositionType, TrendNews } from 'types';
 import Headline from './Headline';
 import styles from './NewsBar.module.css';
 
@@ -15,21 +15,17 @@ interface AutoRollingNewsState {
 }
 
 export default class AutoRollingNews {
-  private element;
-  private wrapper;
-  private currentHeadline;
-  private nextHeadline;
+  private element = createElement('SECTION', { class: styles.autoRollingNews });
+  private wrapper = createElement('DIV', { class: styles.wrapper });
+  private currentHeadline = new Headline();
+  private nextHeadline = new Headline();
   private state: AutoRollingNewsState = { isRolling: true, animationWaitingTime: 0 };
-  private type: 'left' | 'right';
+  private type;
 
-  constructor({ type: type }: { type: 'left' | 'right' }) {
-    this.element = createElement('SECTION', { class: styles.autoRollingNews });
-    this.wrapper = createElement('DIV', { class: styles.wrapper });
-    this.currentHeadline = new Headline();
-    this.nextHeadline = new Headline();
+  constructor({ type }: PositionType) {
+    this.type = type;
     this.wrapper.append(this.currentHeadline.getElement(), this.nextHeadline.getElement());
     this.element.append(this.wrapper);
-    this.type = type;
     this.setEvent();
   }
 

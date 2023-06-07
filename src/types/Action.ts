@@ -1,8 +1,8 @@
-import { CategoryPress, PositionType, PressInfo, TrendNews } from 'types';
+import { CategoryPress, PositionType, PressInfo, TabOption, TrendNews, ViewerOption } from 'types';
 
 interface ChangeViewerAction {
   type: 'CHANGE_VIEWER';
-  payload: { viewerOption: 'grid' | 'list' };
+  payload: { viewerOption: ViewerOption };
 }
 
 interface SubscribePressAction {
@@ -22,7 +22,7 @@ interface RollingNewsAction {
 
 interface ChangeTabAction {
   type: 'CHANGE_TAB';
-  payload: { tabOption: 'all' | 'subscribe' };
+  payload: { tabOption: TabOption };
 }
 
 interface SelectGridViewAction {

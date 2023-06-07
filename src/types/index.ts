@@ -1,5 +1,8 @@
+export type LeftType = 'left';
+export type RightType = 'right';
+
 export interface PositionType {
-  type: 'left' | 'right';
+  type: LeftType | RightType;
 }
 
 export interface TrendNews {

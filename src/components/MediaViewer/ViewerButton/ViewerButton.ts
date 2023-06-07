@@ -1,6 +1,7 @@
 import { GRID_PAGE_COUNT, PRESS_COUNT_OF_GRID_TABLE } from '@constant/index';
 import { dispatch } from '@store/index';
 import { createElement } from '@utils/index';
+import { LeftType, RightType, ViewerOption } from 'types';
 import styles from './ViewerButton.module.css';
 
 interface GridButtonProps {
@@ -8,8 +9,8 @@ interface GridButtonProps {
 }
 
 interface ViewerButtonType {
-  position: 'left' | 'right';
-  viewerType: 'grid' | 'list';
+  position: LeftType | RightType;
+  viewerType: ViewerOption;
 }
 
 export default class ViewerButton {
