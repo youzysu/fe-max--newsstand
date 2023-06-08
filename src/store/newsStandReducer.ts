@@ -57,13 +57,14 @@ export const newsStandReducer = (state: NewsStandState, action: Action): NewsSta
             currentCategoryPress.pressIndex ===
             categoryPressList[currentCategoryPress.categoryIndex].pressList.length - 1;
           const isLastCategory = currentCategoryPress.categoryIndex === categoryPressList.length - 1;
+          const updatedCategoryIndex = isLastPress
+            ? isLastCategory
+              ? 0
+              : currentCategoryPress.categoryIndex + 1
+            : currentCategoryPress.categoryIndex;
           const nextCategoryPress = {
             pressIndex: isLastPress ? 0 : (currentCategoryPress.pressIndex += 1),
-            categoryIndex: isLastCategory
-              ? 0
-              : isLastPress
-              ? (currentCategoryPress.categoryIndex += 1)
-              : currentCategoryPress.categoryIndex,
+            categoryIndex: updatedCategoryIndex,
           };
 
           const newState = { ...state, currentCategoryPress: nextCategoryPress };
@@ -73,14 +74,18 @@ export const newsStandReducer = (state: NewsStandState, action: Action): NewsSta
           const { currentCategoryPress, categoryPressList } = state;
           const isFirstPress = currentCategoryPress.pressIndex === 0;
           const isFirstCategory = currentCategoryPress.categoryIndex === 0;
-          const temp = isFirstCategory
-            ? categoryPressList[0]
-            : categoryPressList[currentCategoryPress.categoryIndex - 1];
+          const updatedCategoryIndex = isFirstPress
+            ? isFirstCategory
+              ? categoryPressList.length - 1
+              : currentCategoryPress.categoryIndex - 1
+            : currentCategoryPress.categoryIndex;
           const prevCategoryPress = {
-            categoryIndex: isFirstPress
-              ? (currentCategoryPress.categoryIndex -= 1)
-              : currentCategoryPress.categoryIndex,
-            pressIndex: isFirstPress ? temp.pressList.length - 1 : (currentCategoryPress.pressIndex -= 1),
+            categoryIndex: updatedCategoryIndex,
+            pressIndex: isFirstPress
+              ? isFirstCategory
+                ? categoryPressList[categoryPressList.length - 1].pressList.length - 1
+                : categoryPressList[updatedCategoryIndex].pressList.length - 1
+              : (currentCategoryPress.pressIndex -= 1),
           };
 
           const newState = { ...state, currentCategoryPress: prevCategoryPress };
