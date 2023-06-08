@@ -48,6 +48,13 @@ export const newsStandReducer = (state: NewsStandState, action: Action): NewsSta
 
       return newState;
     }
+    case 'MOVE_CATEGORY': {
+      const { categoryId } = action.payload;
+      const nextCategoryPress = { categoryIndex: Number(categoryId), pressIndex: 0 };
+      const newState = { ...state, currentCategoryPress: nextCategoryPress };
+
+      return newState;
+    }
     case 'MOVE_LIST': {
       const { type } = action.payload;
       switch (type) {

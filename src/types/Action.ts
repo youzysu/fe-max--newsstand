@@ -62,11 +62,17 @@ interface MoveListAction {
   payload: PositionType;
 }
 
+interface MoveCategoryAction {
+  type: 'MOVE_CATEGORY';
+  payload: { categoryId: string };
+}
+
 export type Dispatch = (action: Action) => void;
 
 export type ThunkAction = (dispatch: Dispatch) => void;
 
 export type Action =
+  | MoveCategoryAction
   | MoveListAction
   | FetchArticleListAction
   | ChangeViewerAction

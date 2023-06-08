@@ -1,3 +1,4 @@
+import { dispatch } from '@store/index';
 import { createElement } from '@utils/index';
 import { CategoryPress } from 'types';
 import styles from './FieldTab.module.css';
@@ -14,11 +15,18 @@ export default class CategoryTab {
 
   constructor() {
     this.element.append(this.categoryName, this.categoryCount);
+    this.setEvent();
   }
 
   public render({ categoryId, categoryPress }: CategoryPressProps) {
     this.setCategoryName({ categoryId, categoryPress });
     this.setCategoryCount({ categoryPress });
+  }
+
+  private setEvent() {
+    this.element.addEventListener('click', () =>
+      dispatch({ type: 'MOVE_CATEGORY', payload: { categoryId: this.element.dataset.categoryId! } })
+    );
   }
 
   private setCategoryName({ categoryId, categoryPress }: { categoryId: number; categoryPress: CategoryPress }) {
