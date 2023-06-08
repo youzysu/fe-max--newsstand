@@ -31,6 +31,8 @@ export default class ViewerButton {
         this.element.addEventListener('click', () => dispatch({ type: 'MOVE_GRID', payload: { type: this.position } }));
         break;
       case 'list':
+        this.element.addEventListener('click', () => dispatch({ type: 'MOVE_LIST', payload: { type: this.position } }));
+        break;
     }
   }
 

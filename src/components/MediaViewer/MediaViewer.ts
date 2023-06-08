@@ -20,6 +20,8 @@ interface MediaViewerState {
   viewerOption: ViewerOption | null;
   startIndex: number | null;
   subscribePressList: SubscribePressList;
+  categoryPressList: CategoryPress[] | [];
+  currentCategoryPress: { categoryIndex: number | null; pressIndex: number | null };
 }
 
 export default class MediaViewer {
@@ -31,6 +33,8 @@ export default class MediaViewer {
     viewerOption: null,
     startIndex: null,
     subscribePressList: {},
+    categoryPressList: [],
+    currentCategoryPress: { categoryIndex: null, pressIndex: null },
   };
 
   constructor() {
@@ -38,12 +42,14 @@ export default class MediaViewer {
   }
 
   public render(mediaViewerProps: MediaViewerProps) {
-    const { viewerOption, startIndex, subscribePressList } = mediaViewerProps;
+    const { viewerOption, startIndex, subscribePressList, categoryPressList, currentCategoryPress } = mediaViewerProps;
 
     if (
       this.state.viewerOption !== viewerOption ||
       this.state.startIndex !== startIndex ||
-      this.state.subscribePressList !== subscribePressList
+      this.state.subscribePressList !== subscribePressList ||
+      this.state.categoryPressList !== categoryPressList ||
+      this.state.currentCategoryPress !== currentCategoryPress
     ) {
       this.renderViewer(mediaViewerProps);
       this.state = mediaViewerProps;

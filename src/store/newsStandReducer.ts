@@ -48,6 +48,47 @@ export const newsStandReducer = (state: NewsStandState, action: Action): NewsSta
 
       return newState;
     }
+    case 'MOVE_LIST': {
+      const { type } = action.payload;
+      switch (type) {
+        case 'right': {
+          const { currentCategoryPress, categoryPressList } = state;
+          const isLastPress =
+            currentCategoryPress.pressIndex ===
+            categoryPressList[currentCategoryPress.categoryIndex].pressList.length - 1;
+          const isLastCategory = currentCategoryPress.categoryIndex === categoryPressList.length - 1;
+          const nextCategoryPress = {
+            pressIndex: isLastPress ? 0 : (currentCategoryPress.pressIndex += 1),
+            categoryIndex: isLastCategory
+              ? 0
+              : isLastPress
+              ? (currentCategoryPress.categoryIndex += 1)
+              : currentCategoryPress.categoryIndex,
+          };
+
+          const newState = { ...state, currentCategoryPress: nextCategoryPress };
+          return newState;
+        }
+        case 'left': {
+          const { currentCategoryPress, categoryPressList } = state;
+          const isFirstPress = currentCategoryPress.pressIndex === 0;
+          const isFirstCategory = currentCategoryPress.categoryIndex === 0;
+          const temp = isFirstCategory
+            ? categoryPressList[0]
+            : categoryPressList[currentCategoryPress.categoryIndex - 1];
+          const prevCategoryPress = {
+            categoryIndex: isFirstPress
+              ? (currentCategoryPress.categoryIndex -= 1)
+              : currentCategoryPress.categoryIndex,
+            pressIndex: isFirstPress ? temp.pressList.length - 1 : (currentCategoryPress.pressIndex -= 1),
+          };
+
+          const newState = { ...state, currentCategoryPress: prevCategoryPress };
+          return newState;
+        }
+      }
+      break;
+    }
     case 'ROLLING_NEWS': {
       const { type } = action.payload;
       const isLeftRolling = type === 'left';

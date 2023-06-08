@@ -57,11 +57,17 @@ interface SaveSubscribePressListAction {
   type: 'SAVE_SUBSCRIBE_PRESS_LIST';
 }
 
+interface MoveListAction {
+  type: 'MOVE_LIST';
+  payload: PositionType;
+}
+
 export type Dispatch = (action: Action) => void;
 
 export type ThunkAction = (dispatch: Dispatch) => void;
 
 export type Action =
+  | MoveListAction
   | FetchArticleListAction
   | ChangeViewerAction
   | SaveSubscribePressListAction
