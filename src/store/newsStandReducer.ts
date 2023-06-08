@@ -7,7 +7,11 @@ export const newsStandReducer = (state: NewsStandState, action: Action): NewsSta
   switch (action.type) {
     case 'FETCH_ARTICLE_LIST_SUCCESS': {
       const { categoryPressList } = action.payload;
-      const newState = { ...state, categoryPressList: categoryPressList };
+      const shufflePressList = categoryPressList.map((category) => {
+        const shuffled = (category.pressList = shuffleArray(category.pressList));
+        return { categoryName: category.categoryName, pressList: shuffled };
+      });
+      const newState = { ...state, categoryPressList: shufflePressList };
       return newState;
     }
     case 'FETCH_NEWS_LIST_SUCCESS': {
