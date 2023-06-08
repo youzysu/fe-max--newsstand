@@ -4,6 +4,7 @@
   padding: 1.5rem;
   gap: 1rem;
   width: 100%;
+  height: calc(100% - 40px);
   outline: 1px solid var(--color-gray-100);
 }
 
@@ -41,13 +42,23 @@
 
 .mainTitle {
   max-width: 320px;
-  height: 44px;
+  max-height: 44px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .articleList {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.articleList li a {
+  display: block;
+  max-width: 530px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .caption {

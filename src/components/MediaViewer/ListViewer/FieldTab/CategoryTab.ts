@@ -10,11 +10,12 @@ interface CategoryPressProps {
 
 export default class CategoryTab {
   public readonly element = createElement('BUTTON', { class: styles.categoryTab });
-  private categoryName = createElement('SPAN');
+  private progressBar = createElement('DIV', { class: styles.progressBar });
+  private categoryName = createElement('SPAN', { class: styles.categoryName });
   private categoryCount = createElement('SPAN', { class: `${styles.hidden} ${styles.categoryCount}` });
 
   constructor() {
-    this.element.append(this.categoryName, this.categoryCount);
+    this.element.append(this.progressBar, this.categoryName, this.categoryCount);
     this.setEvent();
   }
 
