@@ -17,16 +17,15 @@ export default class SubArticle {
 
   constructor() {
     this.articleList.append(...this.articleListItems);
+    this.articleListItems.forEach((articleItem, index) => articleItem.append(this.articleLinks[index]));
     this.element.append(this.articleList, this.caption);
   }
 
   public render({ pressName, subArticleList }: SubArticleProps) {
-    this.articleListItems.forEach((articleItem, index) => {
+    this.articleLinks.forEach((articleLink, index) => {
       const { title, link } = subArticleList[index];
-      const articleLink = this.articleLinks[index];
       articleLink.setAttribute('href', link);
       articleLink.textContent = title;
-      articleItem.append(articleLink);
     });
     this.caption.textContent = `${pressName} 언론사에서 직접 편집한 뉴스입니다.`;
   }
