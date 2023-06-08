@@ -12,7 +12,7 @@ export default class PressInfo {
   public readonly element = createElement('DIV', { class: styles.pressInfo });
   private pressIcon = createElement('IMG', { class: styles.pressIcon });
   private lastEditedTime = createElement('SPAN', { class: `body-xs ${styles.lastEditedTime}` });
-  private subscribeButton = new SubscribeButton();
+  public readonly subscribeButton = new SubscribeButton();
 
   constructor() {
     this.element.append(this.pressIcon, this.lastEditedTime, this.subscribeButton.element);

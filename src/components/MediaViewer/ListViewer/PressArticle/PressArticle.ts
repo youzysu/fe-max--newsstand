@@ -16,8 +16,11 @@ export default class PressArticle {
   private article = createElement('ARTICLE', { class: styles.article });
   private mainArticle = new MainArticle();
   private subArticle = new SubArticle();
+  private snackbar = createElement('DIV', { class: `body-md ${styles.snackbar}` });
 
   constructor() {
+    this.setSnackbar();
+    this.setEvent();
     this.article.append(this.mainArticle.element, this.subArticle.element);
     this.element.append(this.pressInfo.element, this.article);
   }
@@ -26,6 +29,21 @@ export default class PressArticle {
     this.pressInfo.render({ currentPress, subscribePressList });
     this.setMainArticle(currentPress);
     this.setSubArticle(currentPress);
+  }
+
+  private setEvent() {
+    this.element.addEventListener('click', (e) => this.showSnackbar(e));
+  }
+
+  private showSnackbar({ target }: { target: HTMLElement }) {
+    if (target === this.pressInfo.subscribeButton.element) {
+      this.element.append(this.snackbar);
+    }
+    setTimeout(() => this.snackbar.remove(), 5000);
+  }
+
+  private setSnackbar() {
+    this.snackbar.textContent = '내가 구독한 언론사에 추가되었습니다.';
   }
 
   private setMainArticle({ thumbnail, mainArticle }: PressArticleInfo) {
