@@ -17,6 +17,10 @@
   color: var(--color-gray-300);
 }
 
+.categoryTab:not(.active):hover {
+  text-decoration: underline;
+}
+
 .categoryTab.active {
   width: 10rem;
   color: var(--color-white);
