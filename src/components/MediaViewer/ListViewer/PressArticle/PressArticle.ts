@@ -1,5 +1,6 @@
 import { createElement } from '@utils/index';
 import { PressArticleInfo, SubscribePressList } from 'types';
+import subscribeButtonStyles from '../../SubscribeButton/SubscribeButton.module.css';
 import MainArticle from './MainArticle';
 import styles from './PressArticle.module.css';
 import PressInfo from './PressInfo';
@@ -27,16 +28,16 @@ export default class PressArticle {
 
   public render({ currentPress, subscribePressList }: PressArticleProps) {
     this.pressInfo.render({ currentPress, subscribePressList });
-    this.setMainArticle(currentPress);
-    this.setSubArticle(currentPress);
+    this.renderMainArticle(currentPress);
+    this.renderSubArticle(currentPress);
   }
 
   private setEvent() {
-    this.element.addEventListener('click', (e) => this.showSnackbar(e));
+    this.element.addEventListener('click', (e) => this.showSnackbar(e.target as HTMLElement));
   }
 
-  private showSnackbar({ target }: { target: HTMLElement }) {
-    if (target === this.pressInfo.subscribeButton.element) {
+  private showSnackbar(target: HTMLElement) {
+    if (target.classList.contains(`${subscribeButtonStyles.subscribed}`)) {
       this.element.append(this.snackbar);
     }
     setTimeout(() => this.snackbar.remove(), 5000);
@@ -46,11 +47,11 @@ export default class PressArticle {
     this.snackbar.textContent = '내가 구독한 언론사에 추가되었습니다.';
   }
 
-  private setMainArticle({ thumbnail, mainArticle }: PressArticleInfo) {
+  private renderMainArticle({ thumbnail, mainArticle }: PressArticleInfo) {
     this.mainArticle.render({ thumbnail, mainArticle });
   }
 
-  private setSubArticle({ pressInfo, subArticleList }: PressArticleInfo) {
+  private renderSubArticle({ pressInfo, subArticleList }: PressArticleInfo) {
     const pressName = pressInfo.name;
     this.subArticle.render({ pressName, subArticleList });
   }
