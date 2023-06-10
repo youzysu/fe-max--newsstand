@@ -11,7 +11,7 @@ const initialState: NewsStandState = {
   tabOption: 'all',
   viewerOption: 'grid',
   gridPressStartIndex: 0,
-  subscribePressList: {},
+  subscribePressList: [],
   categoryPressList: [],
   currentCategoryPress: {
     categoryIndex: 0,

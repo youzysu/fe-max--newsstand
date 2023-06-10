@@ -1,4 +1,4 @@
-import { fetchPressList } from '@api/index';
+import { fetchGridPressList } from '@api/index';
 import { PRESS_COUNT_OF_GRID_TABLE } from '@constant/index';
 import { thunkDispatch } from '@store/index';
 import { createElement } from '@utils/index';
@@ -24,7 +24,7 @@ export default class GridView {
   public readonly element = createElement('TABLE', { class: styles.gridTable });
   private gridRows = Array.from({ length: this.GRID_ROW_COUNT }, () => createElement('TR', { class: styles.gridRow }));
   private grids = Array.from({ length: PRESS_COUNT_OF_GRID_TABLE }, () => new Grid());
-  private state: GridViewerState = { startIndex: null, subscribePressList: {} };
+  private state: GridViewerState = { startIndex: null, subscribePressList: [] };
 
   constructor() {
     this.element.append(...this.gridRows);
@@ -32,7 +32,7 @@ export default class GridView {
   }
 
   componentDidMount() {
-    thunkDispatch(fetchPressList());
+    thunkDispatch(fetchGridPressList());
   }
 
   public render({ pressList, startIndex, subscribePressList }: GridViewerProps) {
@@ -65,7 +65,7 @@ export default class GridView {
   private renderGrids(currentPressList: PressInfo[], subscribePressList: SubscribePressList) {
     this.grids.forEach((grid, index) => {
       const currentPress = currentPressList[index];
-      grid.render({ press: currentPress, isSubscribed: subscribePressList[currentPress.name] });
+      grid.render({ press: currentPress, isSubscribed: subscribePressList.includes(currentPress.name) });
     });
   }
 

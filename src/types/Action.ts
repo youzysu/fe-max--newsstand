@@ -1,4 +1,13 @@
-import { CategoryPress, PositionType, PressInfo, TabOption, TrendNews, ViewerOption } from 'types';
+import {
+  CategoryPress,
+  PositionType,
+  PressArticleInfo,
+  PressInfo,
+  SubscribePressList,
+  TabOption,
+  TrendNews,
+  ViewerOption,
+} from 'types';
 
 interface ChangeViewerAction {
   type: 'CHANGE_VIEWER';
@@ -35,7 +44,7 @@ interface SelectListViewAction {
 
 interface FetchArticleListAction {
   type: 'FETCH_ARTICLE_LIST_SUCCESS';
-  payload: { categoryPressList: CategoryPress[] };
+  payload: { categoryPressList: CategoryPress[]; pressArticleMap: Map<string, PressArticleInfo> };
 }
 
 interface FetchNewsListAction {
@@ -43,14 +52,14 @@ interface FetchNewsListAction {
   payload: { trendNewsList: TrendNews[] };
 }
 
-interface FetchPressListAction {
-  type: 'FETCH_PRESS_LIST_SUCCESS';
+interface FetchGridPressListAction {
+  type: 'FETCH_GRID_PRESS_LIST_SUCCESS';
   payload: { pressIconList: PressInfo[] };
 }
 
 interface GetSubscribePressListAction {
   type: 'GET_SUBSCRIBE_PRESS_LIST';
-  payload: { subscribePressList: { [key: string]: boolean } };
+  payload: { subscribePressList: SubscribePressList };
 }
 
 interface SaveSubscribePressListAction {
@@ -78,7 +87,7 @@ export type Action =
   | ChangeViewerAction
   | SaveSubscribePressListAction
   | GetSubscribePressListAction
-  | FetchPressListAction
+  | FetchGridPressListAction
   | FetchNewsListAction
   | SubscribePressAction
   | MoveGridAction

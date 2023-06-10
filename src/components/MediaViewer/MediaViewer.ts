@@ -1,4 +1,3 @@
-import { dispatch } from '@store/index';
 import { createElement } from '@utils/index';
 import { CategoryPress, PressInfo, TabOption, ViewerOption, currentCategoryPressInfo } from 'types';
 import { SubscribePressList } from '../../types/index';
@@ -25,21 +24,17 @@ interface MediaViewerState {
 }
 
 export default class MediaViewer {
-  public readonly element = createElement('DIV');
+  public readonly element = createElement('DIV', { class: 'mediaViewer' });
   private gridViewer = new GridViewer();
   private listViewer = new ListViewer();
   private state: MediaViewerState = {
     tabOption: null,
     viewerOption: null,
     startIndex: null,
-    subscribePressList: {},
+    subscribePressList: [],
     categoryPressList: [],
     currentCategoryPress: { categoryIndex: null, pressIndex: null },
   };
-
-  constructor() {
-    this.componentDidMount();
-  }
 
   public render(mediaViewerProps: MediaViewerProps) {
     const { viewerOption, startIndex, subscribePressList, categoryPressList, currentCategoryPress } = mediaViewerProps;
@@ -73,13 +68,6 @@ export default class MediaViewer {
         break;
       }
     }
-  }
-
-  private componentDidMount() {
-    dispatch({
-      type: 'GET_SUBSCRIBE_PRESS_LIST',
-      payload: { subscribePressList: JSON.parse(localStorage.getItem('subscribePressList') || '{}') },
-    });
   }
 
   private dropPrevMediaViewer() {

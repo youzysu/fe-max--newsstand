@@ -20,14 +20,7 @@ export interface GridViewerPress {
   [key: number]: PressInfo[];
 }
 
-export interface SubscribePressList {
-  [key: string]: boolean;
-}
-
-export interface CategoryPress {
-  categoryName: string;
-  pressList: PressArticleInfo[];
-}
+export type SubscribePressList = string[];
 
 export interface ArticleInfo {
   title: string;
@@ -62,6 +55,11 @@ export interface NewsStandState {
   subscribePressList: SubscribePressList;
   categoryPressList: CategoryPress[];
   currentCategoryPress: currentCategoryPressInfo;
+}
+
+export interface CategoryPress {
+  categoryName: string;
+  pressList: PressArticleInfo[];
 }
 
 export interface currentCategoryPressInfo {

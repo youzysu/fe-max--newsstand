@@ -21,7 +21,7 @@ export default class PressInfo {
   public render({ currentPress, subscribePressList }: PressInfoProps) {
     const { pressInfo, lastEdited } = currentPress;
     const currentPressName = pressInfo.name;
-    const isSubscribedPress = subscribePressList[currentPressName];
+    const isSubscribedPress = subscribePressList.includes(currentPressName);
 
     this.setPressIcon(pressInfo);
     this.setLastEditedTime(lastEdited);

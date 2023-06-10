@@ -7,12 +7,12 @@ import { getNextCategoryPress, getPrevCategoryPress } from './utils';
 export const newsStandReducer = (state: NewsStandState, action: Action): NewsStandState => {
   switch (action.type) {
     case 'FETCH_ARTICLE_LIST_SUCCESS': {
-      const { categoryPressList } = action.payload;
+      const { categoryPressList, pressArticleMap } = action.payload;
       const shufflePressList = categoryPressList.map((category) => {
         const shuffled = (category.pressList = shuffleArray(category.pressList));
         return { categoryName: category.categoryName, pressList: shuffled };
       });
-      const newState = { ...state, categoryPressList: shufflePressList };
+      const newState = { ...state, categoryPressList: shufflePressList, pressArticleMap: pressArticleMap };
       return newState;
     }
     case 'FETCH_NEWS_LIST_SUCCESS': {
@@ -20,7 +20,7 @@ export const newsStandReducer = (state: NewsStandState, action: Action): NewsSta
       const newState = { ...state, trendNewsList: trendNewsList };
       return newState;
     }
-    case 'FETCH_PRESS_LIST_SUCCESS': {
+    case 'FETCH_GRID_PRESS_LIST_SUCCESS': {
       const { pressIconList } = action.payload;
       const newState = { ...state, pressIconList: shuffleArray(pressIconList) };
       return newState;
@@ -32,10 +32,13 @@ export const newsStandReducer = (state: NewsStandState, action: Action): NewsSta
     }
     case 'CHANGE_PRESS_SUBSCRIBING': {
       const { pressName } = action.payload;
-      const prevSubscribeState: boolean = state.subscribePressList[pressName];
+      const prevSubscribeState: boolean = state.subscribePressList.includes(pressName);
+      const updatedSubscribeState = prevSubscribeState
+        ? state.subscribePressList.filter((name) => name !== pressName)
+        : [...state.subscribePressList, pressName];
       const newState = {
         ...state,
-        subscribePressList: { ...state.subscribePressList, [pressName]: !prevSubscribeState },
+        subscribePressList: [...updatedSubscribeState],
       };
       return newState;
     }

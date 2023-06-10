@@ -1,4 +1,4 @@
-import { getState } from '@store/index';
+import { dispatch, getState } from '@store/index';
 import { createElement } from '@utils/index';
 import { NewsStandState } from 'types';
 import Header from './Header';
@@ -16,6 +16,7 @@ export default class NewsStand {
 
   constructor() {
     this.element.append(this.header.element, this.newsBar.element, this.tabViewer.element, this.mediaViewer.element);
+    this.componentDidMount();
     this.setEvent();
   }
 
@@ -43,6 +44,13 @@ export default class NewsStand {
 
   private setEvent() {
     window.addEventListener('beforeunload', this.saveSubscribePressList);
+  }
+
+  private componentDidMount() {
+    dispatch({
+      type: 'GET_SUBSCRIBE_PRESS_LIST',
+      payload: { subscribePressList: JSON.parse(localStorage.getItem('subscribePressList') || '[]') },
+    });
   }
 
   private saveSubscribePressList() {
