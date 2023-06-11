@@ -10,23 +10,16 @@ interface TabViewerProps {
 }
 
 export default class TabViewer {
-  private element;
-  private tab;
-  private viewer;
+  public readonly element = createElement('DIV', { class: styles.tabViewer });
+  private tab = new Tab();
+  private viewer = new Viewer();
 
   constructor() {
-    this.element = createElement('DIV', { class: styles.tabViewer });
-    this.tab = new Tab();
-    this.viewer = new Viewer();
-    this.element.append(this.tab.getElement(), this.viewer.getElement());
+    this.element.append(this.tab.element, this.viewer.element);
   }
 
   public render({ tabOption, viewerOption }: TabViewerProps) {
     this.tab.render({ tabOption });
     this.viewer.render({ viewerOption });
-  }
-
-  public getElement() {
-    return this.element;
   }
 }

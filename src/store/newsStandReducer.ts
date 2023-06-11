@@ -2,12 +2,17 @@ import { PRESS_COUNT_OF_GRID_TABLE } from '@constant/index';
 import { shuffleArray } from '@utils/index';
 import { NewsStandState } from 'types';
 import { Action } from 'types/Action';
+import { getNextCategoryPress, getPrevCategoryPress } from './utils';
 
 export const newsStandReducer = (state: NewsStandState, action: Action): NewsStandState => {
   switch (action.type) {
     case 'FETCH_ARTICLE_LIST_SUCCESS': {
       const { categoryPressList } = action.payload;
-      const newState = { ...state, categoryPressList: categoryPressList };
+      const shufflePressList = categoryPressList.map((category) => {
+        const shuffled = (category.pressList = shuffleArray(category.pressList));
+        return { categoryName: category.categoryName, pressList: shuffled };
+      });
+      const newState = { ...state, categoryPressList: shufflePressList };
       return newState;
     }
     case 'FETCH_NEWS_LIST_SUCCESS': {
@@ -43,6 +48,33 @@ export const newsStandReducer = (state: NewsStandState, action: Action): NewsSta
       const newState = { ...state, gridPressStartIndex: nextStartIndex };
 
       return newState;
+    }
+    case 'MOVE_CATEGORY': {
+      const { categoryId } = action.payload;
+      const nextCategoryPress = { categoryIndex: Number(categoryId), pressIndex: 0 };
+      const newState = { ...state, currentCategoryPress: nextCategoryPress };
+
+      return newState;
+    }
+    case 'MOVE_LIST': {
+      const { type } = action.payload;
+      switch (type) {
+        case 'right': {
+          const { currentCategoryPress, categoryPressList } = state;
+          const nextCategoryPress = getNextCategoryPress(currentCategoryPress, categoryPressList);
+
+          const newState = { ...state, currentCategoryPress: nextCategoryPress };
+          return newState;
+        }
+        case 'left': {
+          const { currentCategoryPress, categoryPressList } = state;
+          const prevCategoryPress = getPrevCategoryPress(currentCategoryPress, categoryPressList);
+
+          const newState = { ...state, currentCategoryPress: prevCategoryPress };
+          return newState;
+        }
+      }
+      break;
     }
     case 'ROLLING_NEWS': {
       const { type } = action.payload;

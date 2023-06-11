@@ -8,7 +8,7 @@ interface ViewerProps {
 }
 
 export default class Viewer {
-  private element;
+  public readonly element;
   private gridViewerButton;
   private listViewerButton;
 
@@ -40,9 +40,5 @@ export default class Viewer {
         this.listViewerButton.classList.add(styles.active);
         break;
     }
-  }
-
-  public getElement() {
-    return this.element;
   }
 }

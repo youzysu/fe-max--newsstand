@@ -26,15 +26,20 @@ export interface SubscribePressList {
 
 export interface CategoryPress {
   categoryName: string;
-  pressList: PressList[];
+  pressList: PressArticleInfo[];
 }
 
-interface PressList {
+export interface ArticleInfo {
+  title: string;
+  link: string;
+}
+
+export interface PressArticleInfo {
   pressInfo: { icon: string; name: string };
   lastEdited: string;
   thumbnail: { img: string; title: string };
-  mainArticle: { title: string; link: string };
-  subArticleList: { title: string; link: string }[];
+  mainArticle: ArticleInfo;
+  subArticleList: ArticleInfo[];
 }
 
 export type AllTab = 'all';
@@ -69,6 +74,7 @@ export type Subscriber = (state: NewsStandState) => void;
 export interface DefaultAttributeNames {
   class?: string;
   id?: string;
+  style?: string;
 }
 
 export interface HtmlAttributes {
@@ -90,4 +96,8 @@ export interface HtmlAttributes {
   SPAN: DefaultAttributeNames;
   HEADER: DefaultAttributeNames;
   H1: DefaultAttributeNames;
+  H3: DefaultAttributeNames;
+  UL: DefaultAttributeNames;
+  LI: DefaultAttributeNames;
+  ARTICLE: DefaultAttributeNames;
 }

@@ -8,19 +8,14 @@ import styles from './NewsStand.module.css';
 import TabViewer from './TabViewer';
 
 export default class NewsStand {
-  private element = createElement('DIV', { class: styles.newsStand });
+  public readonly element = createElement('DIV', { class: styles.newsStand });
   private header = new Header();
   private newsBar = new NewsBar();
   private tabViewer = new TabViewer();
   private mediaViewer = new MediaViewer();
 
   constructor() {
-    this.element.append(
-      this.header.getElement(),
-      this.newsBar.getElement(),
-      this.tabViewer.getElement(),
-      this.mediaViewer.getElement()
-    );
+    this.element.append(this.header.element, this.newsBar.element, this.tabViewer.element, this.mediaViewer.element);
     this.setEvent();
   }
 
@@ -53,9 +48,5 @@ export default class NewsStand {
   private saveSubscribePressList() {
     const subscribePressList = getState().subscribePressList;
     localStorage.setItem('subscribePressList', JSON.stringify(subscribePressList));
-  }
-
-  public getElement() {
-    return this.element;
   }
 }

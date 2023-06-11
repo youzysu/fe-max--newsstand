@@ -8,16 +8,13 @@ interface TabProps {
 }
 
 export default class Tab {
-  private element;
-  private allTabButton;
-  private subscribeTabButton;
   private basicClassName = 'body-md';
   private activeClassName = `title-md ${styles.active}`;
+  public readonly element = createElement('DIV', { class: styles.tab });
+  private allTabButton = createElement('BUTTON', { class: this.basicClassName });
+  private subscribeTabButton = createElement('BUTTON', { class: this.basicClassName });
 
   constructor() {
-    this.element = createElement('DIV', { class: styles.tab });
-    this.allTabButton = createElement('BUTTON', { class: this.basicClassName });
-    this.subscribeTabButton = createElement('BUTTON', { class: this.basicClassName });
     this.element.append(this.allTabButton, this.subscribeTabButton);
     this.setButtons();
     this.setEvent();
@@ -45,9 +42,5 @@ export default class Tab {
       this.allTabButton.className = this.basicClassName;
       this.subscribeTabButton.className = this.activeClassName;
     }
-  }
-
-  public getElement() {
-    return this.element;
   }
 }

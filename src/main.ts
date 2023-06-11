@@ -15,7 +15,7 @@ const main = () => {
   };
 
   register(updateNewsStand);
-  app.append(newsStand.getElement());
+  app.append(newsStand.element);
 };
 
 main();

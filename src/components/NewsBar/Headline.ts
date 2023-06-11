@@ -7,14 +7,11 @@ interface HeadlineProps {
 }
 
 export default class Headline {
-  private element;
-  private press;
-  private newsLink;
+  public readonly element = createElement('DIV', { class: styles.headline });
+  private press = createElement('SPAN', { class: 'title-sm' });
+  private newsLink = createElement('A', { class: `body-sm ${styles.link}` });
 
   constructor() {
-    this.element = createElement('DIV', { class: styles.headline });
-    this.press = createElement('SPAN', { class: 'title-sm' });
-    this.newsLink = createElement('A', { class: `body-sm ${styles.link}` });
     this.element.append(this.press, this.newsLink);
   }
 
@@ -32,9 +29,5 @@ export default class Headline {
     if (this.newsLink.getAttribute('href') !== link) {
       this.newsLink.setAttribute('href', link);
     }
-  }
-
-  public getElement() {
-    return this.element;
   }
 }

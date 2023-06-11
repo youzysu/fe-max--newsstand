@@ -9,14 +9,14 @@ interface GridProps {
 }
 
 export default class Grid {
-  private element = createElement('TD', { class: styles.grid });
+  public readonly element = createElement('TD', { class: styles.grid });
   private pressIcon = createElement('IMG', { class: styles.pressIcon });
   private subscribeButton = new SubscribeButton();
   private overlay = createElement('DIV', { class: styles.overlay });
 
   constructor() {
     this.element.appendChild(this.pressIcon);
-    this.overlay.appendChild(this.subscribeButton.getElement());
+    this.overlay.appendChild(this.subscribeButton.element);
     this.setEvent();
   }
 
@@ -43,9 +43,5 @@ export default class Grid {
       this.setPressIcon(press);
     }
     this.subscribeButton.render({ pressName: press.name, isSubscribed: isSubscribed });
-  }
-
-  public getElement() {
-    return this.element;
   }
 }

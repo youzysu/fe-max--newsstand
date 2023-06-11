@@ -1,7 +1,7 @@
 import { fetchArticleList } from '@api/index';
 import { thunkDispatch } from '@store/index';
 import { createElement } from '@utils/index';
-import { CategoryPress, currentCategoryPressInfo } from 'types';
+import { CategoryPress, SubscribePressList, currentCategoryPressInfo } from 'types';
 import ViewerButton from '../ViewerButton/ViewerButton';
 import ListView from './ListView';
 import styles from './ListViewer.module.css';
@@ -9,16 +9,17 @@ import styles from './ListViewer.module.css';
 export interface ListViewerProps {
   categoryPressList: CategoryPress[];
   currentCategoryPress: currentCategoryPressInfo;
+  subscribePressList: SubscribePressList;
 }
 
 export default class ListViewer {
-  private element = createElement('DIV', { class: styles.listViewer });
+  public readonly element = createElement('DIV', { class: styles.listViewer });
   private listView = new ListView();
   private leftButton = new ViewerButton({ position: 'left', viewerType: 'list' });
   private rightButton = new ViewerButton({ position: 'right', viewerType: 'list' });
 
   constructor() {
-    this.element.append(this.leftButton.getElement(), this.listView.getElement(), this.rightButton.getElement());
+    this.element.append(this.leftButton.element, this.listView.element, this.rightButton.element);
     this.componentDidMount();
   }
 
@@ -26,11 +27,7 @@ export default class ListViewer {
     thunkDispatch(fetchArticleList());
   }
 
-  public render({ categoryPressList, currentCategoryPress }: ListViewerProps) {
-    this.listView.render({ categoryPressList, currentCategoryPress });
-  }
-
-  public getElement() {
-    return this.element;
+  public render(listViewerProps: ListViewerProps) {
+    this.listView.render(listViewerProps);
   }
 }

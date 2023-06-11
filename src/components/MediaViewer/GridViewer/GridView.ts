@@ -21,7 +21,7 @@ interface GridViewerState {
 export default class GridView {
   private GRID_ROW_COUNT = 4;
   private PRESS_COUNT_PER_ROW = PRESS_COUNT_OF_GRID_TABLE / this.GRID_ROW_COUNT;
-  private element = createElement('TABLE', { class: styles.gridTable });
+  public readonly element = createElement('TABLE', { class: styles.gridTable });
   private gridRows = Array.from({ length: this.GRID_ROW_COUNT }, () => createElement('TR', { class: styles.gridRow }));
   private grids = Array.from({ length: PRESS_COUNT_OF_GRID_TABLE }, () => new Grid());
   private state: GridViewerState = { startIndex: null, subscribePressList: {} };
@@ -53,7 +53,7 @@ export default class GridView {
   }
 
   private renderGridRows() {
-    const currentGridElements = this.grids.map((grid) => grid.getElement());
+    const currentGridElements = this.grids.map((grid) => grid.element);
 
     this.gridRows.forEach((gridRow, index) => {
       const curRowStartIndex = index * this.PRESS_COUNT_PER_ROW;
@@ -71,9 +71,5 @@ export default class GridView {
 
   private dropPrevGrids() {
     this.gridRows.forEach((gridRow) => (gridRow.innerHTML = ''));
-  }
-
-  public getElement() {
-    return this.element;
   }
 }

@@ -5,19 +5,19 @@ import styles from './ListViewer.module.css';
 import PressArticle from './PressArticle';
 
 export default class ListView {
-  private element = createElement('DIV', { class: styles.listView });
+  public readonly element = createElement('DIV', { class: styles.listView });
   private fieldTab = new FieldTab();
   private pressArticle = new PressArticle();
 
   constructor() {
-    this.element.append(this.fieldTab.getElement(), this.pressArticle.getElement());
+    this.element.append(this.fieldTab.element, this.pressArticle.element);
   }
 
-  public render({ categoryPressList, currentCategoryPress }: ListViewerProps) {
+  public render({ categoryPressList, currentCategoryPress, subscribePressList }: ListViewerProps) {
+    const currentCategory = categoryPressList[currentCategoryPress.categoryIndex];
+    const currentPress = currentCategory.pressList[currentCategoryPress.pressIndex];
+
     this.fieldTab.render({ categoryPressList, currentCategoryPress });
-  }
-
-  public getElement() {
-    return this.element;
+    this.pressArticle.render({ currentPress, subscribePressList });
   }
 }

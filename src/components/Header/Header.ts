@@ -6,14 +6,11 @@ interface HeaderProps {
 }
 
 export default class Header {
-  private element;
-  private title;
-  private date;
+  public readonly element = createElement('HEADER', { class: styles.header });
+  private title = createElement('A', { class: styles.title, href: '#' });
+  private date = createElement('SPAN', { class: `${styles.todaysDate} body-md` });
 
   constructor() {
-    this.element = createElement('HEADER', { class: styles.header });
-    this.title = createElement('A', { class: styles.title, href: '#' });
-    this.date = createElement('SPAN', { class: `${styles.todaysDate} body-md` });
     this.element.append(this.title, this.date);
     this.setTitle();
     this.setEvent();
@@ -45,9 +42,5 @@ export default class Header {
     if (this.date.textContent !== newDateFormat) {
       this.date.textContent = newDateFormat;
     }
-  }
-
-  public getElement() {
-    return this.element;
   }
 }

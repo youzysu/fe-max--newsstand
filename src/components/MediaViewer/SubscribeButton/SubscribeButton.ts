@@ -9,10 +9,9 @@ interface SubscribeButtonProps {
 }
 
 export default class SubscribeButton {
-  private element;
+  public readonly element = createElement('BUTTON', { class: styles.subscribeButton });
 
   constructor() {
-    this.element = createElement('BUTTON', { class: styles.subscribeButton });
     this.setEvent();
   }
 
@@ -37,9 +36,5 @@ export default class SubscribeButton {
     if (this.element.getAttribute('data-press-name') !== pressName) {
       this.setPressName(pressName);
     }
-  }
-
-  public getElement() {
-    return this.element;
   }
 }
