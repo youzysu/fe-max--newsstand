@@ -1,3 +1,4 @@
+import { dispatch, getState } from '@store/index';
 import { createElement } from '@utils/index';
 import { PressArticleInfo, SubscribePressList } from 'types';
 import subscribeButtonStyles from '../../SubscribeButton/SubscribeButton.module.css';
@@ -40,7 +41,14 @@ export default class PressArticle {
     if (target.classList.contains(`${subscribeButtonStyles.subscribed}`)) {
       this.element.append(this.snackbar);
     }
-    setTimeout(() => this.snackbar.remove(), 5000);
+    setTimeout(() => this.moveSubscribeTab(), 5000);
+  }
+
+  private moveSubscribeTab() {
+    const { subscribePressList } = getState();
+    const lastPressIndex = subscribePressList.length - 1;
+    this.snackbar.remove();
+    dispatch({ type: 'CHANGE_SUBSCRIBE_PRESS_TAB', payload: { pressId: lastPressIndex.toString() } });
   }
 
   private setSnackbar() {
