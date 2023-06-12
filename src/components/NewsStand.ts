@@ -39,6 +39,8 @@ export default class NewsStand {
       subscribePressList: state.subscribePressList,
       categoryPressList: state.categoryPressList,
       currentCategoryPress: state.currentCategoryPress,
+      pressArticleMap: state.pressArticleMap,
+      currentSubscribedPressIndex: state.currentSubscribedPressIndex,
     });
   }
 

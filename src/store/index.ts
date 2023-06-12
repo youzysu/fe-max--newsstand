@@ -17,6 +17,8 @@ const initialState: NewsStandState = {
     categoryIndex: 0,
     pressIndex: 0,
   },
+  pressArticleMap: new Map(),
+  currentSubscribedPressIndex: 0,
 };
 
 const createStore = (

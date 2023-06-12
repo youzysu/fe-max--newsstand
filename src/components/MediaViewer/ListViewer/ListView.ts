@@ -13,11 +13,34 @@ export default class ListView {
     this.element.append(this.fieldTab.element, this.pressArticle.element);
   }
 
-  public render({ categoryPressList, currentCategoryPress, subscribePressList }: ListViewerProps) {
+  public render(listViewerProps: ListViewerProps) {
+    const { tabOption } = listViewerProps;
+    switch (tabOption) {
+      case 'all': {
+        this.renderCategoryPress(listViewerProps);
+        break;
+      }
+      case 'subscribe': {
+        this.renderSubscribedPress(listViewerProps);
+        break;
+      }
+    }
+  }
+
+  private renderCategoryPress(listViewerProps: ListViewerProps) {
+    const { categoryPressList, currentCategoryPress, subscribePressList } = listViewerProps;
+    this.fieldTab.render(listViewerProps);
+
     const currentCategory = categoryPressList[currentCategoryPress.categoryIndex];
     const currentPress = currentCategory.pressList[currentCategoryPress.pressIndex];
+    this.pressArticle.render({ currentPress, subscribePressList });
+  }
 
-    this.fieldTab.render({ categoryPressList, currentCategoryPress });
+  private renderSubscribedPress(listViewerProps: ListViewerProps) {
+    const { pressArticleMap, currentSubscribedPressIndex, subscribePressList } = listViewerProps;
+    const currentPress = pressArticleMap.get(subscribePressList[currentSubscribedPressIndex]);
+
+    this.fieldTab.render(listViewerProps);
     this.pressArticle.render({ currentPress, subscribePressList });
   }
 }

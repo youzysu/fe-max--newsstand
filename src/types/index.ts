@@ -55,6 +55,8 @@ export interface NewsStandState {
   subscribePressList: SubscribePressList;
   categoryPressList: CategoryPress[];
   currentCategoryPress: currentCategoryPressInfo;
+  pressArticleMap: Map<string, PressArticleInfo>;
+  currentSubscribedPressIndex: number;
 }
 
 export interface CategoryPress {

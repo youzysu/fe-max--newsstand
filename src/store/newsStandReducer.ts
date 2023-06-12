@@ -6,6 +6,23 @@ import { getNextCategoryPress, getPrevCategoryPress } from './utils';
 
 export const newsStandReducer = (state: NewsStandState, action: Action): NewsStandState => {
   switch (action.type) {
+    case 'CHANGE_SUBSCRIBE_PRESS_TAB': {
+      const { pressId } = action.payload;
+      const newState = { ...state, currentSubscribedPressIndex: Number(pressId) };
+      return newState;
+    }
+    case 'MOVE_SUBSCRIBE_PRESS_LIST': {
+      const { type } = action.payload;
+      const isRightMoving = type === 'right';
+      const nextSubscribePressIndex = isRightMoving
+        ? state.currentSubscribedPressIndex + 1
+        : state.currentSubscribedPressIndex - 1;
+      const newState = {
+        ...state,
+        currentSubscribedPressIndex: nextSubscribePressIndex % state.subscribePressList.length,
+      };
+      return newState;
+    }
     case 'FETCH_ARTICLE_LIST_SUCCESS': {
       const { categoryPressList, pressArticleMap } = action.payload;
       const shufflePressList = categoryPressList.map((category) => {
@@ -95,7 +112,8 @@ export const newsStandReducer = (state: NewsStandState, action: Action): NewsSta
     }
     case 'CHANGE_TAB': {
       const { tabOption } = action.payload;
-      const newState = { ...state, tabOption: tabOption };
+      const viewerOption = tabOption === 'all' ? ('grid' as const) : ('list' as const);
+      const newState = { ...state, tabOption: tabOption, viewerOption: viewerOption };
       return newState;
     }
     case 'CHANGE_VIEWER': {

@@ -76,11 +76,23 @@ interface MoveCategoryAction {
   payload: { categoryId: string };
 }
 
+interface MoveSubscribePressListAction {
+  type: 'MOVE_SUBSCRIBE_PRESS_LIST';
+  payload: PositionType;
+}
+
+interface ChangeSubscribePressTabAction {
+  type: 'CHANGE_SUBSCRIBE_PRESS_TAB';
+  payload: { pressId: string };
+}
+
 export type Dispatch = (action: Action) => void;
 
 export type ThunkAction = (dispatch: Dispatch) => void;
 
 export type Action =
+  | ChangeSubscribePressTabAction
+  | MoveSubscribePressListAction
   | MoveCategoryAction
   | MoveListAction
   | FetchArticleListAction

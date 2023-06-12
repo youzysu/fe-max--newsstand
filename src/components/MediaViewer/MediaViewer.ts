@@ -1,5 +1,5 @@
 import { createElement } from '@utils/index';
-import { CategoryPress, PressInfo, TabOption, ViewerOption, currentCategoryPressInfo } from 'types';
+import { CategoryPress, PressArticleInfo, PressInfo, TabOption, ViewerOption, currentCategoryPressInfo } from 'types';
 import { SubscribePressList } from '../../types/index';
 import GridViewer from './GridViewer';
 import ListViewer from './ListViewer';
@@ -12,6 +12,8 @@ interface MediaViewerProps {
   subscribePressList: SubscribePressList;
   categoryPressList: CategoryPress[];
   currentCategoryPress: currentCategoryPressInfo;
+  pressArticleMap: Map<string, PressArticleInfo>;
+  currentSubscribedPressIndex: number;
 }
 
 interface MediaViewerState {
@@ -21,6 +23,7 @@ interface MediaViewerState {
   subscribePressList: SubscribePressList;
   categoryPressList: CategoryPress[] | [];
   currentCategoryPress: { categoryIndex: number | null; pressIndex: number | null };
+  currentSubscribedPressIndex: number | null;
 }
 
 export default class MediaViewer {
@@ -34,17 +37,28 @@ export default class MediaViewer {
     subscribePressList: [],
     categoryPressList: [],
     currentCategoryPress: { categoryIndex: null, pressIndex: null },
+    currentSubscribedPressIndex: null,
   };
 
   public render(mediaViewerProps: MediaViewerProps) {
-    const { viewerOption, startIndex, subscribePressList, categoryPressList, currentCategoryPress } = mediaViewerProps;
+    const {
+      tabOption,
+      viewerOption,
+      startIndex,
+      subscribePressList,
+      categoryPressList,
+      currentCategoryPress,
+      currentSubscribedPressIndex,
+    } = mediaViewerProps;
 
     if (
+      this.state.tabOption !== tabOption ||
       this.state.viewerOption !== viewerOption ||
       this.state.startIndex !== startIndex ||
       this.state.subscribePressList !== subscribePressList ||
       this.state.categoryPressList !== categoryPressList ||
-      this.state.currentCategoryPress !== currentCategoryPress
+      this.state.currentCategoryPress !== currentCategoryPress ||
+      this.state.currentSubscribedPressIndex !== currentSubscribedPressIndex
     ) {
       this.renderViewer(mediaViewerProps);
       this.state = mediaViewerProps;
@@ -52,17 +66,16 @@ export default class MediaViewer {
   }
 
   private renderViewer(mediaViewerProps: MediaViewerProps) {
-    const { viewerOption, pressList, startIndex, subscribePressList, categoryPressList, currentCategoryPress } =
-      mediaViewerProps;
+    const { viewerOption } = mediaViewerProps;
     switch (viewerOption) {
       case 'grid': {
-        this.gridViewer.render({ pressList, startIndex, subscribePressList });
+        this.gridViewer.render(mediaViewerProps);
         this.dropPrevMediaViewer();
         this.element.appendChild(this.gridViewer.element);
         break;
       }
       case 'list': {
-        this.listViewer.render({ categoryPressList, currentCategoryPress, subscribePressList });
+        this.listViewer.render(mediaViewerProps);
         this.dropPrevMediaViewer();
         this.element.appendChild(this.listViewer.element);
         break;

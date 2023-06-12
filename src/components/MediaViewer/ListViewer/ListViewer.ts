@@ -1,15 +1,18 @@
 import { fetchArticleList } from '@api/index';
 import { thunkDispatch } from '@store/index';
 import { createElement } from '@utils/index';
-import { CategoryPress, SubscribePressList, currentCategoryPressInfo } from 'types';
+import { CategoryPress, PressArticleInfo, SubscribePressList, TabOption, currentCategoryPressInfo } from 'types';
 import ViewerButton from '../ViewerButton/ViewerButton';
 import ListView from './ListView';
 import styles from './ListViewer.module.css';
 
 export interface ListViewerProps {
+  tabOption: TabOption;
   categoryPressList: CategoryPress[];
+  pressArticleMap: Map<string, PressArticleInfo>;
   currentCategoryPress: currentCategoryPressInfo;
   subscribePressList: SubscribePressList;
+  currentSubscribedPressIndex: number;
 }
 
 export default class ListViewer {
