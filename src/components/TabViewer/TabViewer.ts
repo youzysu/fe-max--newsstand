@@ -11,8 +11,8 @@ interface TabViewerProps {
 
 export default class TabViewer {
   public readonly element = createElement('DIV', { class: styles.tabViewer });
-  private tab = new Tab();
-  private viewer = new Viewer();
+  public readonly tab = new Tab();
+  public readonly viewer = new Viewer();
 
   constructor() {
     this.element.append(this.tab.element, this.viewer.element);

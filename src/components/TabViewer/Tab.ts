@@ -11,8 +11,8 @@ export default class Tab {
   private basicClassName = 'body-md';
   private activeClassName = `title-md ${styles.active}`;
   public readonly element = createElement('DIV', { class: styles.tab });
-  private allTabButton = createElement('BUTTON', { class: this.basicClassName });
-  private subscribeTabButton = createElement('BUTTON', { class: this.basicClassName });
+  public readonly allTabButton = createElement('BUTTON', { class: this.basicClassName });
+  public readonly subscribeTabButton = createElement('BUTTON', { class: this.basicClassName });
 
   constructor() {
     this.element.append(this.allTabButton, this.subscribeTabButton);

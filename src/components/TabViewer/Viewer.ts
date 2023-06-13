@@ -9,8 +9,8 @@ interface ViewerProps {
 
 export default class Viewer {
   public readonly element;
-  private gridViewerButton;
-  private listViewerButton;
+  public readonly gridViewerButton;
+  public readonly listViewerButton;
 
   constructor() {
     this.element = createElement('DIV', { class: styles.viewer });
