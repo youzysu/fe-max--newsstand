@@ -13,7 +13,7 @@ interface GridViewerProps {
   subscribePressList: SubscribePressList;
 }
 
-export default class GridView {
+export default class GridViewer {
   private GRID_ROW_COUNT = 4;
   private PRESS_COUNT_PER_ROW = PRESS_COUNT_OF_GRID_TABLE / this.GRID_ROW_COUNT;
   public readonly element = createElement('TABLE', { class: styles.gridTable });
