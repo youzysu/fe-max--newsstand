@@ -1,5 +1,5 @@
 import { fetchTrendNewsList } from '@api/index';
-import { thunkDispatch } from '@store/index';
+import { dispatch } from '@store/index';
 import { createElement } from '@utils/index';
 import { TrendNews } from 'types';
 import AutoRollingNews from './AutoRollingNews';
@@ -28,7 +28,7 @@ export default class NewsBar {
 
   private componentDidMount() {
     requestAnimationFrame((timeStamp: number) => this.autoRolling(timeStamp));
-    thunkDispatch(fetchTrendNewsList());
+    dispatch(fetchTrendNewsList());
   }
 
   private autoRolling(timeStamp: number) {

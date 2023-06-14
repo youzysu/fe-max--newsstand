@@ -6,11 +6,6 @@ import { getNextCategoryPress, getPrevCategoryPress } from './utils';
 
 export const newsStandReducer = (state: NewsStandState, action: Action): NewsStandState => {
   switch (action.type) {
-    case 'CHANGE_SUBSCRIBE_PRESS_TAB': {
-      const { pressId } = action.payload;
-      const newState = { ...state, tabOption: 'subscribe' as const, currentSubscribedPressIndex: Number(pressId) };
-      return newState;
-    }
     case 'MOVE_SUBSCRIBE_PRESS_LIST': {
       const { type } = action.payload;
       const isRightMoving = type === 'right';
@@ -19,7 +14,10 @@ export const newsStandReducer = (state: NewsStandState, action: Action): NewsSta
         : state.currentSubscribedPressIndex - 1;
       const newState = {
         ...state,
-        currentSubscribedPressIndex: nextSubscribePressIndex % state.subscribePressList.length,
+        currentSubscribedPressIndex:
+          nextSubscribePressIndex < 0
+            ? state.subscribePressList.length - 1
+            : nextSubscribePressIndex % state.subscribePressList.length,
       };
       return newState;
     }
@@ -67,6 +65,12 @@ export const newsStandReducer = (state: NewsStandState, action: Action): NewsSta
           : state.gridPressStartIndex + PRESS_COUNT_OF_GRID_TABLE;
       const newState = { ...state, gridPressStartIndex: nextStartIndex };
 
+      return newState;
+    }
+    // Refactor: 아래 둘 합치기
+    case 'CHANGE_SUBSCRIBE_PRESS_TAB': {
+      const { pressId } = action.payload;
+      const newState = { ...state, tabOption: 'subscribe' as const, currentSubscribedPressIndex: Number(pressId) };
       return newState;
     }
     case 'MOVE_CATEGORY': {

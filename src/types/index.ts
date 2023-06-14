@@ -48,8 +48,8 @@ export interface NewsStandState {
   trendNewsList: TrendNews[];
   leftNewsIndex: number;
   rightNewsIndex: number;
-  tabOption: TabOption;
-  viewerOption: ViewerOption;
+  tabOption: TabOption | null;
+  viewerOption: ViewerOption | null;
   pressIconList: PressInfo[];
   gridPressStartIndex: number;
   subscribePressList: SubscribePressList;

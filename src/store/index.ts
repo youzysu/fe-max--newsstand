@@ -8,16 +8,16 @@ const initialState: NewsStandState = {
   pressIconList: [],
   leftNewsIndex: 0,
   rightNewsIndex: 1,
-  tabOption: 'all',
-  viewerOption: 'grid',
+  tabOption: null,
+  viewerOption: null,
   gridPressStartIndex: 0,
-  subscribePressList: [],
   categoryPressList: [],
+  pressArticleMap: new Map(),
   currentCategoryPress: {
     categoryIndex: 0,
     pressIndex: 0,
   },
-  pressArticleMap: new Map(),
+  subscribePressList: [],
   currentSubscribedPressIndex: 0,
 };
 
@@ -41,17 +41,14 @@ const createStore = (
 
   const thunk = (next: Dispatch) => (action: Action | ThunkAction) => {
     if (typeof action === 'function') {
-      return action(dispatch);
+      return action(next);
     }
     return next(action);
   };
 
   const thunkDispatch = thunk(dispatch);
 
-  return { getState, dispatch, register, thunkDispatch };
+  return { getState, register, dispatch: thunkDispatch };
 };
 
-export const { getState, dispatch, register, thunkDispatch } = createStore(
-  newsStandReducer,
-  Object.freeze(initialState)
-);
+export const { getState, dispatch, register } = createStore(newsStandReducer, Object.freeze(initialState));

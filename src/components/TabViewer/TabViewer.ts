@@ -1,3 +1,4 @@
+import { dispatch } from '@store/index';
 import { createElement } from '@utils/index';
 import { TabOption, ViewerOption } from 'types';
 import Tab from './Tab';
@@ -16,6 +17,11 @@ export default class TabViewer {
 
   constructor() {
     this.element.append(this.tab.element, this.viewer.element);
+    this.componentDidMount();
+  }
+
+  private componentDidMount() {
+    dispatch({ type: 'CHANGE_TAB', payload: { tabOption: 'all' } });
   }
 
   public render({ tabOption, viewerOption }: TabViewerProps) {

@@ -40,8 +40,8 @@ export default class PressArticle {
   private showSnackbar(target: HTMLElement) {
     if (target.classList.contains(`${subscribeButtonStyles.subscribed}`)) {
       this.element.append(this.snackbar);
+      setTimeout(() => this.moveSubscribeTab(), 5000);
     }
-    setTimeout(() => this.moveSubscribeTab(), 5000);
   }
 
   private moveSubscribeTab() {

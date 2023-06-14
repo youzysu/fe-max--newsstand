@@ -3,6 +3,8 @@ import { CategoryPress, PressArticleInfo, PressInfo, TabOption, ViewerOption, cu
 import { SubscribePressList } from '../../types/index';
 import GridViewer from './GridViewer';
 import ListViewer from './ListViewer';
+import styles from './MediaViewer.module.css';
+import ViewerButton from './ViewerButton/ViewerButton';
 
 interface MediaViewerProps {
   tabOption: TabOption;
@@ -16,74 +18,39 @@ interface MediaViewerProps {
   currentSubscribedPressIndex: number;
 }
 
-interface MediaViewerState {
-  tabOption: TabOption | null;
-  viewerOption: ViewerOption | null;
-  startIndex: number | null;
-  subscribePressList: SubscribePressList;
-  categoryPressList: CategoryPress[] | [];
-  currentCategoryPress: { categoryIndex: number | null; pressIndex: number | null };
-  currentSubscribedPressIndex: number | null;
-}
-
 export default class MediaViewer {
-  public readonly element = createElement('DIV', { class: 'mediaViewer' });
+  public readonly element = createElement('DIV', { class: styles.mediaViewer });
   private gridViewer = new GridViewer();
   private listViewer = new ListViewer();
-  private state: MediaViewerState = {
-    tabOption: null,
-    viewerOption: null,
-    startIndex: null,
-    subscribePressList: [],
-    categoryPressList: [],
-    currentCategoryPress: { categoryIndex: null, pressIndex: null },
-    currentSubscribedPressIndex: null,
-  };
+  private leftButton = new ViewerButton({
+    position: 'left',
+  });
+  private rightButton = new ViewerButton({
+    position: 'right',
+  });
+  private currentViewer: GridViewer | ListViewer | null = null;
+
+  constructor() {
+    this.element.append(this.leftButton.element, this.rightButton.element);
+  }
 
   public render(mediaViewerProps: MediaViewerProps) {
-    const {
-      tabOption,
-      viewerOption,
-      startIndex,
-      subscribePressList,
-      categoryPressList,
-      currentCategoryPress,
-      currentSubscribedPressIndex,
-    } = mediaViewerProps;
-
-    if (
-      this.state.tabOption !== tabOption ||
-      this.state.viewerOption !== viewerOption ||
-      this.state.startIndex !== startIndex ||
-      this.state.subscribePressList !== subscribePressList ||
-      this.state.categoryPressList !== categoryPressList ||
-      this.state.currentCategoryPress !== currentCategoryPress ||
-      this.state.currentSubscribedPressIndex !== currentSubscribedPressIndex
-    ) {
-      this.renderViewer(mediaViewerProps);
-      this.state = mediaViewerProps;
-    }
-  }
-
-  private renderViewer(mediaViewerProps: MediaViewerProps) {
+    const viewer = {
+      grid: this.gridViewer,
+      list: this.listViewer,
+    };
     const { viewerOption } = mediaViewerProps;
-    switch (viewerOption) {
-      case 'grid': {
-        this.gridViewer.render(mediaViewerProps);
-        this.dropPrevMediaViewer();
-        this.element.appendChild(this.gridViewer.element);
-        break;
-      }
-      case 'list': {
-        this.listViewer.render(mediaViewerProps);
-        this.dropPrevMediaViewer();
-        this.element.appendChild(this.listViewer.element);
-        break;
-      }
-    }
+    this.currentViewer = viewer[viewerOption];
+
+    this.currentViewer.render(mediaViewerProps);
+    this.leftButton.render(mediaViewerProps);
+    this.rightButton.render(mediaViewerProps);
+
+    this.dropPrevViewer();
+    this.element.append(this.leftButton.element, this.currentViewer.element, this.rightButton.element);
   }
 
-  private dropPrevMediaViewer() {
+  private dropPrevViewer() {
     this.element.innerHTML = '';
   }
 }

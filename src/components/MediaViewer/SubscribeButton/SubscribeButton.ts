@@ -9,7 +9,7 @@ interface SubscribeButtonProps {
 }
 
 export default class SubscribeButton {
-  public readonly element = createElement('BUTTON', { class: styles.subscribeButton });
+  public readonly element = createElement('BUTTON', { class: styles.subscribe });
 
   constructor() {
     this.setEvent();

@@ -1,4 +1,4 @@
-.subscribeButton {
+.subscribe {
   background-image: url('/public/SubscribeButton.svg');
   background-repeat: no-repeat;
   width: 74px;
@@ -6,5 +6,13 @@
 }
 
 .subscribed {
+  width: 74px;
+  height: 24px;
   background-image: url('/public/SubscribedButton.svg');
+}
+
+.cancel {
+  width: 1.5rem;
+  height: 1.5rem;
+  background-image: url('/public/Cancel.svg');
 }

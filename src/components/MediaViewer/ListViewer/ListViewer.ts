@@ -1,12 +1,12 @@
 import { fetchArticleList } from '@api/index';
-import { thunkDispatch } from '@store/index';
+import { dispatch } from '@store/index';
 import { createElement } from '@utils/index';
 import { CategoryPress, PressArticleInfo, SubscribePressList, TabOption, currentCategoryPressInfo } from 'types';
-import ViewerButton from '../ViewerButton/ViewerButton';
-import ListView from './ListView';
+import FieldTab from './FieldTab';
 import styles from './ListViewer.module.css';
+import PressArticle from './PressArticle';
 
-export interface ListViewerProps {
+interface ListViewerProps {
   tabOption: TabOption;
   categoryPressList: CategoryPress[];
   pressArticleMap: Map<string, PressArticleInfo>;
@@ -15,22 +15,49 @@ export interface ListViewerProps {
   currentSubscribedPressIndex: number;
 }
 
-export default class ListViewer {
+export default class ListView {
   public readonly element = createElement('DIV', { class: styles.listViewer });
-  private listView = new ListView();
-  private leftButton = new ViewerButton({ position: 'left', viewerType: 'list' });
-  private rightButton = new ViewerButton({ position: 'right', viewerType: 'list' });
+  private fieldTab = new FieldTab();
+  private pressArticle = new PressArticle();
 
   constructor() {
-    this.element.append(this.leftButton.element, this.listView.element, this.rightButton.element);
+    this.element.append(this.fieldTab.element, this.pressArticle.element);
     this.componentDidMount();
   }
 
   private componentDidMount() {
-    thunkDispatch(fetchArticleList());
+    dispatch(fetchArticleList());
   }
 
   public render(listViewerProps: ListViewerProps) {
-    this.listView.render(listViewerProps);
+    const { tabOption } = listViewerProps;
+
+    switch (tabOption) {
+      case 'all': {
+        this.renderCategoryPress(listViewerProps);
+        break;
+      }
+      case 'subscribe': {
+        this.renderSubscribedPress(listViewerProps);
+        break;
+      }
+    }
+  }
+
+  private renderCategoryPress(listViewerProps: ListViewerProps) {
+    const { tabOption, categoryPressList, currentCategoryPress, subscribePressList } = listViewerProps;
+    this.fieldTab.render(listViewerProps);
+
+    const currentCategory = categoryPressList[currentCategoryPress.categoryIndex];
+    const currentPress = currentCategory.pressList[currentCategoryPress.pressIndex];
+    this.pressArticle.render({ tabOption, currentPress, subscribePressList });
+  }
+
+  private renderSubscribedPress(listViewerProps: ListViewerProps) {
+    const { tabOption, pressArticleMap, currentSubscribedPressIndex, subscribePressList } = listViewerProps;
+    const currentPress = pressArticleMap.get(subscribePressList[currentSubscribedPressIndex]);
+
+    this.fieldTab.render(listViewerProps);
+    this.pressArticle.render({ tabOption, currentPress, subscribePressList });
   }
 }

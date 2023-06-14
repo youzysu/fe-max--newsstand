@@ -49,7 +49,9 @@ export default class CategoryTab {
       () => dispatch({ type: 'MOVE_CATEGORY', payload: { categoryId: this.element.dataset.categoryId! } }),
       { once: true }
     );
-    this.element.addEventListener('animationend', () => dispatch({ type: 'MOVE_LIST', payload: { type: 'right' } }));
+    this.element.addEventListener('animationend', () => dispatch({ type: 'MOVE_LIST', payload: { type: 'right' } }), {
+      once: true,
+    });
   }
 
   private setCategoryName({ categoryId, categoryPress }: { categoryId: number; categoryPress: CategoryPress }) {

@@ -1,5 +1,5 @@
 import NewsStand from './components/NewsStand';
-import { register } from './store';
+import { getState, register } from './store';
 import './styles/style.css';
 import { NewsStandState } from './types';
 
@@ -9,7 +9,8 @@ const main = () => {
     throw new Error('App element is not found.');
   }
 
-  const newsStand = new NewsStand();
+  const initialState = getState();
+  const newsStand = new NewsStand(initialState);
   const updateNewsStand = (newState: NewsStandState) => {
     newsStand.render(newState);
   };
