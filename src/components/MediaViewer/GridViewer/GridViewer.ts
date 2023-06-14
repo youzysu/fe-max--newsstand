@@ -13,18 +13,12 @@ interface GridViewerProps {
   subscribePressList: SubscribePressList;
 }
 
-interface GridViewerState {
-  startIndex: number | null;
-  subscribePressList: SubscribePressList;
-}
-
 export default class GridView {
   private GRID_ROW_COUNT = 4;
   private PRESS_COUNT_PER_ROW = PRESS_COUNT_OF_GRID_TABLE / this.GRID_ROW_COUNT;
   public readonly element = createElement('TABLE', { class: styles.gridTable });
   private gridRows = Array.from({ length: this.GRID_ROW_COUNT }, () => createElement('TR', { class: styles.gridRow }));
   private grids = Array.from({ length: PRESS_COUNT_OF_GRID_TABLE }, () => new Grid());
-  private state: GridViewerState = { startIndex: null, subscribePressList: [] };
 
   constructor() {
     this.element.append(...this.gridRows);
@@ -39,17 +33,9 @@ export default class GridView {
     const endIndex = startIndex + PRESS_COUNT_OF_GRID_TABLE;
     const currentPressList = pressList.slice(startIndex, endIndex);
 
-    if (this.state.startIndex !== startIndex) {
-      this.renderGrids(currentPressList, subscribePressList);
-      this.dropPrevGrids();
-      this.renderGridRows();
-      this.state.startIndex = startIndex;
-    }
-
-    if (this.state.subscribePressList !== subscribePressList) {
-      this.renderGrids(currentPressList, subscribePressList);
-      this.state.subscribePressList = subscribePressList;
-    }
+    this.renderGrids(currentPressList, subscribePressList);
+    this.dropPrevGrids();
+    this.renderGridRows();
   }
 
   private renderGridRows() {
