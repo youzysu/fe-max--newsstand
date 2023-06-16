@@ -47,6 +47,9 @@ export const newsStandReducer = (state: NewsStandState, action: Action): NewsSta
     }
     case 'CHANGE_PRESS_SUBSCRIBING': {
       const { pressName } = action.payload;
+      if (!pressName) {
+        return state;
+      }
       const prevSubscribeState: boolean = state.subscribePressList.includes(pressName);
       const updatedSubscribeState = prevSubscribeState
         ? state.subscribePressList.filter((name) => name !== pressName)

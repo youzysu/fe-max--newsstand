@@ -1,4 +1,5 @@
 import NewsStand from './components/NewsStand';
+import './service';
 import { getState, register } from './store';
 import './styles/style.css';
 import { NewsStandState } from './types';

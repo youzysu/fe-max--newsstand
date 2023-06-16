@@ -1,0 +1,53 @@
+.snackbar {
+  position: absolute;
+  left: 35%;
+  top: 65%;
+  width: 18rem;
+  height: 54px;
+  background: var(--color-primary);
+  color: var(--color-white);
+  text-align: center;
+  margin: 0;
+  border: none;
+}
+
+.unsubscribeModal {
+  position: absolute;
+  left: 35%;
+  top: 55%;
+  width: 20rem;
+  height: 9rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  border: 1px solid var(--color-gray-100);
+  margin: 0;
+}
+
+.modalText {
+  margin: auto;
+  text-align: center;
+  color: var(--color-gray-400);
+}
+
+.pressNameText {
+  color: var(--color-black);
+}
+
+.buttonContainer {
+  display: flex;
+  width: 100%;
+  outline: none;
+}
+
+.button {
+  width: 10rem;
+  height: 3rem;
+  background: var(--color-off-white);
+  border: 1px solid var(--color-gray-100);
+}
+
+.button:hover {
+  text-decoration: underline;
+}
