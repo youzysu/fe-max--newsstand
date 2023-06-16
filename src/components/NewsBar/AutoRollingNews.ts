@@ -15,8 +15,8 @@ interface AutoRollingNewsState {
 }
 
 export default class AutoRollingNews {
-  public readonly element = createElement('SECTION', { class: styles.autoRollingNews });
-  private wrapper = createElement('DIV', { class: styles.wrapper });
+  public readonly element = createElement('section', { class: styles.autoRollingNews });
+  private wrapper = createElement('div', { class: styles.wrapper });
   private currentHeadline = new Headline();
   private nextHeadline = new Headline();
   private state: AutoRollingNewsState = { isRolling: true, animationWaitingTime: 0 };

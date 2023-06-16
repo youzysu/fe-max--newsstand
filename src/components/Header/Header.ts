@@ -6,9 +6,9 @@ interface HeaderProps {
 }
 
 export default class Header {
-  public readonly element = createElement('HEADER', { class: styles.header });
-  private title = createElement('A', { class: styles.title, href: '#' });
-  private date = createElement('SPAN', { class: `${styles.todaysDate} body-md` });
+  public readonly element = createElement('header', { class: styles.header });
+  private title = createElement('a', { class: styles.title, href: '#' });
+  private date = createElement('span', { class: `${styles.todaysDate} body-md` });
 
   constructor() {
     this.element.append(this.title, this.date);
@@ -21,11 +21,11 @@ export default class Header {
   }
 
   private setTitle() {
-    const logoIcon = createElement('IMG', {
+    const logoIcon = createElement('img', {
       alt: '뉴스 스탠드 아이콘',
       src: '/newspaper.svg',
     });
-    const titleText = createElement('H1', { class: 'display' });
+    const titleText = createElement('h1', { class: 'display' });
     titleText.textContent = '뉴스스탠드';
 
     this.title.append(logoIcon, titleText);

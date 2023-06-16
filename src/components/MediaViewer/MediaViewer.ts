@@ -19,7 +19,7 @@ interface MediaViewerProps {
 }
 
 export default class MediaViewer {
-  public readonly element = createElement('DIV', { class: styles.mediaViewer });
+  public readonly element = createElement('div', { class: styles.mediaViewer });
   private gridViewer = new GridViewer();
   private listViewer = new ListViewer();
   private leftButton = new ViewerButton({

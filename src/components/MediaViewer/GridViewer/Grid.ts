@@ -10,10 +10,10 @@ interface GridProps {
 }
 
 export default class Grid {
-  public readonly element = createElement('TD', { class: styles.grid });
-  private pressIcon = createElement('IMG', { class: styles.pressIcon });
+  public readonly element = createElement('td', { class: styles.grid });
+  private pressIcon = createElement('img', { class: styles.pressIcon });
   private subscribeButton = new SubscribeButton();
-  private overlay = createElement('DIV', { class: styles.overlay });
+  private overlay = createElement('div', { class: styles.overlay });
 
   constructor() {
     this.element.appendChild(this.pressIcon);
@@ -45,9 +45,9 @@ export default class Grid {
     this.pressIcon.setAttribute('alt', press.name);
   }
 
-  public render({ tabOption, press, isSubscribed }: GridProps) {
+  public render({ press, isSubscribed }: GridProps) {
     this.setPressIcon(press);
-    this.subscribeButton.render({ tabOption, pressName: press.name, isSubscribed: isSubscribed });
+    this.subscribeButton.render({ pressName: press.name, isSubscribed: isSubscribed });
   }
 
   public dropPrevProps() {

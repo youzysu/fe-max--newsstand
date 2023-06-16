@@ -16,7 +16,7 @@ interface ListViewerProps {
 }
 
 export default class ListViewer {
-  public readonly element = createElement('DIV', { class: styles.listViewer });
+  public readonly element = createElement('div', { class: styles.listViewer });
   private fieldTab = new FieldTab();
   private pressArticle = new PressArticle();
 
@@ -45,16 +45,16 @@ export default class ListViewer {
   }
 
   private renderCategoryPress(listViewerProps: ListViewerProps) {
-    const { tabOption, categoryPressList, currentCategoryPress, subscribePressList } = listViewerProps;
+    const { categoryPressList, currentCategoryPress, subscribePressList } = listViewerProps;
     this.fieldTab.render(listViewerProps);
 
     const currentCategory = categoryPressList[currentCategoryPress.categoryIndex];
     const currentPress = currentCategory.pressList[currentCategoryPress.pressIndex];
-    this.pressArticle.render({ tabOption, currentPress, subscribePressList });
+    this.pressArticle.render({ currentPress, subscribePressList });
   }
 
   private renderSubscribedPress(listViewerProps: ListViewerProps) {
-    const { tabOption, pressArticleMap, currentSubscribedPressIndex, subscribePressList } = listViewerProps;
+    const { pressArticleMap, currentSubscribedPressIndex, subscribePressList } = listViewerProps;
     const currentPress = pressArticleMap.get(subscribePressList[currentSubscribedPressIndex]);
 
     this.fieldTab.render(listViewerProps);
@@ -64,6 +64,6 @@ export default class ListViewer {
       return;
     }
 
-    this.pressArticle.render({ tabOption, currentPress, subscribePressList });
+    this.pressArticle.render({ currentPress, subscribePressList });
   }
 }

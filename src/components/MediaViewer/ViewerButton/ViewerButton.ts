@@ -23,7 +23,7 @@ export default class ViewerButton {
     this.position = position;
     const isLeftType = position === 'left';
     const styleType = isLeftType ? styles.left : styles.right;
-    this.element = createElement('BUTTON', { class: `${styles.viewerButton} ${styleType}` });
+    this.element = createElement('button', { class: `${styles.viewerButton} ${styleType}` });
     this.setEvent();
   }
 
@@ -36,7 +36,7 @@ export default class ViewerButton {
     const onClickAction = {
       list: { all: 'MOVE_LIST', subscribe: 'MOVE_SUBSCRIBE_PRESS_LIST' },
       grid: { all: 'MOVE_GRID', subscribe: 'MOVE_SUBSCRIBE_PRESS_GRID' },
-    };
+    } as const;
     const actionType = onClickAction[viewerOption][tabOption];
     this.onClick = () => dispatch({ type: actionType, payload: { type: position } });
 

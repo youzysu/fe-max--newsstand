@@ -12,7 +12,7 @@ interface FieldTabProps {
 }
 
 export default class FieldTab {
-  public readonly element = createElement('DIV', { class: `${styles.fieldTab} body-sm` });
+  public readonly element = createElement('div', { class: `${styles.fieldTab} body-sm` });
 
   public render({
     tabOption,

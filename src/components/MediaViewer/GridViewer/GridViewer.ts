@@ -18,8 +18,8 @@ interface GridViewerProps {
 export default class GridViewer {
   private GRID_ROW_COUNT = 4;
   private PRESS_COUNT_PER_ROW = PRESS_COUNT_OF_GRID_TABLE / this.GRID_ROW_COUNT;
-  public readonly element = createElement('TABLE', { class: styles.gridTable });
-  private gridRows = Array.from({ length: this.GRID_ROW_COUNT }, () => createElement('TR', { class: styles.gridRow }));
+  public readonly element = createElement('table', { class: styles.gridTable });
+  private gridRows = Array.from({ length: this.GRID_ROW_COUNT }, () => createElement('tr', { class: styles.gridRow }));
   private grids = Array.from({ length: PRESS_COUNT_OF_GRID_TABLE }, () => new Grid());
 
   constructor() {

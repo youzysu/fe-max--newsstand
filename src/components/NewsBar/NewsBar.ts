@@ -16,7 +16,7 @@ interface NewsBarState {
 }
 
 export default class NewsBar {
-  public readonly element = createElement('DIV', { class: styles.newsBar });
+  public readonly element = createElement('div', { class: styles.newsBar });
   private leftRollingNews = new AutoRollingNews({ type: 'left' });
   private rightRollingNews = new AutoRollingNews({ type: 'right' });
   private state: NewsBarState = { rollingStartTime: 0 };

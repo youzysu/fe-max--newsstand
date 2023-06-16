@@ -9,10 +9,10 @@ interface CategoryPressProps {
 }
 
 export default class CategoryTab {
-  public readonly element = createElement('BUTTON', { class: styles.categoryTab });
-  private progressBar = createElement('DIV', { class: styles.progressBar });
-  private categoryName = createElement('SPAN', { class: styles.categoryName });
-  private categoryCount = createElement('SPAN', { class: `${styles.hidden} ${styles.categoryCount}` });
+  public readonly element = createElement('button', { class: styles.categoryTab });
+  private progressBar = createElement('div', { class: styles.progressBar });
+  private categoryName = createElement('span', { class: styles.categoryName });
+  private categoryCount = createElement('span', { class: `${styles.hidden} ${styles.categoryCount}` });
 
   constructor() {
     this.element.append(this.progressBar, this.categoryName);
@@ -65,7 +65,7 @@ export default class CategoryTab {
   }
 
   public activateCategory(pressIndex: number) {
-    const pressIndexElement = createElement('SPAN', { class: styles.pressIndex });
+    const pressIndexElement = createElement('span', { class: styles.pressIndex });
     pressIndexElement.textContent = `${pressIndex + 1} `;
     this.element.append(this.categoryCount);
     this.categoryCount.prepend(pressIndexElement);
@@ -74,7 +74,7 @@ export default class CategoryTab {
   }
 
   public activatePress() {
-    const activeMark = createElement('IMG', { class: styles.symbol, src: '/Symbol.svg' });
+    const activeMark = createElement('img', { class: styles.symbol, src: '/Symbol.svg' });
     this.element.append(activeMark);
     this.element.classList.add(styles.active);
     this.element.classList.add('title-sm');

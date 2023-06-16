@@ -8,7 +8,7 @@ import styles from './NewsStand.module.css';
 import TabViewer from './TabViewer';
 
 export default class NewsStand {
-  public readonly element = createElement('DIV', { class: styles.newsStand });
+  public readonly element = createElement('div', { class: styles.newsStand });
   private header = new Header();
   private newsBar = new NewsBar();
   private tabViewer = new TabViewer();
