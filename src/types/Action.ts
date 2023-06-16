@@ -9,6 +9,22 @@ import {
   ViewerOption,
 } from 'types';
 
+interface ActionMap {
+  CHANGE_VIEWER: { viewerOption: ViewerOption };
+  CHANGE_PRESS_SUBSCRIBING: { pressName: string };
+  MOVE_GRID: PositionType;
+  ROLLING_NEWS: PositionType;
+  CHANGE_TAB: { tabOption: TabOption };
+  FETCH_ARTICLE_LIST_SUCCESS: { categoryPressList: CategoryPress[]; pressArticleMap: Map<string, PressArticleInfo> };
+  FETCH_NEWS_LIST_SUCCESS: { trendNewsList: TrendNews[] };
+  FETCH_GRID_PRESS_LIST_SUCCESS: { pressIconList: PressInfo[] };
+  GET_SUBSCRIBE_PRESS_LIST: { subscribePressList: SubscribePressList };
+  MOVE_LIST: PositionType;
+  MOVE_CATEGORY: { categoryId: string };
+  MOVE_SUBSCRIBE_PRESS_LIST: PositionType;
+  CHANGE_SUBSCRIBE_PRESS_TAB: { pressId: string };
+}
+
 interface ChangeViewerAction {
   type: 'CHANGE_VIEWER';
   payload: { viewerOption: ViewerOption };
@@ -34,14 +50,6 @@ interface ChangeTabAction {
   payload: { tabOption: TabOption };
 }
 
-interface SelectGridViewAction {
-  type: 'SELECT_GRID_VIEW';
-}
-
-interface SelectListViewAction {
-  type: 'SELECT_LIST_VIEW';
-}
-
 interface FetchArticleListAction {
   type: 'FETCH_ARTICLE_LIST_SUCCESS';
   payload: { categoryPressList: CategoryPress[]; pressArticleMap: Map<string, PressArticleInfo> };
@@ -60,10 +68,6 @@ interface FetchGridPressListAction {
 interface GetSubscribePressListAction {
   type: 'GET_SUBSCRIBE_PRESS_LIST';
   payload: { subscribePressList: SubscribePressList };
-}
-
-interface SaveSubscribePressListAction {
-  type: 'SAVE_SUBSCRIBE_PRESS_LIST';
 }
 
 interface MoveListAction {
@@ -97,13 +101,10 @@ export type Action =
   | MoveListAction
   | FetchArticleListAction
   | ChangeViewerAction
-  | SaveSubscribePressListAction
   | GetSubscribePressListAction
   | FetchGridPressListAction
   | FetchNewsListAction
   | SubscribePressAction
   | MoveGridAction
   | RollingNewsAction
-  | ChangeTabAction
-  | SelectGridViewAction
-  | SelectListViewAction;
+  | ChangeTabAction;

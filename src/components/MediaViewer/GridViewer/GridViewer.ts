@@ -2,14 +2,16 @@ import { fetchGridPressList } from '@api/index';
 import { PRESS_COUNT_OF_GRID_TABLE } from '@constant/index';
 import { dispatch } from '@store/index';
 import { createElement } from '@utils/index';
-import { PressInfo } from 'types';
+import { PressArticleInfo, PressInfo, TabOption } from 'types';
 import { SubscribePressList } from '../../../types/index';
 import Grid from './Grid';
 import styles from './GridViewer.module.css';
 
 interface GridViewerProps {
+  tabOption: TabOption;
   pressList: PressInfo[];
   startIndex: number;
+  pressArticleMap: Map<string, PressArticleInfo>;
   subscribePressList: SubscribePressList;
 }
 
@@ -29,13 +31,55 @@ export default class GridViewer {
     dispatch(fetchGridPressList());
   }
 
-  public render({ pressList, startIndex, subscribePressList }: GridViewerProps) {
+  public render(gridViewerProps: GridViewerProps) {
+    const { tabOption } = gridViewerProps;
+
+    switch (tabOption) {
+      case 'all': {
+        this.renderAllPressGrids(gridViewerProps);
+        break;
+      }
+      case 'subscribe': {
+        this.renderSubscribedPress(gridViewerProps);
+        break;
+      }
+    }
+  }
+
+  renderSubscribedPress(gridViewerProps: GridViewerProps) {
+    const { tabOption, pressArticleMap, subscribePressList } = gridViewerProps;
+    const currentPressList = subscribePressList.map((pressName) => pressArticleMap.get(pressName)?.pressInfo!);
+
+    this.renderSubscribeGrids(tabOption, currentPressList, subscribePressList);
+    this.renderGridRows();
+  }
+
+  renderAllPressGrids({ tabOption, pressList, startIndex, subscribePressList }: GridViewerProps) {
     const endIndex = startIndex + PRESS_COUNT_OF_GRID_TABLE;
     const currentPressList = pressList.slice(startIndex, endIndex);
 
-    this.renderGrids(currentPressList, subscribePressList);
-    this.dropPrevGrids();
+    this.renderAllGrids(tabOption, currentPressList, subscribePressList);
     this.renderGridRows();
+  }
+
+  private renderAllGrids(tabOption: TabOption, currentPressList: PressInfo[], subscribePressList: SubscribePressList) {
+    this.grids.forEach((grid, index) => {
+      const currentPress = currentPressList[index];
+      grid.render({ tabOption, press: currentPress, isSubscribed: subscribePressList.includes(currentPress.name) });
+    });
+  }
+
+  private renderSubscribeGrids(
+    tabOption: TabOption,
+    currentPressList: PressInfo[],
+    subscribePressList: SubscribePressList
+  ) {
+    this.grids.forEach((grid) => grid.dropPrevProps());
+
+    currentPressList.forEach((press, index) => {
+      const currentGrid = this.grids[index];
+      currentGrid.render({ tabOption, press, isSubscribed: subscribePressList.includes(press.name) });
+    });
   }
 
   private renderGridRows() {
@@ -46,16 +90,5 @@ export default class GridViewer {
       const curRowEndIndex = index * this.PRESS_COUNT_PER_ROW + this.PRESS_COUNT_PER_ROW;
       gridRow.append(...currentGridElements.slice(curRowStartIndex, curRowEndIndex));
     });
-  }
-
-  private renderGrids(currentPressList: PressInfo[], subscribePressList: SubscribePressList) {
-    this.grids.forEach((grid, index) => {
-      const currentPress = currentPressList[index];
-      grid.render({ press: currentPress, isSubscribed: subscribePressList.includes(currentPress.name) });
-    });
-  }
-
-  private dropPrevGrids() {
-    this.gridRows.forEach((gridRow) => (gridRow.innerHTML = ''));
   }
 }

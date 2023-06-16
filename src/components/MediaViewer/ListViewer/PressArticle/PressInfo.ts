@@ -1,9 +1,10 @@
 import SubscribeButton from '@components/MediaViewer/SubscribeButton/SubscribeButton';
 import { createElement } from '@utils/index';
-import { PressArticleInfo, SubscribePressList } from 'types';
+import { PressArticleInfo, SubscribePressList, TabOption } from 'types';
 import styles from './PressArticle.module.css';
 
 interface PressInfoProps {
+  tabOption: TabOption;
   currentPress: PressArticleInfo;
   subscribePressList: SubscribePressList;
 }
@@ -18,14 +19,14 @@ export default class PressInfo {
     this.element.append(this.pressIcon, this.lastEditedTime, this.subscribeButton.element);
   }
 
-  public render({ currentPress, subscribePressList }: PressInfoProps) {
+  public render({ tabOption, currentPress, subscribePressList }: PressInfoProps) {
     const { pressInfo, lastEdited } = currentPress;
     const currentPressName = pressInfo.name;
     const isSubscribedPress = subscribePressList.includes(currentPressName);
 
     this.setPressIcon(pressInfo);
     this.setLastEditedTime(lastEdited);
-    this.setSubscribeButton(currentPressName, isSubscribedPress);
+    this.setSubscribeButton(tabOption, currentPressName, isSubscribedPress);
   }
 
   private setPressIcon(pressInfo: PressArticleInfo['pressInfo']) {
@@ -36,7 +37,7 @@ export default class PressInfo {
     this.lastEditedTime.textContent = lastEdited;
   }
 
-  private setSubscribeButton(pressName: string, isSubscribed: boolean) {
-    this.subscribeButton.render({ pressName, isSubscribed });
+  private setSubscribeButton(tabOption: TabOption, pressName: string, isSubscribed: boolean) {
+    this.subscribeButton.render({ tabOption, pressName, isSubscribed });
   }
 }

@@ -125,14 +125,6 @@ export const newsStandReducer = (state: NewsStandState, action: Action): NewsSta
       const newState = { ...state, viewerOption: viewerOption };
       return newState;
     }
-    case 'SELECT_GRID_VIEW': {
-      const newState = { ...state, viewerOption: 'grid' as const };
-      return newState;
-    }
-    case 'SELECT_LIST_VIEW': {
-      const newState = { ...state, viewerOption: 'list' as const };
-      return newState;
-    }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }

@@ -21,9 +21,7 @@ export default class NewsStand {
   }
 
   public render(state: NewsStandState) {
-    if (this.props.systemDate !== state.systemDate) {
-      this.header.render({ currentTime: state.systemDate });
-    }
+    this.header.render({ currentTime: state.systemDate });
     if (
       this.props.trendNewsList !== state.trendNewsList ||
       this.props.leftNewsIndex !== state.leftNewsIndex ||

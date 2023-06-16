@@ -15,7 +15,7 @@ interface ListViewerProps {
   currentSubscribedPressIndex: number;
 }
 
-export default class ListView {
+export default class ListViewer {
   public readonly element = createElement('DIV', { class: styles.listViewer });
   private fieldTab = new FieldTab();
   private pressArticle = new PressArticle();
@@ -58,6 +58,12 @@ export default class ListView {
     const currentPress = pressArticleMap.get(subscribePressList[currentSubscribedPressIndex]);
 
     this.fieldTab.render(listViewerProps);
+
+    if (!currentPress) {
+      // TODO: 구독한 언론사가 없는 경우 처리
+      return;
+    }
+
     this.pressArticle.render({ tabOption, currentPress, subscribePressList });
   }
 }

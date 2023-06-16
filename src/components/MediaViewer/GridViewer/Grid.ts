@@ -1,9 +1,10 @@
 import { createElement } from '@utils/index';
-import { PressInfo } from 'types';
+import { PressInfo, TabOption } from 'types';
 import SubscribeButton from '../SubscribeButton/SubscribeButton';
 import styles from './GridViewer.module.css';
 
 interface GridProps {
+  tabOption: TabOption;
   press: PressInfo;
   isSubscribed: boolean;
 }
@@ -26,10 +27,16 @@ export default class Grid {
   }
 
   private hideSubscribeButton() {
+    if (!this.pressIcon.getAttribute('src')) {
+      return;
+    }
     this.element.removeChild(this.overlay);
   }
 
   private showSubscribeButton() {
+    if (!this.pressIcon.getAttribute('src')) {
+      return;
+    }
     this.element.appendChild(this.overlay);
   }
 
@@ -38,10 +45,13 @@ export default class Grid {
     this.pressIcon.setAttribute('alt', press.name);
   }
 
-  public render({ press, isSubscribed }: GridProps) {
-    if (this.pressIcon.getAttribute('alt') !== press.name) {
-      this.setPressIcon(press);
-    }
-    this.subscribeButton.render({ pressName: press.name, isSubscribed: isSubscribed });
+  public render({ tabOption, press, isSubscribed }: GridProps) {
+    this.setPressIcon(press);
+    this.subscribeButton.render({ tabOption, pressName: press.name, isSubscribed: isSubscribed });
+  }
+
+  public dropPrevProps() {
+    this.pressIcon.removeAttribute('src');
+    this.pressIcon.removeAttribute('alt');
   }
 }
