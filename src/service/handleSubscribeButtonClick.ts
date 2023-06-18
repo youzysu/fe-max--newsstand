@@ -7,13 +7,16 @@ import { createElement } from '@utils/index';
 
 export default function handleSubscribeButtonClick() {
   document.addEventListener('click', (e) => {
-    if (!e.target.classList.contains(subscribeButtonStyles.subscribe)) {
+    if (!(e.target instanceof HTMLElement)) {
+      return;
+    }
+    if (!e.target || !e.target.classList.contains(subscribeButtonStyles.subscribe)) {
       return;
     }
 
-    const pressName = e.target.getAttribute('data-press-name')!;
+    const pressName = e.target.getAttribute('data-press-name');
     const { tabOption, viewerOption, subscribePressList } = getState();
-    const isSubscribedPress = subscribePressList.includes(pressName);
+    const isSubscribedPress = pressName && subscribePressList.includes(pressName);
 
     const onClickAction = {
       list: {
@@ -29,7 +32,7 @@ export default function handleSubscribeButtonClick() {
     };
 
     const clickEventHandler = onClickAction[viewerOption][tabOption];
-    clickEventHandler(pressName);
+    clickEventHandler(pressName!);
   });
 }
 

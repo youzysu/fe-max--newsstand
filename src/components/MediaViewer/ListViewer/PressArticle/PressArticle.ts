@@ -13,7 +13,7 @@ interface PressArticleProps {
 export default class PressArticle {
   public readonly element = createElement('div', { class: styles.pressArticle });
   private pressInfo = new PressInfo();
-  private article = createElement('ARTICLE', { class: styles.article });
+  private article = createElement('article', { class: styles.article });
   private mainArticle = new MainArticle();
   private subArticle = new SubArticle();
 

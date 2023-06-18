@@ -22,6 +22,10 @@ export default class NewsStand {
 
   public render(state: NewsStandState) {
     this.header.render({ currentTime: state.systemDate });
+    this.tabViewer.render({
+      tabOption: state.tabOption,
+      viewerOption: state.viewerOption,
+    });
     if (
       this.props.trendNewsList !== state.trendNewsList ||
       this.props.leftNewsIndex !== state.leftNewsIndex ||
@@ -31,12 +35,6 @@ export default class NewsStand {
         newsList: state.trendNewsList,
         leftIndex: state.leftNewsIndex,
         rightIndex: state.rightNewsIndex,
-      });
-    }
-    if (this.props.tabOption !== state.tabOption || this.props.viewerOption !== state.viewerOption) {
-      this.tabViewer.render({
-        tabOption: state.tabOption,
-        viewerOption: state.viewerOption,
       });
     }
     if (

@@ -128,8 +128,8 @@ export const newsStandReducer = (state: NewsStandState, action: Action): NewsSta
       const newState = { ...state, viewerOption: viewerOption };
       return newState;
     }
-    default: {
-      throw new Error(`Unhandled action type: ${action.type}`);
-    }
+    // default: {
+    //   throw new Error(`Unhandled action type: ${action.type}`);
+    // }
   }
 };

@@ -34,7 +34,7 @@ export default class UnSubscribeModal {
   private setEvent() {
     this.cancelButton.addEventListener('click', () => this.element.remove());
     this.confirmButton.addEventListener('click', () => {
-      dispatch({ type: 'CHANGE_PRESS_SUBSCRIBING', payload: { pressName: this.pressNameText.textContent } });
+      dispatch({ type: 'CHANGE_PRESS_SUBSCRIBING', payload: { pressName: this.pressNameText.textContent! } });
       this.element.remove();
     });
   }
