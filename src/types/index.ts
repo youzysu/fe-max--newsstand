@@ -20,14 +20,7 @@ export interface GridViewerPress {
   [key: number]: PressInfo[];
 }
 
-export interface SubscribePressList {
-  [key: string]: boolean;
-}
-
-export interface CategoryPress {
-  categoryName: string;
-  pressList: PressArticleInfo[];
-}
+export type SubscribePressList = string[];
 
 export interface ArticleInfo {
   title: string;
@@ -62,6 +55,13 @@ export interface NewsStandState {
   subscribePressList: SubscribePressList;
   categoryPressList: CategoryPress[];
   currentCategoryPress: currentCategoryPressInfo;
+  pressArticleMap: Map<string, PressArticleInfo>;
+  currentSubscribedPressIndex: number;
+}
+
+export interface CategoryPress {
+  categoryName: string;
+  pressList: PressArticleInfo[];
 }
 
 export interface currentCategoryPressInfo {
@@ -78,26 +78,71 @@ export interface DefaultAttributeNames {
 }
 
 export interface HtmlAttributes {
-  IMG: DefaultAttributeNames & {
+  a: DefaultAttributeNames & {
+    href?: string;
+  };
+  section: DefaultAttributeNames;
+  ul: DefaultAttributeNames;
+  li: DefaultAttributeNames;
+  table: DefaultAttributeNames;
+  tr: DefaultAttributeNames;
+  td: DefaultAttributeNames;
+  span: DefaultAttributeNames;
+  abbr: DefaultAttributeNames;
+  address: DefaultAttributeNames;
+  area: DefaultAttributeNames;
+  article: DefaultAttributeNames;
+  aside: DefaultAttributeNames;
+  audio: DefaultAttributeNames;
+  b: DefaultAttributeNames;
+  base: DefaultAttributeNames;
+  bdi: DefaultAttributeNames;
+  bdo: DefaultAttributeNames;
+  blockquote: DefaultAttributeNames;
+  body: DefaultAttributeNames;
+  br: DefaultAttributeNames;
+  button: DefaultAttributeNames;
+  canvas: DefaultAttributeNames;
+  caption: DefaultAttributeNames;
+  cite: DefaultAttributeNames;
+  code: DefaultAttributeNames;
+  col: DefaultAttributeNames;
+  colgroup: DefaultAttributeNames;
+  data: DefaultAttributeNames;
+  datalist: DefaultAttributeNames;
+  dd: DefaultAttributeNames;
+  del: DefaultAttributeNames;
+  details: DefaultAttributeNames;
+  dfn: DefaultAttributeNames;
+  dialog: DefaultAttributeNames;
+  div: DefaultAttributeNames;
+  dl: DefaultAttributeNames;
+  dt: DefaultAttributeNames;
+  em: DefaultAttributeNames;
+  embed: DefaultAttributeNames;
+  fieldset: DefaultAttributeNames;
+  figcaption: DefaultAttributeNames;
+  figure: DefaultAttributeNames;
+  footer: DefaultAttributeNames;
+  form: DefaultAttributeNames;
+  h1: DefaultAttributeNames;
+  h2: DefaultAttributeNames;
+  h3: DefaultAttributeNames;
+  h4: DefaultAttributeNames;
+  h5: DefaultAttributeNames;
+  h6: DefaultAttributeNames;
+  head: DefaultAttributeNames;
+  header: DefaultAttributeNames;
+  hgroup: DefaultAttributeNames;
+  hr: DefaultAttributeNames;
+  html: DefaultAttributeNames;
+  i: DefaultAttributeNames;
+  iframe: DefaultAttributeNames;
+  img: DefaultAttributeNames & {
     src?: string;
     alt?: string;
   };
-  DIV: DefaultAttributeNames;
-  SECTION: DefaultAttributeNames;
-  BUTTON: DefaultAttributeNames & {
-    'data-press-name'?: string;
-  };
-  TABLE: DefaultAttributeNames;
-  TR: DefaultAttributeNames;
-  TD: DefaultAttributeNames;
-  A: DefaultAttributeNames & {
-    href?: string;
-  };
-  SPAN: DefaultAttributeNames;
-  HEADER: DefaultAttributeNames;
-  H1: DefaultAttributeNames;
-  H3: DefaultAttributeNames;
-  UL: DefaultAttributeNames;
-  LI: DefaultAttributeNames;
-  ARTICLE: DefaultAttributeNames;
+  input: DefaultAttributeNames;
+  ins: DefaultAttributeNames;
+  kbd: DefaultAttributeNames;
 }

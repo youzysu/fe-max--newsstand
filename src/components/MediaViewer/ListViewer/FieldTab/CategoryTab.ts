@@ -9,26 +9,49 @@ interface CategoryPressProps {
 }
 
 export default class CategoryTab {
-  public readonly element = createElement('BUTTON', { class: styles.categoryTab });
-  private progressBar = createElement('DIV', { class: styles.progressBar });
-  private categoryName = createElement('SPAN', { class: styles.categoryName });
-  private categoryCount = createElement('SPAN', { class: `${styles.hidden} ${styles.categoryCount}` });
+  public readonly element = createElement('button', { class: styles.categoryTab });
+  private progressBar = createElement('div', { class: styles.progressBar });
+  private categoryName = createElement('span', { class: styles.categoryName });
+  private categoryCount = createElement('span', { class: `${styles.hidden} ${styles.categoryCount}` });
 
   constructor() {
-    this.element.append(this.progressBar, this.categoryName, this.categoryCount);
-    this.setEvent();
+    this.element.append(this.progressBar, this.categoryName);
   }
 
-  public render({ categoryId, categoryPress }: CategoryPressProps) {
+  public renderSubscribedPress(pressName: string, index: number) {
+    this.categoryName.textContent = pressName;
+    this.element.dataset.pressId = index.toString();
+    this.setSubscribedPressTabEvent();
+  }
+
+  public renderCategoryPress({ categoryId, categoryPress }: CategoryPressProps) {
     this.setCategoryName({ categoryId, categoryPress });
     this.setCategoryCount({ categoryPress });
+    this.setCategoryTabEvent();
   }
 
-  private setEvent() {
-    this.element.addEventListener('click', () =>
-      dispatch({ type: 'MOVE_CATEGORY', payload: { categoryId: this.element.dataset.categoryId! } })
+  private setSubscribedPressTabEvent() {
+    this.element.addEventListener(
+      'click',
+      () => dispatch({ type: 'CHANGE_SUBSCRIBE_PRESS_TAB', payload: { pressId: this.element.dataset.pressId! } }),
+      { once: true }
     );
-    this.element.addEventListener('animationend', () => dispatch({ type: 'MOVE_LIST', payload: { type: 'right' } }));
+    this.element.addEventListener(
+      'animationend',
+      () => dispatch({ type: 'MOVE_SUBSCRIBE_PRESS_LIST', payload: { type: 'right' } }),
+      { once: true }
+    );
+  }
+
+  private setCategoryTabEvent() {
+    this.element.addEventListener(
+      'click',
+      () => dispatch({ type: 'MOVE_CATEGORY', payload: { categoryId: this.element.dataset.categoryId! } }),
+      { once: true }
+    );
+    this.element.addEventListener('animationend', () => dispatch({ type: 'MOVE_LIST', payload: { type: 'right' } }), {
+      once: true,
+    });
   }
 
   private setCategoryName({ categoryId, categoryPress }: { categoryId: number; categoryPress: CategoryPress }) {
@@ -41,18 +64,24 @@ export default class CategoryTab {
     this.categoryCount.textContent = `/ ${categoryCount}`;
   }
 
-  public activate(pressIndex: number) {
-    const pressIndexElement = createElement('SPAN', { class: styles.pressIndex });
+  public activateCategory(pressIndex: number) {
+    const pressIndexElement = createElement('span', { class: styles.pressIndex });
     pressIndexElement.textContent = `${pressIndex + 1} `;
+    this.element.append(this.categoryCount);
     this.categoryCount.prepend(pressIndexElement);
     this.element.classList.add(styles.active);
     this.element.classList.add('title-sm');
-    this.categoryCount.classList.remove(styles.hidden);
+  }
+
+  public activatePress() {
+    const activeMark = createElement('img', { class: styles.symbol, src: '/Symbol.svg' });
+    this.element.append(activeMark);
+    this.element.classList.add(styles.active);
+    this.element.classList.add('title-sm');
   }
 
   public inActivate() {
     this.element.classList.remove(styles.active);
     this.element.classList.remove('title-sm');
-    this.categoryCount.classList.add(styles.hidden);
   }
 }

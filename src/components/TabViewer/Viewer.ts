@@ -9,13 +9,13 @@ interface ViewerProps {
 
 export default class Viewer {
   public readonly element;
-  private gridViewerButton;
-  private listViewerButton;
+  public readonly gridViewerButton;
+  public readonly listViewerButton;
 
   constructor() {
-    this.element = createElement('DIV', { class: styles.viewer });
-    this.listViewerButton = createElement('BUTTON', { class: styles.listViewerButton });
-    this.gridViewerButton = createElement('BUTTON', { class: styles.gridViewerButton });
+    this.element = createElement('div', { class: styles.viewer });
+    this.listViewerButton = createElement('button', { class: styles.listViewerButton });
+    this.gridViewerButton = createElement('button', { class: styles.gridViewerButton });
     this.element.append(this.listViewerButton, this.gridViewerButton);
     this.setEvent();
   }

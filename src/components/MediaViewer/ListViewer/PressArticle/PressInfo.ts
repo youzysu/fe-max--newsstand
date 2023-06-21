@@ -9,9 +9,9 @@ interface PressInfoProps {
 }
 
 export default class PressInfo {
-  public readonly element = createElement('DIV', { class: styles.pressInfo });
-  private pressIcon = createElement('IMG', { class: styles.pressIcon });
-  private lastEditedTime = createElement('SPAN', { class: `body-xs ${styles.lastEditedTime}` });
+  public readonly element = createElement('div', { class: styles.pressInfo });
+  private pressIcon = createElement('img', { class: styles.pressIcon });
+  private lastEditedTime = createElement('span', { class: `body-xs ${styles.lastEditedTime}` });
   public readonly subscribeButton = new SubscribeButton();
 
   constructor() {
@@ -21,7 +21,7 @@ export default class PressInfo {
   public render({ currentPress, subscribePressList }: PressInfoProps) {
     const { pressInfo, lastEdited } = currentPress;
     const currentPressName = pressInfo.name;
-    const isSubscribedPress = subscribePressList[currentPressName];
+    const isSubscribedPress = subscribePressList.includes(currentPressName);
 
     this.setPressIcon(pressInfo);
     this.setLastEditedTime(lastEdited);

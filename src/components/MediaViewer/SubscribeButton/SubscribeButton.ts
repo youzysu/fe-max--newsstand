@@ -1,4 +1,3 @@
-import { dispatch } from '@store/index';
 import { createElement } from '@utils/index';
 import { PressInfo } from 'types';
 import styles from './SubscribeButton.module.css';
@@ -9,18 +8,7 @@ interface SubscribeButtonProps {
 }
 
 export default class SubscribeButton {
-  public readonly element = createElement('BUTTON', { class: styles.subscribeButton });
-
-  constructor() {
-    this.setEvent();
-  }
-
-  private setEvent() {
-    this.element.addEventListener('click', () => {
-      const pressName = this.element.getAttribute('data-press-name');
-      dispatch({ type: 'CHANGE_PRESS_SUBSCRIBING', payload: { pressName: pressName! } });
-    });
-  }
+  public readonly element = createElement('button', { class: styles.subscribe });
 
   private setSubscribeType(isSubscribed: boolean) {
     isSubscribed ? this.element.classList.add(styles.subscribed) : this.element.classList.remove(styles.subscribed);
@@ -32,9 +20,6 @@ export default class SubscribeButton {
 
   public render({ pressName, isSubscribed }: SubscribeButtonProps) {
     this.setSubscribeType(isSubscribed);
-
-    if (this.element.getAttribute('data-press-name') !== pressName) {
-      this.setPressName(pressName);
-    }
+    this.setPressName(pressName);
   }
 }

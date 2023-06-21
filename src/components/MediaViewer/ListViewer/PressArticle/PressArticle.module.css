@@ -88,15 +88,3 @@
   color: var(--color-gray-200);
   padding-top: 1rem;
 }
-
-.snackbar {
-  position: absolute;
-  left: calc(50% - 9rem);
-  top: calc(50% - 27px);
-  width: 18rem;
-  height: 54px;
-  background: var(--color-primary);
-  color: var(--color-white);
-  text-align: center;
-  padding: 1rem 1.5rem;
-}

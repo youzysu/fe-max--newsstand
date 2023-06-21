@@ -1,9 +1,10 @@
-import { dispatch } from '@store/index';
 import { createElement } from '@utils/index';
-import { CategoryPress, PressInfo, TabOption, ViewerOption, currentCategoryPressInfo } from 'types';
+import { CategoryPress, PressArticleInfo, PressInfo, TabOption, ViewerOption, currentCategoryPressInfo } from 'types';
 import { SubscribePressList } from '../../types/index';
 import GridViewer from './GridViewer';
 import ListViewer from './ListViewer';
+import styles from './MediaViewer.module.css';
+import ViewerButton from './ViewerButton/ViewerButton';
 
 interface MediaViewerProps {
   tabOption: TabOption;
@@ -13,76 +14,43 @@ interface MediaViewerProps {
   subscribePressList: SubscribePressList;
   categoryPressList: CategoryPress[];
   currentCategoryPress: currentCategoryPressInfo;
-}
-
-interface MediaViewerState {
-  tabOption: TabOption | null;
-  viewerOption: ViewerOption | null;
-  startIndex: number | null;
-  subscribePressList: SubscribePressList;
-  categoryPressList: CategoryPress[] | [];
-  currentCategoryPress: { categoryIndex: number | null; pressIndex: number | null };
+  pressArticleMap: Map<string, PressArticleInfo>;
+  currentSubscribedPressIndex: number;
 }
 
 export default class MediaViewer {
-  public readonly element = createElement('DIV');
+  public readonly element = createElement('div', { class: styles.mediaViewer });
   private gridViewer = new GridViewer();
   private listViewer = new ListViewer();
-  private state: MediaViewerState = {
-    tabOption: null,
-    viewerOption: null,
-    startIndex: null,
-    subscribePressList: {},
-    categoryPressList: [],
-    currentCategoryPress: { categoryIndex: null, pressIndex: null },
-  };
+  private leftButton = new ViewerButton({
+    position: 'left',
+  });
+  private rightButton = new ViewerButton({
+    position: 'right',
+  });
+  private currentViewer: GridViewer | ListViewer | null = null;
 
   constructor() {
-    this.componentDidMount();
+    this.element.append(this.leftButton.element, this.rightButton.element);
   }
 
   public render(mediaViewerProps: MediaViewerProps) {
-    const { viewerOption, startIndex, subscribePressList, categoryPressList, currentCategoryPress } = mediaViewerProps;
+    const viewer = {
+      grid: this.gridViewer,
+      list: this.listViewer,
+    };
+    const { viewerOption } = mediaViewerProps;
+    this.currentViewer = viewer[viewerOption];
 
-    if (
-      this.state.viewerOption !== viewerOption ||
-      this.state.startIndex !== startIndex ||
-      this.state.subscribePressList !== subscribePressList ||
-      this.state.categoryPressList !== categoryPressList ||
-      this.state.currentCategoryPress !== currentCategoryPress
-    ) {
-      this.renderViewer(mediaViewerProps);
-      this.state = mediaViewerProps;
-    }
+    this.currentViewer.render(mediaViewerProps);
+    this.leftButton.render(mediaViewerProps);
+    this.rightButton.render(mediaViewerProps);
+
+    this.dropPrevViewer();
+    this.element.append(this.leftButton.element, this.currentViewer.element, this.rightButton.element);
   }
 
-  private renderViewer(mediaViewerProps: MediaViewerProps) {
-    const { viewerOption, pressList, startIndex, subscribePressList, categoryPressList, currentCategoryPress } =
-      mediaViewerProps;
-    switch (viewerOption) {
-      case 'grid': {
-        this.gridViewer.render({ pressList, startIndex, subscribePressList });
-        this.dropPrevMediaViewer();
-        this.element.appendChild(this.gridViewer.element);
-        break;
-      }
-      case 'list': {
-        this.listViewer.render({ categoryPressList, currentCategoryPress, subscribePressList });
-        this.dropPrevMediaViewer();
-        this.element.appendChild(this.listViewer.element);
-        break;
-      }
-    }
-  }
-
-  private componentDidMount() {
-    dispatch({
-      type: 'GET_SUBSCRIBE_PRESS_LIST',
-      payload: { subscribePressList: JSON.parse(localStorage.getItem('subscribePressList') || '{}') },
-    });
-  }
-
-  private dropPrevMediaViewer() {
+  private dropPrevViewer() {
     this.element.innerHTML = '';
   }
 }

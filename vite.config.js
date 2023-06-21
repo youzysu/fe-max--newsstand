@@ -11,4 +11,7 @@ export default defineConfig({
       '@constant': path.resolve(import.meta.url, '/src/constant'),
     },
   },
+  test: {
+    environment: 'happy-dom',
+  },
 });

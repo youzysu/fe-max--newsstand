@@ -3,7 +3,7 @@ import { HtmlAttributes, NewsStandState } from '../types';
 export function createElement<TTagName extends keyof HtmlAttributes>(
   tagName: TTagName,
   attributes?: HtmlAttributes[TTagName]
-): HTMLElement {
+): HTMLElementTagNameMap[TTagName] {
   const element = document.createElement(tagName);
   if (attributes) {
     Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value));

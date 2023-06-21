@@ -7,9 +7,9 @@ interface HeadlineProps {
 }
 
 export default class Headline {
-  public readonly element = createElement('DIV', { class: styles.headline });
-  private press = createElement('SPAN', { class: 'title-sm' });
-  private newsLink = createElement('A', { class: `body-sm ${styles.link}` });
+  public readonly element = createElement('div', { class: styles.headline });
+  private press = createElement('span', { class: 'title-sm' });
+  private newsLink = createElement('a', { class: `body-sm ${styles.link}` });
 
   constructor() {
     this.element.append(this.press, this.newsLink);

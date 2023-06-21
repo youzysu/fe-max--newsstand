@@ -8,12 +8,12 @@ interface SubArticleProps {
 }
 
 export default class SubArticle {
-  public readonly element = createElement('DIV');
+  public readonly element = createElement('div');
   private SUB_ARTICLE_COUNT = 6;
-  private articleList = createElement('UL', { class: `body-md ${styles.articleList}` });
-  private articleListItems = Array.from({ length: this.SUB_ARTICLE_COUNT }, () => createElement('LI'));
-  private articleLinks = Array.from({ length: this.SUB_ARTICLE_COUNT }, () => createElement('A'));
-  private caption = createElement('SPAN', { class: `body-sm ${styles.caption}` });
+  private articleList = createElement('ul', { class: `body-md ${styles.articleList}` });
+  private articleListItems = Array.from({ length: this.SUB_ARTICLE_COUNT }, () => createElement('li'));
+  private articleLinks = Array.from({ length: this.SUB_ARTICLE_COUNT }, () => createElement('a'));
+  private caption = createElement('span', { class: `body-sm ${styles.caption}` });
 
   constructor() {
     this.articleList.append(...this.articleListItems);
